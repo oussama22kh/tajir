@@ -18,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/cart/",
-    element: <Cart/>
+    element: <Cart />,
   },
   {
     path: "/login/",
@@ -31,9 +31,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path : '/product',
-    element : <ProductUpdate/>
-  }
+    path: "/product/",
+    element: <ProductUpdate />,
+  },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
