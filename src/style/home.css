@@ -1,0 +1,97 @@
+.box_filter{
+    margin-top: 40px ;
+    margin-bottom: 40px ;
+    margin-right: 20px;
+    display: flex;
+    padding-top:50px ;
+    justify-content: center;
+}
+.box_filter .container{
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.box_filter .container::after{
+    position: absolute;
+    content: '';
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 60%;
+    background-color: #ddd;
+}
+.box_filter .category h1  , .box_filter  .price h1 , .box_filter .rating h1 {
+    text-transform: uppercase;
+    font-weight: 500;
+}
+.form_category{
+    padding-left: 20px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    accent-color: black;
+}
+.form_category .items label{
+   margin-left: 10px;
+}
+
+.box_filter .price .form_price{
+    padding-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+}
+.box_filter .rating .form_rating{
+    padding-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+.buttons{
+    margin-top: 50px;
+}
+.box_filter .buttons .button{
+    color: black;
+    padding: 2px !important;
+    border: black 1px solid;
+}
+.box_filter .buttons .desActive{
+    color: #aaa;
+    padding: 2px !important;
+    border: #aaa 1px solid;
+    margin-right: 10px;
+    cursor: default;
+}
+.box_filter .buttons .button:hover{
+    background-color: #FFA726;
+    border: #FFA726 1px solid ;
+    color: rgba(255, 247, 235, 1);
+}
+
+.box_filter .buttons .prev{
+    margin-right: 10px;
+}
+.select{
+    padding-top:20px ;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.select ul{
+    display: flex;
+    margin-left: 1dvi;
+}
+.select ul li{
+    padding:3px 10px;
+    margin-left: 10px;
+    text-transform: uppercase;
+    /* border: #ddd solid 1px; */
+}
+.select ul li:hover ,.select ul li.active{
+    background-color: #FF9800;
+    color: white;
+    border-color: #FFA726;
+   }
