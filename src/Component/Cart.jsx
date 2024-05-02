@@ -14,15 +14,17 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  List,
+  Backdrop,
 } from "@mui/material";
 import logo from "/src/assets/logo.svg";
 import cart from "/src/assets/cart.svg";
-
+import Singlecart from "./Singlecart.jsx";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
-const Cart = () => {
+function Cart() {
   return (
     <>
       <AppBar className="bg-white shadow-none ">
@@ -74,11 +76,51 @@ const Cart = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <Container maxWidth={"lg"} className=" h-screen flex justify-center">
-        <img src={cart} alt="happy man shopping" className="w-96"/>
+      <Container className="h-full pt-28 flex justify-center" maxWidth={"lg"}>
+        <List className="h-full overflow-auto flex flex-col items-center  shadow-lg bg-white rounded-lg">
+          <Singlecart name={"laptop 14"}></Singlecart>
+          <Singlecart
+            name={"Table 4m"}
+            price={20}
+            qte={5}
+            image={"../src/assets/bag.webp"}
+          ></Singlecart>
+          <Singlecart
+            name={"toy war truck 20cm "}
+            price={3}
+            qte={3}
+            image={"../src/assets/toy.webp"}
+          ></Singlecart>
+          <Singlecart
+            name={"Balck 45 size barndless shoe"}
+            price={30}
+            qte={5}
+            image={"../src/assets/shoe.jpg"}
+          ></Singlecart>
+          <Singlecart
+            name={"barndless shoe"}
+            price={30}
+            qte={5}
+            image={"../src/assets/shoe.jpg"}
+          ></Singlecart>
+        </List>
+        <Box className="flex flex-col items-center w-1/5 shadow-lg ml-10 h-52 rounded-lg bg-white">
+          <Typography
+            fontSize={"1.5rem"}
+            className="bg-orange-400 rounded-lg px-10 py-2 m-5 text-white"
+          >
+            Total:
+          </Typography>
+          <Typography fontSize={"1.5rem"} className="">
+            $500
+          </Typography>
+        </Box>
       </Container>
+      <Button className="fixed bottom-5 right-5 bg-blue-500 text-white">
+        Save
+      </Button>
     </>
   );
-};
+}
 
 export default Cart;

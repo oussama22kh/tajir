@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import Login from "./login.jsx";
 import Signup from "./Signup.jsx";
+import Profile from "./Profile.jsx";
 import ErrorPage from "./Errorpage.jsx";
 import "./index.css";
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/product/",
     element: <ProductUpdate />,
+  },
+  {
+    path: "/profile/",
+    element: <Profile />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")).render(

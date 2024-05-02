@@ -5,10 +5,6 @@
 * {
   font-family: "Poppins", sans-serif !important;
 }
-@font-face {
-  font-family: "tajir";
-  src: url("./assets/Fonts/Apercu/Regular.otf") format("truetype");
-}
 body {
-  background-color: rgba(255, 247, 235, 1) !important;
+  background-color: rgba(255, 253, 250, 1);
 }

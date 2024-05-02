@@ -19,19 +19,28 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  Backdrop,
+  List,
 } from "@mui/material";
+import Singlecart from "./Component/Singlecart.jsx";
 import Card from "./Card.jsx";
 import logo from "./assets/logo.svg";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 
 function App() {
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const [products, setProducts] = useState([]);
   const [pagination, setpagination] = useState([]);
   const [URL, setURL] = useState("http://127.0.0.1:8000/api/products");
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
   const getData = async () => {
     try {
       const response = await axios.get(URL);
@@ -200,7 +209,6 @@ function App() {
                   label="min"
                   value={0}
                   variant="outlined"
-                  id="firstname"
                   InputProps={{
                     sx: { borderRadius: 1, width: 70, height: 35 },
                   }}
@@ -275,9 +283,44 @@ function App() {
           </Grid>
         </Box>
       </Container>
-      <IconButton className="fixed bottom-0 right-0 bg-orange-500 text-white m-5">
+      <IconButton
+        className="fixed bottom-0 right-0 bg-orange-500 text-white m-5"
+        onClick={handleOpen}
+      >
         <ShoppingCartOutlinedIcon />
       </IconButton>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        className="flex"
+      >
+        <Box className=" bg-white h-[70%] rounded-lg p-5 relative">
+          <List className="h-[90%] overflow-auto ">
+            <Singlecart name={"laptop"}></Singlecart>
+            <Singlecart
+              name={"Table 4m"}
+              price={"300"}
+              qte={5}
+              image={"../src/assets/bag.webp"}
+            ></Singlecart>
+            <Singlecart
+              name={"toy car"}
+              price={"3"}
+              qte={3}
+              image={"../src/assets/toy.webp"}
+            ></Singlecart>
+            <Singlecart
+              name={"barndless shoe"}
+              price={"30"}
+              qte={5}
+              image={"../src/assets/shoe.jpg"}
+            ></Singlecart>
+          </List>
+          <Button onClick={handleClose} className="right-5 absolute mt-5">
+            Close
+          </Button>
+        </Box>
+      </Backdrop>
     </>
   );
 }
