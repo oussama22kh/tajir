@@ -22,11 +22,20 @@ import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import photo from "./assets/97915.jpg";
 export default function Cardproduct(props) {
+  const handleaddtocart = (event) => {
+    event.preventDafult
+  };
   return (
     <>
       <Grid item xs={12} sm={6} lg={3} md={4} className="my-5 p-3">
         <Card className="w-72">
-          <CardMedia style={{ width:"90%" , height :"150px" , marginLeft : "5%" ,marginTop:"5%" }}
+          <CardMedia
+            style={{
+              width: "90%",
+              height: "150px",
+              marginLeft: "5%",
+              marginTop: "5%",
+            }}
             component="img"
             height="100"
             width="100"
@@ -38,7 +47,7 @@ export default function Cardproduct(props) {
           </CardContent>
           <CardActions>
             <Typography>$ {props.product.price}</Typography>
-            <IconButton>
+            <IconButton onClick={handleaddtocart}>
               <AddShoppingCartIcon />
             </IconButton>
             <IconButton>

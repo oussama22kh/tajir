@@ -54,7 +54,6 @@ function Cart() {
             }}
             type="search"
           ></TextField>
-
           <Box className="flex gap-5 items-center">
             <Link to="/cart/">
               <IconButton>
