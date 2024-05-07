@@ -18,28 +18,15 @@ import {
   Alert,
 } from "@mui/material";
 import { Navigate } from "react-router-dom";
+import { useUser } from "./contexts/usercontext";
 function Login() {
-  const [message, setmessage] = useState("");
-  const [user, setuser] = useState(false);
-  const handleSubmit = async (event) => {
+  const { login} = useUser();
+  const { user} = useUser();
+  const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const response = await axios
-      .post("http://127.0.0.1:8000/api/login", data)
-      .then((response) => {
-        if (response.status === 200) {
-          setmessage("success");
-          Cookies.set("token", response.data.token, { expires: 7 });
-          console.log(response.data);
-          setuser(true);
-        }
-      })
-      .catch((error) => {
-        setmessage("error");
-        if (error.status === 401) {
-          alert(error.data);
-        }
-      });
+    login(data);
+    console.log(user);
   };
   return (
     <>
@@ -78,19 +65,6 @@ function Login() {
               width={500}
               p={5}
             >
-              {(message === "success" || message === "error") &&
-                (message === "success" ? (
-                  <Alert severity={message} className="w-[50%]">
-                    success
-                  </Alert>
-                ) : (
-                  <Alert
-                    severity={message}
-                    className="w-[50%] fixed top-5 left-1/4 "
-                  >
-                    Email or password is incorrect
-                  </Alert>
-                ))}
               <Typography className="text-5xl font-medium">Log in</Typography>
 
               <Typography>

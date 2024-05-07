@@ -103,7 +103,7 @@ const ProductUpdate = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/storeProduct",
+        "http://127.0.0.1:8000/api/product/storeProduct",
         formData,
         config
       );

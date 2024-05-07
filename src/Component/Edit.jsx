@@ -1,4 +1,4 @@
-import { Typography, Box, Button } from "@mui/material";
+import { Typography, Box, Button, Alert } from "@mui/material";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -18,13 +18,14 @@ export default function Edit() {
     };
 
     try {
-      console.log(image);
       const response = await axios.post(apiUrl, formData, config);
       if (response.status === 200) {
         console.log(response.data);
       }
     } catch (err) {
-      console.error(err);
+      if (err.request.status === 422) {
+        console.error(err);
+      }
     }
   };
 
@@ -36,7 +37,8 @@ export default function Edit() {
           <input
             type="file"
             name="image"
-            onChange={(e) => setimage(e.target.files[0])}
+            onChange={(e) => setimage(e.target.files[0])
+            }
           />
           <Button type="submit" variant="contained" color="primary">
             Update

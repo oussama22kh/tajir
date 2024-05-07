@@ -30,10 +30,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-
+import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
-import Cookies from "js-cookie";
+
 export default function Profile() {
+  const { user, logout } = useUser();
   const buyeritems = [
     { name: "Home", icon: <HomeIcon />, path: "/" },
     { name: "Profile", icon: <PersonIcon />, path: "" },
@@ -43,29 +44,6 @@ export default function Profile() {
     { name: "Join us", icon: <AddBusinessIcon />, path: "joinus" },
     { name: "Feedback", icon: <ThumbsUpDownIcon />, path: "feedback" },
   ];
-  const apiUrl = "http://127.0.0.1:8000/api/profile";
-  const token = Cookies.get("token");
-  const [user, setuser] = useState();
-  useEffect(() => {
-    fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setuser(data["buyer"]);
-      })
-      .catch((error) => {
-        console.error("There was a problem with the fetch operation:", error);
-      });
-  }, []);
 
   return (
     <>
@@ -83,9 +61,10 @@ export default function Profile() {
             </Box>
           </Link>
           <Box className="flex justify-end items-center gap-5">
+              <Button onClick={logout}>logout</Button>
             <SearchIcon></SearchIcon>
             <NotificationsIcon></NotificationsIcon>
-            <Box className="rounded-full h-16 w-16 border-2 border-orange-400 flex justify-center items-center">
+            <Box className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center">
               <img
                 src={"http://127.0.0.1:8000/storage/" + user?.image}
                 alt="profile"

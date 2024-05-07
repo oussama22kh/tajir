@@ -20,7 +20,13 @@ import {
   Backdrop,
   List,
 } from "@mui/material";
-export default function Appbar({user}) {
+import { useUser } from "../contexts/usercontext";
+import { useEffect } from "react";
+export default function Appbar() {
+  const { user, setloading, loading } = useUser();
+  useEffect(() => {
+    setloading(!loading);
+  }, []);
   return (
     <>
       <AppBar className="bg-white shadow-none ">
@@ -51,7 +57,7 @@ export default function Appbar({user}) {
           ></TextField>
 
           <Box className="flex gap-5 items-center">
-            <Link to="/cart/">
+            <Link to="/cart">
               <IconButton>
                 <ShoppingCartOutlinedIcon />
               </IconButton>
@@ -61,10 +67,16 @@ export default function Appbar({user}) {
             </IconButton>
             {user ? (
               <Link to={"/profile"}>
-                <Box className="rounded-full h-10 w-10 bg-black"></Box>
+                <Box className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center">
+                  <img
+                    src={"http://127.0.0.1:8000/storage/" + user?.image}
+                    alt="profile"
+                    className="h-[90%] w-[90%] object-cover rounded-full"
+                  />
+                </Box>
               </Link>
             ) : (
-              <Link to={"/login"}>
+              <Link to={"/login/"}>
                 <Button
                   variant="contained"
                   className="bg-orange-400 font-medium  text-base rounded-full  h-10 shadow-none mr-5 w-full "

@@ -53,6 +53,7 @@ export default function Sidebar({ items }) {
           </div>
         </div>
         <Sidebaritem open={open} items={items}></Sidebaritem>
+        
       </Drawer>
     </div>
   );

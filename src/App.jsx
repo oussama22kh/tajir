@@ -3,19 +3,14 @@ import { Link } from "react-router-dom";
 import photo from "./assets/landingpageimage.svg";
 import axios from "axios";
 import "./style/home.css";
-import Cookies from "js-cookie";
+import cartphoto from "./assets/cart.svg";
 
 import {
   Button,
   Container,
   Box,
   Typography,
-  AppBar,
-  Toolbar,
   TextField,
-  Checkbox,
-  Menu,
-  Fab,
   Grid,
   IconButton,
   InputAdornment,
@@ -26,8 +21,14 @@ import Singlecart from "./Component/Singlecart.jsx";
 import Card from "./Card.jsx";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Appbar from "./Component/Appbar.jsx";
-
+import { useCart } from "./contexts/cartcontext.jsx";
+import { useUser } from "./contexts/usercontext.jsx";
 function App() {
+  const { user, setloading, loading } = useUser();
+  useEffect(() => {
+    setloading(!loading);
+  }, []);
+  const { carts } = useCart();
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -70,37 +71,38 @@ function App() {
   }, [URL]);
   return (
     <>
-      <Appbar user={Cookies.get("token")}></Appbar>
-      <Container maxWidth="lg" className="h-screen">
-        <Box className="flex h-screen  items-center justify-between ">
-          <Box className="flex flex-col gap-10">
-            <Typography className="text-6xl font-medium">
-              Find what <br /> you need
-            </Typography>
-            <Typography className="text-4xl font-medium">
-              Discover
-              <br /> you need
-            </Typography>
-            <Link to={"/signup"}>
-              <Button
-                variant="contained"
-                className="bg-orange-400 font-medium shadow-none text-base rounded-full  h-12  "
-                style={{ textTransform: "none" }}
-              >
-                Sign up for free
-              </Button>
-            </Link>
+      <Appbar></Appbar>
+      {!user && (
+        <Container maxWidth="lg" className="h-screen">
+          <Box className="flex h-screen  items-center justify-between ">
+            <Box className="flex flex-col gap-10">
+              <Typography className="text-6xl font-medium">
+                Find what <br /> you need
+              </Typography>
+              <Typography className="text-4xl font-medium">
+                Discover
+                <br /> more
+              </Typography>
+              <Link to={"/signup"}>
+                <Button
+                  variant="contained"
+                  className="bg-orange-400 font-medium shadow-none text-base rounded-full  h-12  "
+                  style={{ textTransform: "none" }}
+                >
+                  Sign up for free
+                </Button>
+              </Link>
+            </Box>
+            <img
+              src={photo}
+              alt="products"
+              className="w-[50%] "
+              style={{ width: "45%" }}
+            />
           </Box>
-          <img
-            src={photo}
-            alt="products"
-            className="w-[50%] "
-            style={{ width: "45%" }}
-          />
-        </Box>
-      </Container>
-
-      <Container className="bg-white flex pt-5" maxWidth={"xl"}>
+        </Container>
+      )}
+      <Container className="bg-white flex pt-5 mt-16" maxWidth={"xl"}>
         <Box className="box_filter" minWidth={200}>
           <div className="container">
             <div className="category">
@@ -225,7 +227,7 @@ function App() {
               <li>Recommended</li>
             </ul>
           </div>*/}
-          <Grid container className="">
+          <Grid container className="gap-5">
             {products.map((product, index) => (
               <Card className="mx-3" product={product} key={index} />
             ))}
@@ -243,27 +245,24 @@ function App() {
         open={open}
         className="flex"
       >
-        <Box className=" bg-white h-[70%] rounded-lg p-5 relative">
-          <List className="h-[90%] overflow-auto ">
-            <Singlecart name={"laptop"}></Singlecart>
-            <Singlecart
-              name={"Table 4m"}
-              price={"300"}
-              qte={5}
-              image={"../src/assets/bag.webp"}
-            ></Singlecart>
-            <Singlecart
-              name={"toy car"}
-              price={"3"}
-              qte={3}
-              image={"../src/assets/toy.webp"}
-            ></Singlecart>
-            <Singlecart
-              name={"barndless shoe"}
-              price={"30"}
-              qte={5}
-              image={"../src/assets/shoe.jpg"}
-            ></Singlecart>
+        <Box className=" bg-white h-[80%] rounded-lg p-5 relative w-[50%]  ">
+          <List className="h-[90%] overflow-auto  ">
+            {carts.length > 0 ? (
+              carts.map((item, index) => (
+                <Singlecart
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  qte={item.qte}
+                  image={"http://127.0.0.1:8000/storage/" + item.image}
+                  id={item.id}
+                />
+              ))
+            ) : (
+              <div className="flex justify-center items-center h-full w-full">
+                <img src={cartphoto} className="w-[50%] h-[50%] opacity-70" />
+              </div>
+            )}
           </List>
           <Button onClick={handleClose} className="right-5 absolute mt-5">
             Close

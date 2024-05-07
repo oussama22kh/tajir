@@ -1,6 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
 import Profile from "../Profile.jsx";
-
-export default function AuthProvider({ token }) {
-  return <>{token ? <Profile /> : <Navigate to="/login" />}</>;
+import { useUser } from "../contexts/usercontext.jsx";
+import { UserProvider } from "../contexts/usercontext.jsx";
+export default function AuthProvider() {
+  const { user } = useUser();
+  return <>{user ? <Profile /> : <Navigate to="/login" />}</>;
 }

@@ -1,4 +1,5 @@
 import laptop from "../assets/97915.jpg";
+
 import {
   TextField,
   Box,
@@ -11,12 +12,19 @@ import {
   IconButton,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useState } from "react";
-export default function Singlecart({ image, name, price, qte }) {
+import { useEffect, useState } from "react";
+import { useCart } from "../contexts/cartcontext.jsx";
+
+export default function Singlecart({ id, image, name, price, qte }) {
+  const { deletecartitem } = useCart();
+
+  const handledelete = () => {
+    deletecartitem(id);
+  };
   return (
     <>
       <ListItem>
-        <Card className="p-5 flex justify-between w-full shadow-none border-b-2 rounded-none">
+        <Card className="p-5 flex justify-between w-full  rounded-xl m-5">
           <CardContent className="flex gap-4">
             <CardMedia className="">
               <img src={image} alt="product" width={"100px"} />
@@ -37,7 +45,7 @@ export default function Singlecart({ image, name, price, qte }) {
             <Button className="bg-orange-400 text-white rounded-full ">
               Buy
             </Button>
-            <IconButton>
+            <IconButton onClick={handledelete}>
               <DeleteOutlineIcon />
             </IconButton>
           </CardActions>
