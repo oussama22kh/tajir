@@ -7,9 +7,11 @@ import {
   Avatar,
   Grid,
   Container,
+  IconButton,
 } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 const Addproduct = () => {
   const [product, setProduct] = useState(null);
@@ -127,7 +129,7 @@ const Addproduct = () => {
   };
 
   return (
-    <Container maxWidth={"md"}>
+    <Container  className="h-[90%] overflow-auto">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         {product && (
           <Box mb={4}>
@@ -145,104 +147,120 @@ const Addproduct = () => {
             </Typography>
           </Box>
         )}
+        <form onSubmit={handleSubmit} className="w-[80%]   ">
+          <Box className="flex flex-col justify-center items-center gap-7 m-5">
+            <Typography className="text-black"> Add Product 📦</Typography>
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Name"
+              name="name"
+              value={name}
+              onChange={handleInputChange}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
 
-        <Box width="70%">
-          <Typography variant="h4">Update Product</Typography>
-          <form onSubmit={handleSubmit}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Name"
-                  name="name"
-                  value={name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Price"
-                  name="price"
-                  value={price}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Rating"
-                  name="rating_avg"
-                  value={rating_avg}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Description"
-                  name="description"
-                  value={description}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Category ID"
-                  name="category_id"
-                  value={category_id}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  label="Seller ID"
-                  name="seller_id"
-                  value={seller_id}
-                  onChange={(e) => setSellerId(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <input type="file" multiple onChange={handleFileChange} />
-              </Grid>
-              <Grid item xs={12}>
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Update
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-          {message && (
-            <Typography
-              variant="body2"
-              style={{ color: "green", marginTop: "20px" }}
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Price"
+              name="price"
+              value={price}
+              onChange={handleInputChange}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Rating"
+              name="rating_avg"
+              value={rating_avg}
+              onChange={handleInputChange}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Description"
+              name="description"
+              value={description}
+              onChange={handleInputChange}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Category ID"
+              name="category_id"
+              value={category_id}
+              onChange={(e) => setCategoryId(e.target.value)}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
+
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Seller ID"
+              name="seller_id"
+              value={seller_id}
+              onChange={(e) => setSellerId(e.target.value)}
+              InputProps={{ sx: { borderRadius: 3 } }}
+              required
+            />
+
+            <Box className="hover:bg-orange-100 rounded-full ">
+              <label
+                htmlFor="input-file"
+                className="flex gap-5 text-gray-700  hover:text-orange-400 p-4"
+              >
+                <UploadFileIcon className="" />
+                <h3>Upload images</h3>
+              </label>
+              <input
+                id="input-file"
+                type="file"
+                className="hidden"
+                multiple
+                onChange={handleFileChange}
+                required
+              />
+            </Box>
+
+            <Button
+              type="submit"
+              variant="contained"
+              className="bg-orange-400 font-medium shadow-none text-base rounded-full  h-12  "
+              style={{ textTransform: "none", width: "50%" }}
             >
-              {message}
-            </Typography>
-          )}
-          {error && (
-            <Typography
-              variant="body2"
-              style={{ color: "red", marginTop: "20px" }}
-            >
-              {error}
-            </Typography>
-          )}
-        </Box>
+              Add to nventory
+            </Button>
+
+            {message && (
+              <Typography
+                variant="body2"
+                style={{ color: "green", marginTop: "20px" }}
+              >
+                {message}
+              </Typography>
+            )}
+            {error && (
+              <Typography
+                variant="body2"
+                style={{ color: "red", marginTop: "20px" }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
+        </form>
       </Box>
     </Container>
   );

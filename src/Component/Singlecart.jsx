@@ -27,7 +27,7 @@ export default function Singlecart({ id, image, name, price, qte }) {
   return (
     <>
       <ListItem>
-        <Card className="p-5 flex justify-between w-full  rounded-xl m-5">
+        <Card className="p-5 flex justify-between w-full shadow-none rounded-xl m-5">
           <CardContent className="flex gap-4">
             <CardMedia className="">
               <img src={image} alt="product" width={"100px"} />

@@ -103,10 +103,10 @@ function App() {
         </Container>
       )}
       <Container
-        className="bg-gray-100 flex pt-5 mt-16 h-screen "
+        className=" flex pt-5 mt-16 h-screen "
         maxWidth={"xl"}
       >
-        <Box className="box_filter bg-white" minWidth={200}>
+        <Box className="box_filter " minWidth={200}>
           <div className="container">
             <div className="category">
               <h1>Category</h1>
@@ -230,7 +230,7 @@ function App() {
               <li>Recommended</li>
             </ul>
           </div>*/}
-          <Grid container className="gap-5">
+          <Grid container className="gap-5 flex justify-center">
             {products.map((product, index) => (
               <Card className="mx-3" product={product} key={index} />
             ))}
@@ -248,7 +248,7 @@ function App() {
         open={open}
         className="flex"
       >
-        <Box className=" bg-white h-[80%] rounded-lg p-5 relative w-[50%]  ">
+        <Box className=" bg-[#F8FAFD] h-[80%] rounded-lg p-5 relative w-[50%]">
           <List className="h-[90%] overflow-auto  ">
             {carts.length > 0 ? (
               carts.map((item, index) => (

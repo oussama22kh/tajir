@@ -30,7 +30,7 @@ export default function Sidebar({ items }) {
         >
           <div
             onClick={handleToggleDrawer}
-            className="flex justify-between items-center mb-20 mt-5 cursor-pointer relative"
+            className="flex justify-between items-center mb-20  cursor-pointer relative"
           >
             <div className="mr-2 absolute right-0 top-5">
               {open ? (

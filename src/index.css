@@ -3,8 +3,8 @@
 @tailwind components;
 @tailwind utilities;
 * {
-  font-family: "Poppins", sans-serif !important;
+  font-family: "Poppins", "Helvetica", sans-serif !important;
 }
 body {
-  background-color: rgba(255, 253, 250, 1);
+  background-color: rgb(248, 250, 253);
 }
