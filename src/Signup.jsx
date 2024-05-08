@@ -6,8 +6,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import photo from "./assets/signup.svg";
 import logo from "./assets/logo.svg";
-import Cookies from 'js-cookie';
-
+import Cookies from "js-cookie";
+import { useUser } from "./contexts/usercontext";
 import axios from "axios";
 
 function Signup() {
@@ -23,7 +23,8 @@ function Signup() {
   const [validconfirm, setvalidconfirm] = useState(true);
   const [phone, setphone] = useState("");
   const [validphone, setvalidphone] = useState(true);
-  
+
+  const { navigateto } = useUser();
   const handlechange = () => {
     if (email.length == 0) {
       setvalidemail(true);
@@ -47,23 +48,23 @@ function Signup() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     handlechange();
-    if (validemail && validepassword && validconfirm ) {
+    if (validemail && validepassword && validconfirm) {
       const formData = new FormData();
       formData.append("username", firstName + lastName);
       formData.append("email", email);
       formData.append("password", password);
       formData.append("password_confirmation", confirmPassword);
 
-      const response = await axios.post("http://127.0.0.1:8000/api/register", 
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/register",
         formData
-    );
-    if(response.status === 201){
-        Cookies.set('token', response.data.token, { expires: 7 });
-        alert(response.data.buyer.username) ;
-        console.log(response.data);
-    }else{
-      alert(response.status);
-    }
+      );
+      if (response.status === 201) {
+        Cookies.set("token", response.data.token, { expires: 7 });
+        navigateto("/profile");
+      } else {
+        alert(response.status);
+      }
     }
   };
 
@@ -121,7 +122,7 @@ function Signup() {
               label="First name*"
               variant="outlined"
               id="firstname"
-              onChange={(e)=>setFirstName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               InputProps={{ sx: { borderRadius: 3 } }}
             ></TextField>
             <TextField
@@ -129,7 +130,7 @@ function Signup() {
               label="Last name*"
               variant="outlined"
               id="lastname"
-              onChange={(e)=>setLastName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               InputProps={{ sx: { borderRadius: 3 } }}
             ></TextField>
 
@@ -140,7 +141,7 @@ function Signup() {
                 variant="outlined"
                 id="email"
                 name="email"
-                onChange={(e)=>setemail(e.target.value)}
+                onChange={(e) => setemail(e.target.value)}
                 InputProps={{ sx: { borderRadius: 3 } }}
               />
             ) : (
@@ -148,7 +149,7 @@ function Signup() {
                 error
                 fullWidth
                 label="Email address*"
-                onChange={(e)=>setemail(e.target.value)}
+                onChange={(e) => setemail(e.target.value)}
                 variant="outlined"
                 id="email"
                 name="email"
@@ -161,7 +162,7 @@ function Signup() {
                 label="Password (8+ characters)*"
                 variant="outlined"
                 type="password"
-                onChange={(e)=>setpassword(e.target.value)}
+                onChange={(e) => setpassword(e.target.value)}
                 name="password"
                 id="password"
                 InputProps={{ sx: { borderRadius: 3 } }}
@@ -175,7 +176,7 @@ function Signup() {
                 type="password"
                 name="password"
                 id="password"
-                onChange={(e)=>setpassword(e.target.value)}
+                onChange={(e) => setpassword(e.target.value)}
                 InputProps={{ sx: { borderRadius: 3 } }}
               ></TextField>
             )}
@@ -187,7 +188,7 @@ function Signup() {
                 variant="outlined"
                 type="password"
                 id="confirmp"
-                onChange={(e)=>setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 InputProps={{ sx: { borderRadius: 3 } }}
               ></TextField>
             ) : (
@@ -199,7 +200,7 @@ function Signup() {
                 variant="outlined"
                 type="password"
                 id="confirmp"
-                onChange={(e)=>setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 InputProps={{ sx: { borderRadius: 3 } }}
               ></TextField>
             )}

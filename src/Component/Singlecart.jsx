@@ -16,8 +16,11 @@ import { useEffect, useState } from "react";
 import { useCart } from "../contexts/cartcontext.jsx";
 
 export default function Singlecart({ id, image, name, price, qte }) {
-  const { deletecartitem } = useCart();
-
+  const { deletecartitem, updatecart } = useCart();
+  const [qteValue, setQteValue] = useState(qte);
+  useEffect(() => {
+    updatecart(id, qteValue);
+  }, [qteValue]);
   const handledelete = () => {
     deletecartitem(id);
   };
@@ -40,7 +43,9 @@ export default function Singlecart({ id, image, name, price, qte }) {
               helperText="QTE"
               InputProps={{
                 sx: { borderRadius: "15px", height: "35px", width: "60px" },
+                inputProps: { min: 1 },
               }}
+              onChange={(e) => setQteValue(e.target.value)}
             ></TextField>
             <Button className="bg-orange-400 text-white rounded-full ">
               Buy

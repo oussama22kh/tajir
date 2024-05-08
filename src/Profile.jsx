@@ -30,6 +30,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 import HomeIcon from "@mui/icons-material/Home";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import StorefrontIcon from "@mui/icons-material/Storefront";
 import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
 
@@ -42,6 +43,16 @@ export default function Profile() {
     { name: "Edit", icon: <EditIcon />, path: "edit" },
     { name: "Cart", icon: <ShoppingCartOutlinedIcon />, path: "/cart" },
     { name: "Join us", icon: <AddBusinessIcon />, path: "joinus" },
+    { name: "Feedback", icon: <ThumbsUpDownIcon />, path: "feedback" },
+  ];
+
+  const selleritems = [
+    { name: "Home", icon: <HomeIcon />, path: "/" },
+    { name: "Profile", icon: <PersonIcon />, path: "" },
+    { name: "History", icon: <HistoryEduIcon />, path: "history" },
+    { name: "Edit", icon: <EditIcon />, path: "edit" },
+    { name: "Cart", icon: <ShoppingCartOutlinedIcon />, path: "/cart" },
+    { name: "My Store", icon: <StorefrontIcon />, path: "mystore" },
     { name: "Feedback", icon: <ThumbsUpDownIcon />, path: "feedback" },
   ];
 
@@ -61,7 +72,7 @@ export default function Profile() {
             </Box>
           </Link>
           <Box className="flex justify-end items-center gap-5">
-              <Button onClick={logout}>logout</Button>
+            <Button onClick={logout}>logout</Button>
             <SearchIcon></SearchIcon>
             <NotificationsIcon></NotificationsIcon>
             <Box className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center">
@@ -75,7 +86,7 @@ export default function Profile() {
           </Box>
         </Box>
       </nav>
-      <Sidebar items={buyeritems}></Sidebar>
+      <Sidebar items={user?.role === 0 ? buyeritems : selleritems}></Sidebar>
       <Container
         maxWidth="sm"
         className="flex justify-center h-screen items-center"

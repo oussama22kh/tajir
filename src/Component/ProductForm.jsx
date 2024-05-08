@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const ProductUpdate = () => {
+const Addproduct = () => {
   const [product, setProduct] = useState(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -128,7 +128,7 @@ const ProductUpdate = () => {
 
   return (
     <Container maxWidth={"md"}>
-      <Box display="flex" flexDirection="column" alignItems="center" mt={4} >
+      <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         {product && (
           <Box mb={4}>
             <Typography variant="h5" mt={2}>
@@ -248,4 +248,4 @@ const ProductUpdate = () => {
   );
 };
 
-export default ProductUpdate;
+export default Addproduct;

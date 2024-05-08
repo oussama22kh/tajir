@@ -29,32 +29,34 @@ export default function Appbar() {
   }, []);
   return (
     <>
-      <AppBar className="bg-white shadow-none ">
+      <AppBar className="bg-white shadow-sm">
         <Toolbar className="flex justify-between ">
-          <Link to={"/"}>
-            <Box className="flex items-center cursor-pointer mr-10">
-              <img src={logo} alt="Tajir" className="h-10" />
-              <Typography
-                className="text-3xl font-semibold text-slate-800 font-tajir px-2"
-                id="logo"
-              >
-                Tajir
-              </Typography>
-            </Box>
-          </Link>
-          <TextField
-            placeholder="Search"
-            className="w-1/3  "
-            InputProps={{
-              sx: { borderRadius: 10, height: "45px" },
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            type="search"
-          ></TextField>
+          <Box className="flex w-1/2">
+            <Link to={"/"}>
+              <Box className="flex items-center cursor-pointer mr-10">
+                <img src={logo} alt="Tajir" className="h-10" />
+                <Typography
+                  className="text-3xl font-semibold text-slate-800 font-tajir px-2"
+                  id="logo"
+                >
+                  Tajir
+                </Typography>
+              </Box>
+            </Link>
+            <TextField
+              placeholder="Search"
+              className="w-1/3  "
+              InputProps={{
+                sx: { borderRadius: 10, height: "45px" },
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              type="search"
+            ></TextField>
+          </Box>
 
           <Box className="flex gap-5 items-center">
             <Link to="/cart">

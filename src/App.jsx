@@ -102,8 +102,11 @@ function App() {
           </Box>
         </Container>
       )}
-      <Container className="bg-white flex pt-5 mt-16" maxWidth={"xl"}>
-        <Box className="box_filter" minWidth={200}>
+      <Container
+        className="bg-gray-100 flex pt-5 mt-16 h-screen "
+        maxWidth={"xl"}
+      >
+        <Box className="box_filter bg-white" minWidth={200}>
           <div className="container">
             <div className="category">
               <h1>Category</h1>

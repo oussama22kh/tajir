@@ -52,10 +52,10 @@ export default function Cardproduct(props) {
   };
   return (
     <>
-      <Grid item xs={12} sm={6} lg={4} md={4} className="my-5 p-3 mx-5">
+      <Grid item xs={12} sm={6} lg={3} md={4} className="my-5 p-3 mx-5">
         <Card className="w-72">
           <CardMedia
-            className="w-52 h-60 mx-auto"
+            className="w-52 h-60 mx-auto p-5"
             component="img"
             image={`http://127.0.0.1:8000/storage/${props.product.photos[0]}`}
             alt="Paella dish"

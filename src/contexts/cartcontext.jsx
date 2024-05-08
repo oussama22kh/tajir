@@ -36,7 +36,7 @@ export const Cartprovider = ({ children }) => {
   const getTotal = () => {
     let totalprice = 0;
     carts.forEach((cart) => {
-      totalprice += cart.price;
+      totalprice += cart.price * cart.qte;
     });
     settotal(totalprice);
   };

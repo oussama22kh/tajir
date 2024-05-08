@@ -7,17 +7,10 @@ import Appbar from "./Appbar.jsx";
 import { useCart } from "../contexts/cartcontext.jsx";
 
 function Cart() {
-  const { total } = useCart();
-  const { carts, updatecart, loading, setloading } = useCart();
-  const handlesave = () => {
-    carts.map((item) => {
-      console.log(item.id, item.qte);
-      updatecart(item.id, item.qte);
-    });
-    setloading(!loading);
-  };
+  const { total, carts } = useCart();
+
   return (
-    <UserProvider>
+    <>
       <Appbar></Appbar>
       <Container className="h-full pt-28 flex justify-center " maxWidth={"lg"}>
         <List className="h-full overflow-auto flex flex-col items-center  shadow-lg bg-white rounded-lg ">
@@ -44,13 +37,7 @@ function Cart() {
           </Typography>
         </Box>
       </Container>
-      <Button
-        className="fixed bottom-5 right-5 bg-blue-500 text-white"
-        onClick={handlesave}
-      >
-        Save
-      </Button>
-    </UserProvider>
+    </>
   );
 }
 

@@ -14,10 +14,12 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import ProductUpdate from "./ProductForm.jsx";
+
 import Cart from "./Component/Cart.jsx";
 import Edit from "./Component/Edit.jsx";
 import Joinus from "./Component/Joinus.jsx";
+import Mystore from "./Component/Mystore.jsx";
+
 import Feedback from "./Component/Feedback.jsx";
 import AuthProvider from "./Component/AuthProvider.jsx";
 import { Cartprovider } from "./contexts/cartcontext";
@@ -55,11 +57,11 @@ function Home() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/product" element={<ProductUpdate />} />
         <Route path="/profile" element={<AuthProvider />}>
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
           <Route path="joinus" element={<Joinus />} />
+          <Route path="mystore" element={<Mystore />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
       </Routes>

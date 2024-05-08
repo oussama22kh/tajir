@@ -4,9 +4,10 @@ import PersonIcon from "@mui/icons-material/Person";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
-
+import { useLocation } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 export default function Sidebaritem({ open, items }) {
+  let location = useLocation();
   return (
     <>
       {open ? (
@@ -27,7 +28,11 @@ export default function Sidebaritem({ open, items }) {
           {items.map((item, index) => (
             <Box key={index} className="flex items-center ">
               <NavLink to={item.path}>
-                <IconButton>{item.icon}</IconButton>
+                {location === item.path ? (
+                  <IconButton className="bg-black">{item.icon}</IconButton>
+                ) : (
+                  <IconButton>{item.icon}</IconButton>
+                )}
               </NavLink>
               <Typography className="hidden">{item.name}</Typography>
             </Box>
