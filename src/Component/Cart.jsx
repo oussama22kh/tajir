@@ -8,8 +8,10 @@ import { useCart } from "../contexts/cartcontext.jsx";
 import cartphoto from "../assets/cart.svg";
 
 function Cart() {
-  const { total, carts } = useCart();
-
+  const { total, carts, loading, setloading } = useCart();
+  useEffect(() => {
+    setloading(!loading);
+  }, []);
   return (
     <>
       <Appbar></Appbar>

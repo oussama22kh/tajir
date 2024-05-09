@@ -1,7 +1,6 @@
 import logo from "../assets/logo.svg";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -55,11 +54,11 @@ export default function Appbar() {
           <Box className="flex gap-5 items-center">
             <Link to="/cart">
               <IconButton className="hover:text-orange-400 hover:bg-transparent">
-                <ShoppingCartOutlinedIcon />
+                <ShoppingCartRoundedIcon />
               </IconButton>
             </Link>
             <IconButton className="hover:text-orange-400 hover:bg-transparent">
-              <NotificationsNoneOutlinedIcon />
+              <NotificationsRoundedIcon />
             </IconButton>
             {user ? (
               <Link to={"/profile"}>

@@ -22,16 +22,17 @@ import { Link } from "react-router-dom";
 import logo from "./assets/logo.svg";
 import Sidebar from "./Component/Sidebar.jsx";
 import { useEffect, useState } from "react";
-import PersonIcon from "@mui/icons-material/Person";
-import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import EditIcon from "@mui/icons-material/Edit";
-import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import SearchIcon from "@mui/icons-material/Search";
-import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
-import HomeIcon from "@mui/icons-material/Home";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import StorefrontIcon from "@mui/icons-material/Storefront";
+import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import HistoryEduRoundedIcon from "@mui/icons-material/HistoryEduRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import AddBusinessRoundedIcon from "@mui/icons-material/AddBusinessRounded";
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ThumbsUpDownRoundedIcon from "@mui/icons-material/ThumbsUpDownRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
 
@@ -51,23 +52,23 @@ export default function Profile() {
   };
   const { user, logout } = useUser();
   const buyeritems = [
-    { name: "Home", icon: <HomeIcon />, path: "/" },
-    { name: "Profile", icon: <PersonIcon />, path: "" },
-    { name: "History", icon: <HistoryEduIcon />, path: "history" },
-    { name: "Edit", icon: <EditIcon />, path: "edit" },
-    { name: "Cart", icon: <ShoppingCartOutlinedIcon />, path: "/cart" },
-    { name: "Join us", icon: <AddBusinessIcon />, path: "joinus" },
-    { name: "Feedback", icon: <ThumbsUpDownIcon />, path: "feedback" },
+    { name: "Home", icon: <HomeRoundedIcon />, path: "/" },
+    { name: "Profile", icon: <PersonRoundedIcon />, path: "" },
+    { name: "History", icon: <HistoryEduRoundedIcon />, path: "history" },
+    { name: "Edit", icon: <EditRoundedIcon />, path: "edit" },
+    { name: "Cart", icon: <ShoppingCartRoundedIcon />, path: "/cart" },
+    { name: "Join us", icon: <AddBusinessRoundedIcon />, path: "joinus" },
+    { name: "Feedback", icon: <ThumbsUpDownRoundedIcon />, path: "feedback" },
   ];
 
   const selleritems = [
-    { name: "Home", icon: <HomeIcon />, path: "/" },
-    { name: "Profile", icon: <PersonIcon />, path: "" },
-    { name: "History", icon: <HistoryEduIcon />, path: "history" },
-    { name: "Edit", icon: <EditIcon />, path: "edit" },
-    { name: "Cart", icon: <ShoppingCartOutlinedIcon />, path: "/cart" },
-    { name: "My Store", icon: <StorefrontIcon />, path: "mystore" },
-    { name: "Feedback", icon: <ThumbsUpDownIcon />, path: "feedback" },
+    { name: "Home", icon: <HomeRoundedIcon />, path: "/" },
+    { name: "Profile", icon: <PersonRoundedIcon />, path: "" },
+    { name: "History", icon: <HistoryEduRoundedIcon />, path: "history" },
+    { name: "Edit", icon: <EditRoundedIcon />, path: "edit" },
+    { name: "Cart", icon: <ShoppingCartRoundedIcon />, path: "/cart" },
+    { name: "My Store", icon: <StorefrontRoundedIcon />, path: "mystore" },
+    { name: "Feedback", icon: <ThumbsUpDownRoundedIcon />, path: "feedback" },
   ];
 
   return (
@@ -90,10 +91,10 @@ export default function Profile() {
               className="flex justify-end items-center gap-5 "
               onClick={handleClose}
             >
-              <SearchIcon></SearchIcon>
-              <NotificationsIcon></NotificationsIcon>
+              <SearchRoundedIcon></SearchRoundedIcon>
+              <NotificationsRoundedIcon></NotificationsRoundedIcon>
               <Box
-                className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center relative active:opacity-50"
+                className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center relative active:opacity-50 hover:bg-white"
                 onClick={handleClick}
                 id="account-menu"
               >
@@ -105,13 +106,14 @@ export default function Profile() {
                   onClick={handleClick}
                 />
                 <Menu anchorEl={anchorEl} open={open}>
-                  <MenuItem >
+                  <MenuItem className="hover:bg-white">
                     <Typography
                       onClick={logout}
-                      className="hover:cursor-pointer"
+                      className="hover:cursor-pointer "
                       fontWeight={"medium"}
                       marginInline={1}
                     >
+                      <LogoutRoundedIcon />
                       Logout
                     </Typography>
                   </MenuItem>

@@ -22,8 +22,7 @@ import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-
+import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import { useCart } from "./contexts/cartcontext";
 export default function Cardproduct(props) {
   const { setloading, loading } = useCart();
@@ -42,11 +41,15 @@ export default function Cardproduct(props) {
     };
     try {
       const response = await axios.post(apiUrl, formdata, config);
-      if (response.status == 200) {
+      if (response.status === 200) {
         console.log("success");
       }
     } catch (error) {
-      console.error(error);
+      if (error.response.status === 409) {
+        console.log("Already added to cart");
+      } else {
+        console.error(error);
+      }
     }
   };
   return (
@@ -82,7 +85,7 @@ export default function Cardproduct(props) {
               onClick={handleaddtocart}
               className="hover:bg-orange-400 hover:text-white text-orange-400"
             >
-              <AddShoppingCartIcon />
+              <AddShoppingCartRoundedIcon />
             </IconButton>
           </CardActions>
         </Card>

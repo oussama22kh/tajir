@@ -28,6 +28,7 @@ export const Cartprovider = ({ children }) => {
       const response = await axios.get(apiUrl, config);
       if (response.status == 200) {
         setCarts(response.data.Carts);
+        console.log(carts);
       }
     } catch (error) {
       console.error(error);
@@ -43,11 +44,12 @@ export const Cartprovider = ({ children }) => {
 
   const deletecartitem = async (id) => {
     const apiUrl = "http://127.0.0.1:8000/api/cart/deleteCart/" + id;
-    setloading(!loading);
+
     try {
       const response = await axios.delete(apiUrl, config);
       if (response.status == 200) {
         console.log("success", response.data);
+        setloading(!loading);
       }
     } catch (error) {
       console.error(error);
@@ -55,11 +57,12 @@ export const Cartprovider = ({ children }) => {
   };
   const updatecart = async (id, qte) => {
     const apiUrl = "http://127.0.0.1:8000/api/cart/updateCart";
-    setloading(!loading);
+
     try {
       const response = await axios.post(apiUrl, { id: id, qte: qte }, config);
       if (response.status == 200) {
         console.log("success", response.data);
+        setloading(!loading);
       }
     } catch (error) {
       console.error(error);

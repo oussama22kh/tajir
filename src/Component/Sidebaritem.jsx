@@ -14,7 +14,7 @@ export default function Sidebaritem({ open, items }) {
         <div className=" py-5 gap-2 flex flex-col ">
           {items.map((item, index) => (
             <NavLink to={item.path} key={index}>
-              <Box className="flex items-center cursor-pointer">
+              <Box className="flex items-center cursor-pointer hover:bg-[#F8FAFD] rounded-full">
                 <IconButton className="mx-5 hover:bg-transparent ">
                   {item.icon}
                 </IconButton>

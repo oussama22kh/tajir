@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import Singlecart from "./Component/Singlecart.jsx";
 import Card from "./Card.jsx";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import Appbar from "./Component/Appbar.jsx";
 import { useCart } from "./contexts/cartcontext.jsx";
 import { useUser } from "./contexts/usercontext.jsx";
@@ -102,10 +102,7 @@ function App() {
           </Box>
         </Container>
       )}
-      <Container
-        className=" flex pt-5 mt-16 h-screen "
-        maxWidth={"xl"}
-      >
+      <Container className=" flex pt-5 mt-16 h-screen " maxWidth={"xl"}>
         <Box className="box_filter " minWidth={200}>
           <div className="container">
             <div className="category">
@@ -241,7 +238,7 @@ function App() {
         className="fixed bottom-0 right-0 bg-orange-500 text-white m-5"
         onClick={handleOpen}
       >
-        <ShoppingCartOutlinedIcon />
+        <ShoppingCartRoundedIcon />
       </IconButton>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

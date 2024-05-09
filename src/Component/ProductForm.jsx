@@ -86,7 +86,7 @@ const Addproduct = () => {
     formData.append("rating_avg", rating_avg);
     formData.append("description", description);
     formData.append("category_id", category_id);
-    formData.append("seller_id", seller_id);
+    formData.append("quantity", 3);
     photos.forEach((photo, index) => {
       formData.append(`photos[${index}]`, photo);
     });
@@ -129,7 +129,7 @@ const Addproduct = () => {
   };
 
   return (
-    <Container  className="h-[90%] overflow-auto">
+    <Container className="h-[90%] overflow-auto">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
         {product && (
           <Box mb={4}>
@@ -216,10 +216,10 @@ const Addproduct = () => {
               required
             />
 
-            <Box className="hover:bg-orange-100 rounded-full ">
+            <Box className="hover:bg-[#F8FAFD] rounded-full  ">
               <label
                 htmlFor="input-file"
-                className="flex gap-5 text-gray-700  hover:text-orange-400 p-4"
+                className="flex gap-5 text-gray-700  hover:text-orange-400 px-4 py-2 cursor-pointer"
               >
                 <UploadFileIcon className="" />
                 <h3>Upload images</h3>

@@ -24,6 +24,8 @@ import Feedback from "./Component/Feedback.jsx";
 import AuthProvider from "./Component/AuthProvider.jsx";
 import { Cartprovider } from "./contexts/cartcontext";
 import { UserProvider } from "./contexts/usercontext.jsx";
+import { SellerProvider } from "./contexts/sellercontext.jsx";
+
 const token = Cookies.get("token");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -61,7 +63,14 @@ function Home() {
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
           <Route path="joinus" element={<Joinus />} />
-          <Route path="mystore" element={<Mystore />} />
+          <Route
+            path="mystore"
+            element={
+              <SellerProvider>
+                <Mystore />
+              </SellerProvider>
+            }
+          />
           <Route path="feedback" element={<Feedback />} />
         </Route>
       </Routes>

@@ -26,7 +26,10 @@ export default function Sidebar({ items }) {
       <Drawer variant="permanent" open={open} className="">
         <div
           className="p-2 "
-          style={{ width: open ? "200px" : "50px", transition: "width 0.25s ease-in-out", }}
+          style={{
+            width: open ? "200px" : "50px",
+            transition: "width 0.25s ease-in-out",
+          }}
         >
           <div
             onClick={handleToggleDrawer}
@@ -44,7 +47,7 @@ export default function Sidebar({ items }) {
                       Tajir
                     </Typography>
                   </Box>
-                  <ArrowBackIcon />
+                  <ArrowBackIcon className="hover:bg-[#F8FAFD] rounded-full" />
                 </div>
               ) : (
                 <FormatListBulletedIcon style={{ color: "black" }} />
@@ -53,7 +56,6 @@ export default function Sidebar({ items }) {
           </div>
         </div>
         <Sidebaritem open={open} items={items}></Sidebaritem>
-        
       </Drawer>
     </div>
   );
