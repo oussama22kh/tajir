@@ -62,7 +62,7 @@ export default function Cardproduct(props) {
         md={4}
         className="my-5 flex justify-center  "
       >
-        <Card className="min-w-60 p-3 shadow-sm rounded-2xl">
+        <Card className="min-w-60 p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]">
           <CardMedia
             className="w-72 h-60 mx-auto p-5"
             component="img"

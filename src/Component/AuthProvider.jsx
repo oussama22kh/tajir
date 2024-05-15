@@ -1,4 +1,4 @@
-import { Navigate} from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Profile from "../Profile.jsx";
 import { useUser } from "../contexts/usercontext.jsx";
 export default function AuthProvider() {

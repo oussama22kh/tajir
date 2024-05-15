@@ -21,9 +21,10 @@ import {
 import { useSeller } from "../contexts/sellercontext";
 
 export default function Sellercard(props) {
-  const { setOpenproduct } = useSeller();
+  const { setOpenproduct, getproduct } = useSeller();
   const handleOpenproduct = () => {
     setOpenproduct(true);
+    getproduct(props.product.id);
   };
   return (
     <>
@@ -33,10 +34,10 @@ export default function Sellercard(props) {
         sm={6}
         lg={3}
         md={4}
-        className="my-5 flex justify-center  "
+        className="my-5 flex justify-center"
       >
         <Card
-          className="min-w-60 p-3 shadow-sm rounded-2xl hover:bg-[#F8FAFD]"
+          className="w-72  p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]"
           onClick={handleOpenproduct}
         >
           <CardMedia

@@ -102,8 +102,12 @@ function App() {
           </Box>
         </Container>
       )}
-      <Container className=" flex pt-5 mt-16 h-screen " maxWidth={"xl"}>
-        <Box className="box_filter " minWidth={200}>
+      <Container
+        className=" flex pt-5 mt-16 h-screen justify-center"
+        maxWidth={"xl"}
+      >
+        <Box>
+          {/* <Box className="box_filter " minWidth={200}>
           <div className="container">
             <div className="category">
               <h1>Category</h1>
@@ -214,9 +218,7 @@ function App() {
               </Button>
             </div>
           </div>
-        </Box>
-        <Box>
-          {/*<div className="select">
+        </Box><div className="select">
             <ul>
               <li className="active">All</li>
               <li>NEW</li>

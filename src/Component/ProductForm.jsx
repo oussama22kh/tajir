@@ -8,24 +8,29 @@ import {
   Grid,
   Container,
   IconButton,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { useSeller } from "../contexts/sellercontext";
 
 const Addproduct = () => {
+  const { categories } = useSeller();
+
   const [product, setProduct] = useState(null);
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [rating_avg, setRatingAvg] = useState("");
   const [description, setDescription] = useState("");
   const [category_id, setCategoryId] = useState("");
-  const [seller_id, setSellerId] = useState("");
   const [photos, setPhotos] = useState([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  useEffect(() => {
+  /*useEffect(() => {
     getProductData();
   }, []);
 
@@ -51,25 +56,21 @@ const Addproduct = () => {
         setProduct(response.data.product);
         setName(response.data.product.name);
         setPrice(response.data.product.price);
-        setRatingAvg(response.data.product.rating_avg);
         setDescription(response.data.product.description);
         setCategoryId(response.data.product.category_id.toString());
-        setSellerId(response.data.product.seller_id.toString());
       } else {
         console.error("Failed to fetch product data:", response.status);
       }
     } catch (error) {
       console.error("Error fetching product data:", error);
     }
-  };
+  };*/
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "name") setName(value);
     if (name === "price") setPrice(value);
-    if (name === "rating_avg") setRatingAvg(value);
     if (name === "description") setDescription(value);
     if (name === "category_id") setCategoryId(value);
-    if (name === "seller_id") setSellerId(value);
   };
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -83,7 +84,6 @@ const Addproduct = () => {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("price", price);
-    formData.append("rating_avg", rating_avg);
     formData.append("description", description);
     formData.append("category_id", category_id);
     formData.append("quantity", 3);
@@ -175,17 +175,6 @@ const Addproduct = () => {
             <TextField
               fullWidth
               variant="outlined"
-              label="Rating"
-              name="rating_avg"
-              value={rating_avg}
-              onChange={handleInputChange}
-              InputProps={{ sx: { borderRadius: 3 } }}
-              required
-            />
-
-            <TextField
-              fullWidth
-              variant="outlined"
               label="Description"
               name="description"
               value={description}
@@ -193,29 +182,37 @@ const Addproduct = () => {
               InputProps={{ sx: { borderRadius: 3 } }}
               required
             />
-
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Category ID"
-              name="category_id"
-              value={category_id}
-              onChange={(e) => setCategoryId(e.target.value)}
-              InputProps={{ sx: { borderRadius: 3 } }}
-              required
-            />
-
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Seller ID"
-              name="seller_id"
-              value={seller_id}
-              onChange={(e) => setSellerId(e.target.value)}
-              InputProps={{ sx: { borderRadius: 3 } }}
-              required
-            />
-
+            <FormControl fullWidth>
+              <InputLabel id="category-id">Category *</InputLabel>
+              <Select
+                label="Category *"
+                fullWidth
+                variant="outlined"
+                name="category_id"
+                labelId="category-id"
+                value={category_id}
+                onChange={(e) => setCategoryId(e.target.value)}
+                sx={{ borderRadius: 3 }}
+                required
+              >
+                {categories.map((option) => (
+                  <MenuItem key={option.id} value={option.id}>
+                    {option.name}
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                type="number"
+                defaultValue={1}
+                className="w-15"
+                helperText="QTE"
+                InputProps={{
+                  sx: { borderRadius: "15px", height: "35px", width: "60px" },
+                  inputProps: { min: 1 },
+                }}
+               
+              ></TextField>
+            </FormControl>
             <Box className="hover:bg-[#F8FAFD] rounded-full  ">
               <label
                 htmlFor="input-file"
