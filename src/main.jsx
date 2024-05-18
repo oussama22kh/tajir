@@ -19,12 +19,14 @@ import Cart from "./Component/Cart.jsx";
 import Edit from "./Component/Edit.jsx";
 import Joinus from "./Component/Joinus.jsx";
 import Mystore from "./Component/Mystore.jsx";
-
+import Profiledetail from "./Component/Profiledetail.jsx";
+import { Toaster } from "react-hot-toast";
 import Feedback from "./Component/Feedback.jsx";
 import AuthProvider from "./Component/AuthProvider.jsx";
 import { Cartprovider } from "./contexts/cartcontext";
 import { UserProvider } from "./contexts/usercontext.jsx";
 import { SellerProvider } from "./contexts/sellercontext.jsx";
+import Profile from "./Profile.jsx";
 
 const token = Cookies.get("token");
 
@@ -60,20 +62,15 @@ function Home() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<AuthProvider />}>
+          <Route path="/profile" element={<Profiledetail />} />
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
           <Route path="joinus" element={<Joinus />} />
-          <Route
-            path="mystore"
-            element={
-              <SellerProvider>
-                <Mystore />
-              </SellerProvider>
-            }
-          />
+          <Route path="mystore" element={<Mystore />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
       </Routes>
+      <Toaster></Toaster>
     </UserProvider>
   );
 }

@@ -10,50 +10,112 @@ import {
   CardActions,
   Button,
   IconButton,
+  Typography,
+  CircularProgress,
 } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
+import RemoveCircleOutlineRoundedIcon from "@mui/icons-material/RemoveCircleOutlineRounded";
+import SellOutlinedIcon from "@mui/icons-material/SellOutlined";
 import { useEffect, useState } from "react";
 import { useCart } from "../contexts/cartcontext.jsx";
 
-export default function Singlecart({ id, image, name, price, qte }) {
+export default function Singlecart({
+  id,
+  image,
+  name,
+  price,
+  qte,
+  is_ordered,
+}) {
   const { deletecartitem, updatecart } = useCart();
   const [qteValue, setQteValue] = useState(qte);
+  const [loading, setloading] = useState(false);
   useEffect(() => {
     updatecart(id, qteValue);
   }, [qteValue]);
   const handledelete = () => {
     deletecartitem(id);
   };
+
+  const increaseqte = (e) => {
+    setloading(true);
+    setQteValue(qteValue + 1);
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
+  };
+  const decreaseqte = (e) => {
+    if (qteValue > 1) {
+      setloading(true);
+
+      setQteValue(qteValue - 1);
+      setTimeout(() => {
+        setloading(false);
+      }, 1000);
+    }
+  };
   return (
     <>
       <ListItem>
-        <Card className="p-5 flex justify-between w-full shadow-none rounded-xl m-5">
-          <CardContent className="flex gap-4">
-            <CardMedia className="">
-              <img src={image} alt="product" width={"100px"} />
-            </CardMedia>
-            <h1 className="">{name}</h1>
-          </CardContent>
-          <CardActions className="flex items-start ">
-            <h1 className="font-semibold m-3">${price}</h1>
-            <TextField
-              type="number"
-              defaultValue={qte}
-              className="w-15"
-              helperText="QTE"
-              InputProps={{
-                sx: { borderRadius: "15px", height: "35px", width: "60px" },
-                inputProps: { min: 1 },
-              }}
-              onChange={(e) => setQteValue(e.target.value)}
-            ></TextField>
-            <Button className="bg-orange-400 text-white rounded-full ">
-              Buy
-            </Button>
-            <IconButton onClick={handledelete}>
-              <DeleteOutlineIcon />
+        <Card className="p-5 flex  w-full shadow-md rounded-xl m-5 relative  ">
+          <CardMedia>
+            <img
+              src={image}
+              alt="product"
+              width={"140px"}
+              className="rounded-lg"
+            />
+          </CardMedia>
+          <Box className="flex flex-col items-start mx-10 w-full">
+            <Typography fontSize={16} className="font-medium">
+              {name}
+            </Typography>
+            <Box className="flex items-center justify-between w-full mt-16">
+              <Typography fontSize={16} className="font-medium ">
+                ${price}
+              </Typography>
+              <Box className="flex justify-center items-center">
+                {is_ordered!=0 && <Typography fontSize={12}>Waiting for seller approval</Typography>}
+                {loading ? (
+                  <CircularProgress className="text-orange-400" />
+                ) : (
+                  <>
+                    {is_ordered != 0 ? (
+                      <Button
+                        variant="contained"
+                        disabled={true}
+                        className="rotate-45 absolute top-[10%] left-[81%] shadow-md  bg-orange-400 text-white text-[90%]"
+                        sx={{width:"25%"}}
+                      >
+                        Ordered
+                      </Button>
+                    ) : (
+                      <>
+                        <IconButton onClick={decreaseqte}>
+                          <RemoveCircleOutlineRoundedIcon className="hover:text-orange-400" />
+                        </IconButton>
+                        <Typography fontSize={17} className="font-medium">
+                          {qte}
+                        </Typography>
+                        <IconButton onClick={increaseqte}>
+                          <AddCircleOutlineRoundedIcon className="hover:text-orange-400" />
+                        </IconButton>
+                      </>
+                    )}
+                  </>
+                )}
+              </Box>
+            </Box>
+          </Box>
+          {is_ordered === 0 && (
+            <IconButton
+              onClick={handledelete}
+              className="absolute top-0 right-0"
+            >
+              <HighlightOffRoundedIcon />
             </IconButton>
-          </CardActions>
+          )}
         </Card>
       </ListItem>
     </>

@@ -1,8 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -11,9 +11,11 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [loading, setloading] = useState(false);
   const [redirect, setredirect] = useState(false);
+  const [orderhistory, setorderhistory] = useState([]);
+  const [reload, setreload] = useState(false);
   const navigateto = useNavigate();
   const apiUrl = "http://127.0.0.1:8000/api/profile";
-  const token = Cookies.get("token");
+  const token = Cookies?.get("token") || null;
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -21,18 +23,44 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getuser();
+    if (token) {
+      getuser();
+      getorderhistory();
+    }
   }, [loading]);
 
   const getuser = async () => {
     try {
       const response = await axios.get(apiUrl, config);
-      if (response.status == 200) {
+      if (response.status === 200) {
         setUser(response.data.buyer);
-        console.log(response.data.buyer);
+        toast.success("Loading");
       }
     } catch (error) {
-      console.error(error);
+      if (error.status === 408)
+        toast.error(
+          "There was an error getting your data check your intenet connection"
+        );
+    } finally {
+      setreload(false);
+    }
+  };
+  const updateimage = async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/profile/updateImage",
+        formData,
+        config
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setloading(!loading);
+      }
+    } catch (err) {
+      if (err.request.status === 422) {
+        toast.error(err);
+        setloading(!loading);
+      }
     }
   };
 
@@ -44,33 +72,67 @@ export const UserProvider = ({ children }) => {
           Cookies.set("token", response.data.token, {
             expires: 7,
           });
-          console.log(response.data);
           getuser();
+          toast.success("logged in");
+          navigateto("/profile");
         }
       })
       .catch((error) => {
-        console.error(error);
+        toast.error("there was an error");
+      })
+      .finally(() => {
+        setloading(!loading);
       });
-    setloading(!loading);
   };
 
   const logout = async () => {
     try {
-      const reaponse = await axios.get(
+      const response = await axios.get(
         "http://127.0.0.1:8000/api/profile/logout",
         config
       );
-      if (reaponse.status === 200) {
+      if (response.status === 200) {
         console.log("logged out");
         Cookies.remove("token");
         setUser(undefined);
+        setreload(false);
         navigateto("/");
       }
     } catch (error) {
       console.error(error);
+      setreload(false);
     }
     setloading(!loading);
   };
+  const getorderhistory = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/order/hisOrders",
+        config
+      );
+      if (response.status === 200) {
+        setorderhistory(response.data.orders);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const signup = async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/register",
+        formData
+      );
+      if (response.status === 201) {
+        Cookies.set("token", response.data.token, { expires: 7 });
+        navigateto("/profile");
+        toast.success("Your account was created successfully");
+      }
+    } catch (error) {
+      toast.error("Account creation failed");
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -82,6 +144,11 @@ export const UserProvider = ({ children }) => {
         redirect,
         setredirect,
         navigateto,
+        orderhistory,
+        reload,
+        setreload,
+        signup,
+        updateimage,
       }}
     >
       {children}

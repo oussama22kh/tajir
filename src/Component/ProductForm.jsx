@@ -18,17 +18,15 @@ import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useSeller } from "../contexts/sellercontext";
 
-const Addproduct = () => {
-  const { categories } = useSeller();
 
-  const [product, setProduct] = useState(null);
+const Addproduct = () => {
+  const { categories, addproduct } = useSeller();
+
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [category_id, setCategoryId] = useState("");
   const [photos, setPhotos] = useState([]);
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
 
   /*useEffect(() => {
     getProductData();
@@ -80,7 +78,6 @@ const Addproduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("name", name);
     formData.append("price", price);
@@ -90,63 +87,12 @@ const Addproduct = () => {
     photos.forEach((photo, index) => {
       formData.append(`photos[${index}]`, photo);
     });
-    const token = Cookies.get("token");
-    if (!token) {
-      console.error("Token not found");
-      setError("Token not found");
-      return;
-    }
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/product/storeProduct",
-        formData,
-        config
-      );
-      alert(response.data.message);
-      if (response.status === 200) {
-        setMessage("Product updated successfully");
-        setError("");
-      }
-    } catch (err) {
-      if (err.response && err.response.data) {
-        console.error("Error response:", err.response.data);
-        setError(err.response.data.message || "Update failed");
-      } else if (err.request) {
-        console.error("No response received:", err.request);
-        setError("No response received from the server");
-      } else {
-        console.error("Error:", err.message);
-        setError("An error occurred while updating the product");
-      }
-    }
+    addproduct(formData);
   };
 
   return (
     <Container className="h-[90%] overflow-auto">
       <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
-        {product && (
-          <Box mb={4}>
-            <Typography variant="h5" mt={2}>
-              {product.name}
-            </Typography>
-            <Typography variant="subtitle1" mt={1}>
-              Price: {product.price}
-            </Typography>
-            <Typography variant="subtitle1">
-              Rating: {product.rating_avg}
-            </Typography>
-            <Typography variant="subtitle1">
-              Description: {product.description}
-            </Typography>
-          </Box>
-        )}
         <form onSubmit={handleSubmit} className="w-[80%]   ">
           <Box className="flex flex-col justify-center items-center gap-7 m-5">
             <Typography className="text-black"> Add Product 📦</Typography>
@@ -210,7 +156,6 @@ const Addproduct = () => {
                   sx: { borderRadius: "15px", height: "35px", width: "60px" },
                   inputProps: { min: 1 },
                 }}
-               
               ></TextField>
             </FormControl>
             <Box className="hover:bg-[#F8FAFD] rounded-full  ">
@@ -239,26 +184,10 @@ const Addproduct = () => {
             >
               Add to nventory
             </Button>
-
-            {message && (
-              <Typography
-                variant="body2"
-                style={{ color: "green", marginTop: "20px" }}
-              >
-                {message}
-              </Typography>
-            )}
-            {error && (
-              <Typography
-                variant="body2"
-                style={{ color: "red", marginTop: "20px" }}
-              >
-                {error}
-              </Typography>
-            )}
           </Box>
         </form>
       </Box>
+      
     </Container>
   );
 };

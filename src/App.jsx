@@ -258,6 +258,7 @@ function App() {
                   qte={item.qte}
                   image={"http://127.0.0.1:8000/storage/" + item.image}
                   id={item.id}
+                  is_ordered={item.is_ordered}
                 />
               ))
             ) : (

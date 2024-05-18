@@ -24,7 +24,7 @@ function Signup() {
   const [phone, setphone] = useState("");
   const [validphone, setvalidphone] = useState(true);
 
-  const { navigateto } = useUser();
+  const { signup } = useUser();
   const handlechange = () => {
     if (email.length == 0) {
       setvalidemail(true);
@@ -55,16 +55,7 @@ function Signup() {
       formData.append("password", password);
       formData.append("password_confirmation", confirmPassword);
 
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/register",
-        formData
-      );
-      if (response.status === 201) {
-        Cookies.set("token", response.data.token, { expires: 7 });
-        navigateto("/profile");
-      } else {
-        alert(response.status);
-      }
+      signup(formData);
     }
   };
 

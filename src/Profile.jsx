@@ -16,6 +16,7 @@ import {
   List,
   Breadcrumbs,
   Drawer,
+  CircularProgress,
   MenuItem,
 } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -37,9 +38,10 @@ import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
 
 export default function Profile() {
+  const { user, logout, reload, setreload } = useUser();
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
-
+ 
   const handleClick = (event) => {
     if (event.target.id === "account-img") {
       setAnchorEl(event.currentTarget);
@@ -50,7 +52,7 @@ export default function Profile() {
       setAnchorEl(null);
     }
   };
-  const { user, logout } = useUser();
+
   const buyeritems = [
     { name: "Home", icon: <HomeRoundedIcon />, path: "/" },
     { name: "Profile", icon: <PersonRoundedIcon />, path: "" },
@@ -70,67 +72,81 @@ export default function Profile() {
     { name: "My Store", icon: <StorefrontRoundedIcon />, path: "mystore" },
     { name: "Feedback", icon: <ThumbsUpDownRoundedIcon />, path: "feedback" },
   ];
+  const handlelogout = () => {
+    setreload(true);
+    logout();
+  };
 
   return (
     <>
-      <header>
-        <nav className="">
-          <Box className=" h-20 w-screen px-10 fixed top-0 flex justify-between items-center">
-            <Link to="/">
-              <Box className="flex items-center cursor-pointer mx-8 ">
-                <img src={logo} alt="Tajir" className="h-10" />
-                <Typography
-                  className="text-3xl font-semibold text-slate-800 font-tajir px-2 "
-                  id="logo"
-                >
-                  Tajir
-                </Typography>
-              </Box>
-            </Link>
-            <Box
-              className="flex justify-end items-center gap-5 "
-              onClick={handleClose}
-            >
-              <SearchRoundedIcon></SearchRoundedIcon>
-              <NotificationsRoundedIcon></NotificationsRoundedIcon>
-              <Box
-                className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center relative active:opacity-50 hover:bg-white"
-                onClick={handleClick}
-                id="account-menu"
-              >
-                <img
-                  id="account-img"
-                  src={"http://127.0.0.1:8000/storage/" + user?.image}
-                  alt="profile"
-                  className="h-[90%] w-[90%] object-cover rounded-full absolute z-10 "
-                  onClick={handleClick}
-                />
-                <Menu anchorEl={anchorEl} open={open}>
-                  <MenuItem className="hover:bg-white">
+      {reload ? (
+        <Box className="flex justify-center items-center h-screen w-screen ">
+          <CircularProgress className="text-orange-400" />
+        </Box>
+      ) : (
+        <>
+          <header>
+            <nav className="">
+              <Box className=" h-20 w-screen px-10 fixed top-0 flex justify-between items-center">
+                <Link to="/">
+                  <Box className="flex items-center cursor-pointer mx-8 ">
+                    <img src={logo} alt="Tajir" className="h-10" />
                     <Typography
-                      onClick={logout}
-                      className="hover:cursor-pointer "
-                      fontWeight={"medium"}
-                      marginInline={1}
+                      className="text-3xl font-semibold text-slate-800 font-tajir px-2 "
+                      id="logo"
                     >
-                      <LogoutRoundedIcon />
-                      Logout
+                      Tajir
                     </Typography>
-                  </MenuItem>
-                </Menu>
+                  </Box>
+                </Link>
+                <Box
+                  className="flex justify-end items-center gap-5 "
+                  onClick={handleClose}
+                >
+                  <SearchRoundedIcon></SearchRoundedIcon>
+                  <NotificationsRoundedIcon></NotificationsRoundedIcon>
+                  <Box
+                    className="rounded-full h-10 w-10 border-2 border-orange-400 flex justify-center items-center relative active:opacity-50 hover:bg-white"
+                    onClick={handleClick}
+                    id="account-menu"
+                  >
+                    <img
+                      id="account-img"
+                      src={"http://127.0.0.1:8000/storage/" + user?.image}
+                      alt="profile"
+                      className="h-[90%] w-[90%] object-cover rounded-full absolute z-10 "
+                      onClick={handleClick}
+                    />
+                    <Menu anchorEl={anchorEl} open={open}>
+                      <MenuItem className="hover:bg-white">
+                        <Typography
+                          onClick={handlelogout}
+                          className="hover:cursor-pointer "
+                          fontWeight={"medium"}
+                          marginInline={1}
+                        >
+                          <LogoutRoundedIcon />
+                          Logout
+                        </Typography>
+                      </MenuItem>
+                    </Menu>
+                  </Box>
+                  <Typography>{user?.username}</Typography>
+                </Box>
               </Box>
-              <Typography>{user?.username}</Typography>
-            </Box>
-          </Box>
-        </nav>
-      </header>
-      <Sidebar items={user?.role === 0 ? buyeritems : selleritems}></Sidebar>
-      <Container
-        maxWidth="xl"
-        className="flex justify-center h-[90vh] w-screen items-center mt-[10vh] rounded-2xl bg-white"
-      >
-        <Outlet />
-      </Container>
+            </nav>
+          </header>
+          <Sidebar
+            items={user?.role === 0 ? buyeritems : selleritems}
+          ></Sidebar>
+          <Container
+            maxWidth="xl"
+            className="flex justify-center h-[90vh] w-screen items-start mt-[10vh] rounded-2xl bg-white"
+          >
+            <Outlet />
+          </Container>
+        </>
+      )}
     </>
   );
 }

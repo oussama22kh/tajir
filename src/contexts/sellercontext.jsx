@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import toast, { Toaster } from "react-hot-toast";
 const SellerContext = createContext();
 
 export const useSeller = () => useContext(SellerContext);
@@ -11,6 +12,7 @@ export const SellerProvider = ({ children }) => {
   const [product, setproduct] = useState({});
   const [loading, setlaoding] = useState(false);
   const [openproduct, setOpenproduct] = useState(false);
+  const [orders, setorders] = useState([]);
 
   const token = Cookies.get("token");
   const config = {
@@ -21,6 +23,7 @@ export const SellerProvider = ({ children }) => {
   useEffect(() => {
     getproducts();
     getcategories();
+    getorders();
   }, [loading]);
 
   const getproducts = async () => {
@@ -87,6 +90,38 @@ export const SellerProvider = ({ children }) => {
       }
     }
   };
+
+  const getorders = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/order/sellerOrders",
+        config
+      );
+      if (response.status === 200) {
+        setorders(response.data.orders);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const addproduct = async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/product/storeProduct",
+        formData,
+        config
+      );
+
+      if (response.status === 201) {
+        toast.success("Product added Successfully");
+        setlaoding(!loading);
+      }
+    } catch (error) {
+      if (error.status === 401) {
+        toast.error(error);
+      }
+    }
+  };
   return (
     <SellerContext.Provider
       value={{
@@ -99,6 +134,8 @@ export const SellerProvider = ({ children }) => {
         product,
         deleteproduct,
         categories,
+        orders,
+        addproduct,
       }}
     >
       {children}

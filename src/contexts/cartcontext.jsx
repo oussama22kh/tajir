@@ -2,21 +2,23 @@ import { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-const token = Cookies.get("token");
-const config = {
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-};
+
 const CartContext = createContext();
 
 export const useCart = () => useContext(CartContext);
 
 export const Cartprovider = ({ children }) => {
+  const [token, settoken] = useState(Cookies.get("token"));
   const [carts, setCarts] = useState([]);
   const [total, settotal] = useState(0);
   const [loading, setloading] = useState(false);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
   useEffect(() => {
+    settoken(Cookies.get("token"));
     getCarts();
   }, [loading]);
   useEffect(() => {
@@ -68,9 +70,32 @@ export const Cartprovider = ({ children }) => {
       console.error(error);
     }
   };
+  const setorder = async (cartid) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/order/order",
+        { cart_id: cartid },
+        config
+      );
+      if (response.status === 201) {
+        console.log(response.data);
+        getCarts();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <CartContext.Provider
-      value={{ carts, deletecartitem, total, setloading, loading, updatecart }}
+      value={{
+        carts,
+        deletecartitem,
+        total,
+        setloading,
+        loading,
+        updatecart,
+        setorder,
+      }}
     >
       {children}
     </CartContext.Provider>
