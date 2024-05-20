@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
   const [reload, setreload] = useState(false);
   const [brandlist, setbrandlist] = useState([]);
   const navigateto = useNavigate();
+  const [seller, setseller] = useState();
   const apiUrl = "http://127.0.0.1:8000/api/profile";
   const token = Cookies?.get("token") || null;
   const config = {
@@ -46,6 +47,23 @@ export const UserProvider = ({ children }) => {
       setreload(false);
     }
   };
+  const updateProfile = async (formData) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/profile/update",
+        formData,
+        config
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setUser(response.data.buyer);
+        setloading(!loading);
+      }
+    } catch (err) {
+      toast.error(err.message);
+      setloading(!loading);
+    }
+  };
   const updateimage = async (formData) => {
     try {
       const response = await axios.post(
@@ -58,10 +76,8 @@ export const UserProvider = ({ children }) => {
         setloading(!loading);
       }
     } catch (err) {
-      if (err.request.status === 422) {
-        toast.error(err);
-        setloading(!loading);
-      }
+      toast.error(err.message);
+      setloading(!loading);
     }
   };
 
@@ -152,11 +168,18 @@ export const UserProvider = ({ children }) => {
         data,
         config
       );
-      if (response.status == 200) {
-        setloading(!loading);
+      if (response.status == 201) {
+        toast.success("Brand created");
+        navigateto("/");
       }
     } catch (error) {
-      toast.error("Failed to create your brand try again");
+      if (error.data.message === "'Buyer is already a seller'") {
+        toast.error(
+          "Failed to add you to the brand becouse you already did that"
+        );
+      } else {
+        toast.error("Failed to add you to the brand try again");
+      }
     }
   };
   const joinbrand = async (data) => {
@@ -166,11 +189,30 @@ export const UserProvider = ({ children }) => {
         data,
         config
       );
-      if (response.status == 200) {
+      if (response.status == 201) {
         setbrandlist(response.data.brands);
+        navigateto("/profile");
       }
     } catch (error) {
-      toast.error("Failed to add you to the brand try again");
+      if (error.data.message === "'Buyer is already a seller'") {
+        toast.error(
+          "Failed to add you to the brand becouse you already did that"
+        );
+      } else {
+        toast.error("Failed to add you to the brand try again");
+      }
+    }
+  };
+  const getseller = async (id) => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/seller/showSeller/" + id
+      );
+      if (response.status == 200) {
+        setseller(response.data.seller);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch seller information");
     }
   };
   return (
@@ -193,6 +235,9 @@ export const UserProvider = ({ children }) => {
         brandlist,
         addbrand,
         joinbrand,
+        getseller,
+        seller,
+        updateProfile,
       }}
     >
       {children}

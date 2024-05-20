@@ -117,6 +117,7 @@ export const SellerProvider = ({ children }) => {
         setlaoding(!loading);
       }
     } catch (error) {
+      
       toast.error(error);
     }
   };

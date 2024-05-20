@@ -21,10 +21,14 @@ export default function Joinus() {
   const [file, setfile] = useState("");
   const [brandlogo, setbrandlogo] = useState("");
   const [cover, setcover] = useState("");
+  const [filename, setfilename] = useState("");
+  const [brandlogoname, setbrandlogoname] = useState("");
+  const [covername, setcovername] = useState("");
   const [searchlist, setsearchlist] = useState([]);
-  const { brandlist, getbrandlist } = useUser();
+  const { brandlist, getbrandlist, addbrand, joinbrand } = useUser();
   const [anchorEl, setAnchorEl] = useState();
   const [brandname, setbrandname] = useState("");
+  const [brandid, setbrandid] = useState("");
   const open = Boolean(anchorEl);
   const formData = new FormData();
   const [hideLabels, setHideLabels] = useState(false);
@@ -35,29 +39,32 @@ export default function Joinus() {
     let filename = e.target.files[0].name;
     if (filename.length > 30) {
       filename = filename.slice(0, 25) + "... .pdf";
-      setfile(filename);
+      setfilename(filename);
     } else {
-      setfile(filename);
+      setfilename(filename);
     }
+    setfile(e.target.files[0]);
   };
 
   const handlelogochange = (e) => {
     let filename = e.target.files[0].name;
     if (filename.length > 30) {
       filename = filename.slice(0, 25) + "...";
-      setbrandlogo(filename);
+      setbrandlogoname(filename);
     } else {
-      setbrandlogo(filename);
+      setbrandlogoname(filename);
     }
+    setbrandlogo(e.target.files[0]);
   };
   const handlecoverchange = (e) => {
     let filename = e.target.files[0].name;
     if (filename.length > 30) {
       filename = filename.slice(0, 25) + "...";
-      setcover(filename);
+      setcovername(filename);
     } else {
-      setcover(filename);
+      setcovername(filename);
     }
+    setcover(e.target.files[0]);
   };
   const searchbrand = (e) => {
     setsearchlist(
@@ -69,17 +76,26 @@ export default function Joinus() {
     } else {
       setAnchorEl(null);
     }
+    setHideLabels(false);
   };
   const handleClose = (item) => {
     setbrandname(item.name);
+    setbrandid(item.id);
     setAnchorEl(null);
     setHideLabels(true);
   };
-  const handleSubmit = () => {
-    formData.append("brand_id", brandname);
-    formData.append("commercialRecord", file);
-
+  const handleSubmit = (e) => {
     e.preventDefault();
+    formData.append("commercialRecord", file);
+    if (!hideLabels) {
+      formData.append("name", brandname);
+      formData.append("background_image", cover);
+      formData.append("logo", brandlogo);
+      addbrand(formData);
+    } else {
+      formData.append("brand_id", brandid);
+      joinbrand(formData);
+    }
   };
 
   return (
@@ -96,10 +112,10 @@ export default function Joinus() {
         </Box>
       </Link>
       <Container maxWidth="lg">
-        <Box className="flex mt- gap-20">
+        <Box className="flex gap-20 items-center">
           <Box className="w-[50%] max-sm:p-3 ">
-            <Box className="w-full flex flex-col">
-              <Box className="flex flex-col items-center">
+            <Box className="w-full flex flex-col  gap-10">
+              <Box className="flex flex-col items-center gap-5">
                 <Typography className=" font-semibold text-4xl text-orange-600">
                   Build your brand
                 </Typography>
@@ -156,7 +172,7 @@ export default function Joinus() {
                 className="h-14 border w-full active:border-black hover:border-black rounded-xl px-3 flex items-center justify-between text-gray-500 overflow-hidden"
               >
                 <Typography className="w-[90%]">
-                  {file ? file : "Commercial Record"}
+                  {filename ? filename : "Commercial Record"}
                 </Typography>
                 <AttachFileRoundedIcon />
               </label>
@@ -170,14 +186,13 @@ export default function Joinus() {
               />
               {!hideLabels && (
                 <>
-                  {" "}
                   <label
                     id="logolabel"
                     htmlFor="brandlogo"
                     className="h-14 border w-full active:border-black hover:border-black rounded-xl px-3 flex items-center justify-between text-gray-500 overflow-hidden"
                   >
                     <Typography className="w-[90%]">
-                      {brandlogo ? brandlogo : "Brand Logo"}
+                      {brandlogoname ? brandlogoname : "Brand Logo"}
                     </Typography>
                     <AddPhotoAlternateOutlinedIcon />
                   </label>
@@ -194,7 +209,7 @@ export default function Joinus() {
                     className="h-14 border w-full active:border-black hover:border-black rounded-xl px-3 flex items-center justify-between text-gray-500 overflow-hidden"
                   >
                     <Typography className="w-[90%]">
-                      {cover ? cover : "Brand Cover"}
+                      {covername ? covername : "Brand Cover"}
                     </Typography>
                     <AddPhotoAlternateOutlinedIcon />
                   </label>

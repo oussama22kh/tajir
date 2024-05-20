@@ -35,7 +35,7 @@ export default function Mystore() {
 
   return (
     <>
-      <Container className="flex flex-col items-center gap-9  w-screen p-5">
+      <Container className="flex flex-col items-center gap-9   p-5">
         <Box>
           <Button
             onClick={handleOpen}

@@ -137,11 +137,13 @@ export default function Profile() {
             </nav>
           </header>
           <Sidebar
-            items={user?.role === 0 ? buyeritems : selleritems}
+            items={
+              user?.role === 0 || user?.status === 0 ? buyeritems : selleritems
+            }
           ></Sidebar>
           <Container
             maxWidth="xl"
-            className="flex justify-center min-h-[100vh] w-screen items-start mt-[10vh] rounded-2xl bg-white"
+            className="flex justify-center h-[90vh]  items-start mt-[10vh] rounded-2xl bg-white"
           >
             <Outlet />
           </Container>

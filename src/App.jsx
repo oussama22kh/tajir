@@ -20,6 +20,7 @@ import {
 import Singlecart from "./Component/Singlecart.jsx";
 import Card from "./Card.jsx";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import Appbar from "./Component/Appbar.jsx";
 import { useCart } from "./contexts/cartcontext.jsx";
 import { useUser } from "./contexts/usercontext.jsx";
@@ -103,10 +104,10 @@ function App() {
         </Container>
       )}
       <Container
-        className=" flex pt-5 mt-16 h-screen justify-center"
+        className=" flex p-0 mt-16 h-screen justify-center"
         maxWidth={"xl"}
       >
-        <Box>
+        <Box className="w-screen ">
           {/* <Box className="box_filter " minWidth={200}>
           <div className="container">
             <div className="category">
@@ -229,9 +230,9 @@ function App() {
               <li>Recommended</li>
             </ul>
           </div>*/}
-          <Grid container className="gap-5 flex justify-center">
+          <Grid container className=" flex justify-center gap-5">
             {products.map((product, index) => (
-              <Card className="mx-3" product={product} key={index} />
+              <Card product={product} key={index} />
             ))}
           </Grid>
         </Box>
@@ -267,9 +268,12 @@ function App() {
               </div>
             )}
           </List>
-          <Button onClick={handleClose} className="right-5 absolute mt-5">
-            Close
-          </Button>
+          <IconButton
+            onClick={handleClose}
+            className="top-0 right-0 m-3 absolute rounded-full"
+          >
+            <HighlightOffRoundedIcon />
+          </IconButton>
         </Box>
       </Backdrop>
     </>

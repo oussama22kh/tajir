@@ -85,7 +85,6 @@ const Addproduct = () => {
       formData.append(`photos[${index}]`, photo);
     });
     addproduct(formData);
-    console.log(formData);
   };
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -93,7 +92,7 @@ const Addproduct = () => {
     setPhotos(files);
   };
   return (
-    <Container className="">
+    <Container className="h-full w-full overflow-auto">
       <Box
         display="flex"
         flexDirection="column"
@@ -101,8 +100,8 @@ const Addproduct = () => {
         mt={4}
         className=""
       >
-        <form onSubmit={handleSubmit} className="w-[80%]   ">
-          <Box className="flex flex-col justify-center items-center gap-7 ">
+        <form onSubmit={handleSubmit} className="w-[80%] h-full ">
+          <Box className="flex flex-col justify-center items-center gap-7   h-full">
             <Typography className="text-black"> Add Product 📦</Typography>
             <TextField
               fullWidth

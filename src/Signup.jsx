@@ -1,59 +1,49 @@
 import { Link } from "react-router-dom";
 import { Button, Box, Typography, TextField, Container } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useState } from "react";
 import photo from "./assets/signup.svg";
 import logo from "./assets/logo.svg";
-import Cookies from "js-cookie";
 import { useUser } from "./contexts/usercontext";
-import axios from "axios";
+
 function Signup() {
-  const [email, setemail] = useState("");
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setpassword] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [birthdate, setdate] = useState();
-  const [validemail, setvalidemail] = useState(true);
-  const [validepassword, setvalidepassword] = useState(true);
-  const [confirm, setconfirm] = useState("");
-  const [validconfirm, setvalidconfirm] = useState(true);
-  const [phone, setphone] = useState("");
-  const [validphone, setvalidphone] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidConfirmPassword, setIsValidConfirmPassword] = useState(true);
 
   const { signup } = useUser();
-  const handlechange = () => {
-    if (email.length == 0) {
-      setvalidemail(true);
-    }
-    if (password.length == 0) {
-      setvalidepassword(true);
-    } else if (password.length < 8) {
-      setvalidepassword(false);
-    } else {
-      setvalidepassword(true);
-    }
-    if (confirmPassword == password) {
-      setvalidconfirm(true);
-    } else {
-      setvalidconfirm(false);
-    }
+
+  const handleEmailChange = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+    setIsValidEmail(email.includes("@") && email.includes("."));
   };
-  const handledatechange = (value) => {
-    setdate(value.$M + 1 + "-" + value.$D + "-" + value.$y);
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+    setIsValidPassword(password.length >= 8);
+    setIsValidConfirmPassword(password === confirmPassword);
   };
+
+  const handleConfirmPasswordChange = (e) => {
+    const confirmPassword = e.target.value;
+    setConfirmPassword(confirmPassword);
+    setIsValidConfirmPassword(confirmPassword === password);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    handlechange();
-    if (validemail && validepassword && validconfirm) {
+    if (isValidEmail && isValidPassword && isValidConfirmPassword) {
       const formData = new FormData();
       formData.append("username", firstName + lastName);
       formData.append("email", email);
       formData.append("password", password);
       formData.append("password_confirmation", confirmPassword);
-      
       signup(formData);
     }
   };
@@ -76,7 +66,6 @@ function Signup() {
           <Box className="w-[50%] max-sm:p-3 h-full">
             <Box className="w-full h-full flex flex-col items-center ">
               <Box className=" flex flex-col ">
-                {" "}
                 <Typography className=" pt-10 font-medium">
                   Get the Seller's Account
                 </Typography>
@@ -88,121 +77,100 @@ function Signup() {
                   Build your brand
                 </Typography>
                 <Typography className=" font-medium">
-                  ✔ Get more revnue <br />
+                  ✔ Get more revenue <br />
                   ✔ Expand your Business <br />✔ Exceed client expectations
                 </Typography>
               </Box>
               <img src={photo} alt="Happy customer " className="p-10" />
             </Box>
           </Box>
-          <Box
-            className="bg-white  flex  flex-col items-center justify-around rounded-xl shadow-lg w-[50%] max-sm:p-3 gap-10 "
-            p={8}
-          >
-            <Typography className="text-5xl font-medium">Sign up</Typography>
-            <Typography>
-              Already have have an account ?
-              <Link to={"/login"} className="p-2 underline text-orange-600">
-                Login
-              </Link>
-            </Typography>
+          <Box className="bg-white rounded-xl shadow-lg w-[50%] p-16 h-full">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col items-center h-full  gap-10"
+            >
+              <Typography className="text-5xl font-medium">Sign up</Typography>
+              <Typography>
+                Already have an account?
+                <Link to={"/login"} className="p-2 underline text-orange-600">
+                  Login
+                </Link>
+              </Typography>
 
-            <TextField
-              fullWidth
-              label="First name*"
-              variant="outlined"
-              id="firstname"
-              onChange={(e) => setFirstName(e.target.value)}
-              InputProps={{ sx: { borderRadius: 3 } }}
-            ></TextField>
-            <TextField
-              fullWidth
-              label="Last name*"
-              variant="outlined"
-              id="lastname"
-              onChange={(e) => setLastName(e.target.value)}
-              InputProps={{ sx: { borderRadius: 3 } }}
-            ></TextField>
-
-            {validemail ? (
+              <Box className="flex gap-5">
+                <TextField
+                  fullWidth
+                  label="First name"
+                  variant="outlined"
+                  id="firstname"
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  InputProps={{ sx: { borderRadius: 3 } }}
+                ></TextField>
+                <TextField
+                  fullWidth
+                  label="Last name"
+                  variant="outlined"
+                  id="lastname"
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  InputProps={{ sx: { borderRadius: 3 } }}
+                ></TextField>
+              </Box>
               <TextField
+                required
                 fullWidth
-                label="Email address*"
+                label="Email address"
                 variant="outlined"
                 id="email"
                 name="email"
-                onChange={(e) => setemail(e.target.value)}
+                value={email}
+                onChange={handleEmailChange}
+                error={!isValidEmail}
+                helperText={!isValidEmail && "Please enter a valid email"}
                 InputProps={{ sx: { borderRadius: 3 } }}
               />
-            ) : (
               <TextField
-                error
+                required
                 fullWidth
-                label="Email address*"
-                onChange={(e) => setemail(e.target.value)}
-                variant="outlined"
-                id="email"
-                name="email"
-                InputProps={{ sx: { borderRadius: 3 } }}
-              ></TextField>
-            )}
-            {validepassword ? (
-              <TextField
-                fullWidth
-                label="Password (8+ characters)*"
-                variant="outlined"
-                type="password"
-                onChange={(e) => setpassword(e.target.value)}
-                name="password"
-                id="password"
-                InputProps={{ sx: { borderRadius: 3 } }}
-              ></TextField>
-            ) : (
-              <TextField
-                error
-                fullWidth
-                label="Password(8+ characters)*"
+                label="Password (8+ characters)"
                 variant="outlined"
                 type="password"
                 name="password"
                 id="password"
-                onChange={(e) => setpassword(e.target.value)}
+                value={password}
+                onChange={handlePasswordChange}
+                error={!isValidPassword}
+                helperText={
+                  !isValidPassword &&
+                  "Password must be at least 8 characters long"
+                }
                 InputProps={{ sx: { borderRadius: 3 } }}
-              ></TextField>
-            )}
-            {validconfirm ? (
+              />
               <TextField
                 fullWidth
-                label="Confirm password*"
+                required
+                label="Confirm password"
                 name="password_confirmation"
                 variant="outlined"
                 type="password"
                 id="confirmp"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                error={!isValidConfirmPassword}
+                helperText={!isValidConfirmPassword && "Passwords do not match"}
                 InputProps={{ sx: { borderRadius: 3 } }}
-              ></TextField>
-            ) : (
-              <TextField
-                error
-                fullWidth
-                label="Confirm password*"
-                name="password_confirmation"
-                variant="outlined"
-                type="password"
-                id="confirmp"
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                InputProps={{ sx: { borderRadius: 3 } }}
-              ></TextField>
-            )}
+              />
 
-            <Button
-              variant="contained"
-              className="bg-orange-400 font-medium  text-lg rounded-full w-72 h-12"
-              style={{ textTransform: "none" }}
-              onClick={handleSubmit}
-            >
-              Create an account
-            </Button>
+              <Button
+                variant="contained"
+                className="bg-orange-400 font-medium  text-lg rounded-full w-72 h-12"
+                style={{ textTransform: "none" }}
+                type="submit"
+              >
+                Create an account
+              </Button>
+            </form>
           </Box>
         </Box>
       </Container>

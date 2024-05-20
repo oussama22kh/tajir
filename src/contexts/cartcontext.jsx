@@ -24,6 +24,8 @@ export const Cartprovider = ({ children }) => {
   useEffect(() => {
     getTotal();
   }, [carts]);
+
+  
   const getCarts = async () => {
     const apiUrl = "http://127.0.0.1:8000/api/cart/getCarts";
     try {
