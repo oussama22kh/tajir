@@ -5,7 +5,7 @@ export default function Profiledetail() {
   console.log(user);
   return (
     <>
-      <Box className="flex justify-center items-center w-screen h-full gap-10 ">
+      <Box className="flex justify-center items-center w-screen h-full gap-10 self-center">
         <Box className="w-[30%] h-[60vh] bg-white shadow-md rounded-lg flex flex-col justify-between p-14 items-center">
           <Box className=" flex justify-center items-center rounded-full h-52 w-52  overflow-hidden border-4 shadow-md border-white ">
             <img
@@ -49,6 +49,7 @@ export default function Profiledetail() {
             fullWidth
             label="Account"
           ></TextField>
+            
         </Box>
       </Box>
     </>

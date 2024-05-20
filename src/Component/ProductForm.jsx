@@ -18,7 +18,6 @@ import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useSeller } from "../contexts/sellercontext";
 
-
 const Addproduct = () => {
   const { categories, addproduct } = useSeller();
 
@@ -27,6 +26,7 @@ const Addproduct = () => {
   const [description, setDescription] = useState("");
   const [category_id, setCategoryId] = useState("");
   const [photos, setPhotos] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   /*useEffect(() => {
     getProductData();
@@ -70,10 +70,7 @@ const Addproduct = () => {
     if (name === "description") setDescription(value);
     if (name === "category_id") setCategoryId(value);
   };
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setPhotos(files);
-  };
+
   // ... (handleInputChange and handleFileChange functions remain the same)
 
   const handleSubmit = async (e) => {
@@ -88,13 +85,24 @@ const Addproduct = () => {
       formData.append(`photos[${index}]`, photo);
     });
     addproduct(formData);
+    console.log(formData);
   };
-
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedImages(files.map((file) => URL.createObjectURL(file)));
+    setPhotos(files);
+  };
   return (
-    <Container className="h-[90%] overflow-auto">
-      <Box display="flex" flexDirection="column" alignItems="center" mt={4}>
+    <Container className="">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        mt={4}
+        className=""
+      >
         <form onSubmit={handleSubmit} className="w-[80%]   ">
-          <Box className="flex flex-col justify-center items-center gap-7 m-5">
+          <Box className="flex flex-col justify-center items-center gap-7 ">
             <Typography className="text-black"> Add Product 📦</Typography>
             <TextField
               fullWidth
@@ -147,17 +155,15 @@ const Addproduct = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <TextField
-                type="number"
-                defaultValue={1}
-                className="w-15"
-                helperText="QTE"
-                InputProps={{
-                  sx: { borderRadius: "15px", height: "35px", width: "60px" },
-                  inputProps: { min: 1 },
-                }}
-              ></TextField>
             </FormControl>
+            <TextField
+              type="number"
+              required
+              className="w-15"
+              label="Quantity"
+              fullWidth
+              InputProps={{ sx: { borderRadius: 3 } }}
+            ></TextField>
             <Box className="hover:bg-[#F8FAFD] rounded-full  ">
               <label
                 htmlFor="input-file"
@@ -175,6 +181,16 @@ const Addproduct = () => {
                 required
               />
             </Box>
+            <Box className="flex flex-wrap gap-4 mt-4">
+              {selectedImages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Selected ${index + 1}`}
+                  className="w-24 h-24 object-cover rounded-lg hover:border-4 hover:border-orange-400 cursor-pointer"
+                />
+              ))}
+            </Box>
 
             <Button
               type="submit"
@@ -187,7 +203,6 @@ const Addproduct = () => {
           </Box>
         </form>
       </Box>
-      
     </Container>
   );
 };

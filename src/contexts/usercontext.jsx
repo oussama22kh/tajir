@@ -13,6 +13,7 @@ export const UserProvider = ({ children }) => {
   const [redirect, setredirect] = useState(false);
   const [orderhistory, setorderhistory] = useState([]);
   const [reload, setreload] = useState(false);
+  const [brandlist, setbrandlist] = useState([]);
   const navigateto = useNavigate();
   const apiUrl = "http://127.0.0.1:8000/api/profile";
   const token = Cookies?.get("token") || null;
@@ -132,7 +133,46 @@ export const UserProvider = ({ children }) => {
       toast.error("Account creation failed");
     }
   };
-
+  const getbrandlist = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/brand/getBrands"
+      );
+      if (response.status == 200) {
+        setbrandlist(response.data.brands);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch brands list");
+    }
+  };
+  const addbrand = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/brand/store",
+        data,
+        config
+      );
+      if (response.status == 200) {
+        setloading(!loading);
+      }
+    } catch (error) {
+      toast.error("Failed to create your brand try again");
+    }
+  };
+  const joinbrand = async (data) => {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/profile/updateRole",
+        data,
+        config
+      );
+      if (response.status == 200) {
+        setbrandlist(response.data.brands);
+      }
+    } catch (error) {
+      toast.error("Failed to add you to the brand try again");
+    }
+  };
   return (
     <UserContext.Provider
       value={{
@@ -149,6 +189,10 @@ export const UserProvider = ({ children }) => {
         setreload,
         signup,
         updateimage,
+        getbrandlist,
+        brandlist,
+        addbrand,
+        joinbrand,
       }}
     >
       {children}

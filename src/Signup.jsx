@@ -9,7 +9,6 @@ import logo from "./assets/logo.svg";
 import Cookies from "js-cookie";
 import { useUser } from "./contexts/usercontext";
 import axios from "axios";
-
 function Signup() {
   const [email, setemail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -54,7 +53,7 @@ function Signup() {
       formData.append("email", email);
       formData.append("password", password);
       formData.append("password_confirmation", confirmPassword);
-
+      
       signup(formData);
     }
   };

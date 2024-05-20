@@ -65,10 +65,10 @@ function Home() {
           <Route path="/profile" element={<Profiledetail />} />
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
-          <Route path="joinus" element={<Joinus />} />
           <Route path="mystore" element={<Mystore />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
+        <Route path="joinus" element={<Joinus />} />
       </Routes>
       <Toaster></Toaster>
     </UserProvider>

@@ -41,7 +41,7 @@ export default function Profile() {
   const { user, logout, reload, setreload } = useUser();
   const [anchorEl, setAnchorEl] = useState();
   const open = Boolean(anchorEl);
- 
+
   const handleClick = (event) => {
     if (event.target.id === "account-img") {
       setAnchorEl(event.currentTarget);
@@ -59,7 +59,7 @@ export default function Profile() {
     { name: "History", icon: <HistoryEduRoundedIcon />, path: "history" },
     { name: "Edit", icon: <EditRoundedIcon />, path: "edit" },
     { name: "Cart", icon: <ShoppingCartRoundedIcon />, path: "/cart" },
-    { name: "Join us", icon: <AddBusinessRoundedIcon />, path: "joinus" },
+    { name: "Join us", icon: <AddBusinessRoundedIcon />, path: "/joinus" },
     { name: "Feedback", icon: <ThumbsUpDownRoundedIcon />, path: "feedback" },
   ];
 
@@ -86,8 +86,8 @@ export default function Profile() {
       ) : (
         <>
           <header>
-            <nav className="">
-              <Box className=" h-20 w-screen px-10 fixed top-0 flex justify-between items-center">
+            <nav className="fixed top-0">
+              <Box className=" h-20 w-screen px-10  flex justify-between items-center bg-slate-100 bg-opacity-50">
                 <Link to="/">
                   <Box className="flex items-center cursor-pointer mx-8 ">
                     <img src={logo} alt="Tajir" className="h-10" />
@@ -141,7 +141,7 @@ export default function Profile() {
           ></Sidebar>
           <Container
             maxWidth="xl"
-            className="flex justify-center h-[90vh] w-screen items-start mt-[10vh] rounded-2xl bg-white"
+            className="flex justify-center min-h-[100vh] w-screen items-start mt-[10vh] rounded-2xl bg-white"
           >
             <Outlet />
           </Container>

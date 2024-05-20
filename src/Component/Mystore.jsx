@@ -35,27 +35,24 @@ export default function Mystore() {
 
   return (
     <>
-      <Container className="flex flex-col items-center gap-9 h-[90vh] p-5">
+      <Container className="flex flex-col items-center gap-9  w-screen p-5">
         <Box>
           <Button
             onClick={handleOpen}
             style={{ textTransform: "none" }}
-            className="rounded-full px-5 gap-2"
+            className="rounded-full px-5 gap-2 text-black"
           >
             <AddCircleOutlineRoundedIcon /> Add Product
           </Button>
           <Button
             onClick={handleOpenupdate}
             style={{ textTransform: "none" }}
-            className="rounded-full px-5 gap-2"
+            className="rounded-full px-5 gap-2 text-black"
           >
             <UpgradeRoundedIcon /> Update Product
           </Button>
         </Box>
-        <Grid
-          container
-          className="gap-5 flex  w-full justify-center overflow-auto"
-        >
+        <Grid container className="gap-5 flex w-full  justify-center ">
           {products.map((product, index) => (
             <Sellercard className="mx-3" product={product} key={index} />
           ))}
@@ -66,14 +63,15 @@ export default function Mystore() {
         open={open}
         className="flex "
       >
-        <Box className=" bg-white  rounded-lg  w-[50%] h-[90%] p-5 relative">
+        <Box className=" bg-white  rounded-lg  w-[50%] h-[95vh] p-5 relative">
           <Addproduct></Addproduct>
-          <Button
+
+          <IconButton
             onClick={handleClose}
-            className="right-5 absolute mt-5 rounded-full px-5"
+            className="top-0 left-0 m-3 absolute  rounded-full"
           >
-            Cancel
-          </Button>
+            <HighlightOffRoundedIcon />
+          </IconButton>
         </Box>
       </Backdrop>
       <Backdrop

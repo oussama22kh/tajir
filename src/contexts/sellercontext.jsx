@@ -117,9 +117,7 @@ export const SellerProvider = ({ children }) => {
         setlaoding(!loading);
       }
     } catch (error) {
-      if (error.status === 401) {
-        toast.error(error);
-      }
+      toast.error(error);
     }
   };
   return (
