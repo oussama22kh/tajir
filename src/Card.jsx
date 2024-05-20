@@ -89,7 +89,7 @@ export default function Cardproduct(props) {
             </IconButton>
           </CardActions>
         </Card>
-      </Grid>
+      </Grid>
     </>
   );
 }
