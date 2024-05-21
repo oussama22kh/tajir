@@ -2,6 +2,7 @@ import laptop from "../assets/97915.jpg";
 import { RiCoupon3Fill } from "react-icons/ri";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
+import { FaPercentage } from "react-icons/fa";
 import "../style/discout.css";
 import {
   TextField,
@@ -30,6 +31,7 @@ import axios from "axios";
 // import Discount from "./Discount.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -54,31 +56,9 @@ export default function Singlecart({
   const [selectDiscount, setSelectDiscount] = useState(null);
   const [Search, SetSearch] = useState("");
   const [coupon, SetCopon] = useState(null);
-
-  const handelSearch = async (e) => {
-    e.preventDefault();
-    if (Search.length !== 6) {
-      toast.error("search input must be 6 caracters");
-    }
-    try {
-      const res = await axios.post(
-        `http://127.0.0.1:8000/api/discount/searchCoupon`,
-        {
-          cart_id: id,
-          search: Search,
-        },
-        config
-      );
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        SetCopon(res.data.coupon);
-        console.log(res.data.coupon);
-      }
-    } catch (e) {
-      toast.error(e.response.data.message);
-      console.log(e);
-    }
-  };
+  const [selectCoupon , SetSelectCoupon]=useState(null)
+  const navigate = useNavigate()
+  
 
   const [discounts, setDiscounts] = useState([]);
 
@@ -88,6 +68,7 @@ export default function Singlecart({
   const handleOpen = () => {
     setOpen(true);
   };
+
 
   useEffect(() => {
     FetchDiscounts();
@@ -126,26 +107,8 @@ export default function Singlecart({
       setdeleting(false);
     }, 2000);
   };
-
-  const increaseqte = (e) => {
-    setloading(true);
-    setQteValue(qteValue + 1);
-    setTimeout(() => {
-      setloading(false);
-    }, 2000);
-  };
-  const decreaseqte = (e) => {
-    if (qteValue > 1) {
-      setloading(true);
-
-      setQteValue(qteValue - 1);
-      setTimeout(() => {
-        setloading(false);
-      }, 1000);
-    }
-  };
-
   const handelActiveDiscount = async (disc_id, disc) => {
+    SetuseDiscount(false);
     try {
       const res = await axios.post(
         `http://127.0.0.1:8000/api/discount/activate/${disc_id}`,
@@ -184,6 +147,72 @@ export default function Singlecart({
       console.log(e);
     }
   };
+  const handelSearch = async (e) => {
+    e.preventDefault();
+    if (Search.length !== 6) {
+      toast.error("search input must be 6 caracters");
+    }
+    try {
+      const res = await axios.post(
+        `http://127.0.0.1:8000/api/discount/searchCoupon`,
+        {
+          cart_id: id,
+          search: Search,
+        },
+        config
+      );
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        SetCopon(res.data.coupon);
+        console.log(res.data.coupon);
+      }
+    } catch (e) {
+      toast.error(e.response.data.message);
+      console.log(e);
+    }
+  };
+  const handelActiveCoupon = async (coupon_id , coupon) => {
+    handelDesactiveDiscount()
+    SetuseDiscount(false);
+    try {
+      const res = await axios.post(
+        `http://127.0.0.1:8000/api/discount/activateCoupon/${coupon_id}`,
+        {
+          cart_id: id,
+        },
+        config
+      );
+      if (res.status === 200) {
+        SetCopon(null);
+        SetSelectCoupon(coupon)
+        toast.success(res.data.message)
+        SetuseDiscount(true);
+      }
+    }catch (e) {
+      console.log(e);
+    }
+
+  }
+
+  const increaseqte = (e) => {
+    setloading(true);
+    setQteValue(qteValue + 1);
+    setTimeout(() => {
+      setloading(false);
+    }, 2000);
+  };
+  const decreaseqte = (e) => {
+    if (qteValue > 1) {
+      setloading(true);
+
+      setQteValue(qteValue - 1);
+      setTimeout(() => {
+        setloading(false);
+      }, 1000);
+    }
+  };
+
+  
 
   const renderActive = (disc) => {
     return (
@@ -239,26 +268,31 @@ export default function Singlecart({
     <>
       <ListItem>
         <Card className="p-5 flex  w-full shadow-md rounded-xl m-5 relative  ">
-          <CardMedia>
+          <CardMedia className="flex justify-center items-center ms-3">
             <img
               src={image}
               alt="product"
               width={"140px"}
-              className="rounded-lg"
+              className="rounded-lg  "
             />
           </CardMedia>
-          <Box className="flex flex-col items-start mx-10 w-full">
-            <Typography fontSize={16} className="font-medium">
-              {name}
-            </Typography>
-            <Box className="flex items-center justify-between w-full mt-16">
+          <Box className="flex flex-col items-start mx-10 w-full ">
+            <Box className="flex justify-between items-center w-[100%] mb-2">
+                <Typography fontSize={16} className="font-medium text-lg ">
+                  {name}
+                </Typography>
+                 {useDiscount && <p className="text-xl text-orange-500">{new_price}.00 DA</p>}
+            </Box>
+            
+            <Box className="flex items-center justify-between w-full ">
               <Typography fontSize={16} className="font-medium ">
-                ${price}
+                {useDiscount ? <del>{price}.00 DA</del> : <p> {price}.00 DA </p>}
               </Typography>
               <Box className="flex justify-center items-center">
                 {is_ordered != 0 && (
-                  <Typography fontSize={12}>
-                    Waiting for seller approval
+                  <Typography className="text-bold" fontSize={12}>
+                    <u className="text-base cursor-pointer"
+                    onClick={()=>navigate('/profile/history')}>Waiting for seller approval</u>
                   </Typography>
                 )}
                 {loading ? (
@@ -340,8 +374,7 @@ export default function Singlecart({
                                    <FaPercent className="" />
                                 </div>
                                 <button
-                                  //  onClick={() => handelActiveDiscount(e.id , e)}
-                                  // disabled={useDiscount}
+                                   onClick={() => handelActiveCoupon(coupon.id , coupon)}
                                   className="border-2 shadow-lg py-1 px-4 bg-white rounded-full text-gray-800 flex justify-between items-center text-2xl"
                                 >
                                   <SiToggltrack className="me-3" /> desactive
