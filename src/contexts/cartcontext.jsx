@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const CartContext = createContext();
 
@@ -84,7 +85,7 @@ export const Cartprovider = ({ children }) => {
         getCarts();
       }
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message)
     }
   };
   return (

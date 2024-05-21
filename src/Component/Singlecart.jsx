@@ -2,7 +2,7 @@ import laptop from "../assets/97915.jpg";
 import { RiCoupon3Fill } from "react-icons/ri";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
-import { FaPercentage } from "react-icons/fa";
+
 import { FaPercentage } from "react-icons/fa";
 import "../style/discout.css";
 import {
@@ -32,6 +32,7 @@ import axios from "axios";
 // import Discount from "./Discount.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useUser } from "../contexts/usercontext.jsx";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -48,6 +49,7 @@ export default function Singlecart({
   new_price,
   value,
 }) {
+  const {navigateto} = useUser()
   const { deletecartitem, updatecart } = useCart();
   const [qteValue, setQteValue] = useState(qte);
   const [loading, setloading] = useState(false);
@@ -57,7 +59,7 @@ export default function Singlecart({
   const [Search, SetSearch] = useState("");
   const [coupon, SetCopon] = useState(null);
   const [selectCoupon , SetSelectCoupon]=useState(null)
-  const navigate = useNavigate()
+  
   
 
   const [discounts, setDiscounts] = useState([]);
@@ -290,7 +292,7 @@ export default function Singlecart({
                 {is_ordered != 0 && (
                   <Typography className="text-bold" fontSize={12}>
                     <u className="text-base cursor-pointer"
-                    onClick={()=>navigate('/profile/history')}>Waiting for seller approval</u>
+                    onClick={()=>navigateto('/profile/history')}>Waiting for seller approval</u>
                   </Typography>
                 )}
                 {loading ? (

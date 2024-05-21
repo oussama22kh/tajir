@@ -8,6 +8,7 @@ import {
   Backdrop,
   TextField,
 } from "@mui/material";
+import axios from "axios";
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import { UserProvider } from "../contexts/usercontext.jsx";
 import Singlecart from "./Singlecart.jsx";
@@ -15,11 +16,20 @@ import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import Appbar from "./Appbar.jsx";
 import { useCart } from "../contexts/cartcontext.jsx";
 import cartphoto from "../assets/cart.svg";
+import Cookies from "js-cookie";
+import emotionReact_isolatedHnrs from "@emotion/react/_isolated-hnrs";
+import toast from "react-hot-toast";
+const config = {
+  headers: {
+    Authorization: `Bearer ${Cookies.get("token")}`,
+  },
+};
 
 function Cart() {
   const { total, carts, loading, setloading, setorder } = useCart();
   const [open, setopen] = useState(false);
   const [selectedCity, setSelectedCity] = useState("");
+  const [phone , setphone] = useState(null);
   const cities = [
     "Adrar",
   "Chlef",
@@ -104,6 +114,44 @@ function Cart() {
       setorder(value);
     }
   };
+  const hndleUdateAddress = async (e) =>{
+    
+    e.preventDefault();
+    try{
+      const res = await axios.post(`http://127.0.0.1:8000/api/profile/address`, 
+      {"address" : selectedCity } ,
+      config )
+      if(res.status === 200){
+        toast.success(res.data.message)
+      }
+    }catch (e){
+      console.log(e);
+    }
+  }
+  const validatePhone = (phone) => {
+    const phoneRegex = /^(06|05|07)\d{8}$/;
+    return phoneRegex.test(phone);
+  };
+  const hndleUdatePhone= async (e) =>{
+    e.preventDefault();
+    if (!validatePhone(phone)) {
+      toast.error("Phone number is incorrect");
+      return;
+    }
+    if (!validatePhone) {
+      toast.error("phone incorrect")
+    }
+    try{
+      const res = await axios.post(`http://127.0.0.1:8000/api/profile/phone`, 
+      {"phone" : phone } ,
+      config )
+      if(res.status === 200){
+        toast.success(res.data.message)
+      }
+    }catch (e){
+      console.log(e);
+    }
+  }
   return (
     <>
       <Appbar></Appbar>
@@ -132,10 +180,11 @@ function Cart() {
               <Box className="w-[50%] flex flex-col gap-10 shadow-md m-1 p-5 h-full rounded-lg">
                 <form
                   className="flex Group_form shadow-sm"
-                  // onSubmit={handelSearch}
+                  onSubmit={hndleUdateAddress}
                 >
                   <select
                     className="input_copon"
+                    required
                     defaultValue={selectedCity}
                     onChange={(e) => setSelectedCity(e.target.value)}
                   >
@@ -143,8 +192,8 @@ function Cart() {
                      <p className="text-gray-500"> Update Address </p>
                     </option>
                     {cities.map((city, index) => (
-                      <option key={index} value={city}>
-                        {city}
+                      <option key={index} value={city} className="">
+                        {index+1} {city}
                       </option>
                     ))}
                   </select>
@@ -159,12 +208,13 @@ function Cart() {
                 </form>
                 <form
                   className="flex Group_form shadow-sm"
-                  // onSubmit={handelSearch}
+                  onSubmit={hndleUdatePhone}
                 >
                   <input
                     className="input_copon"
-                    // value={Search.toUpperCase()}
-                    // onChange={(e) => SetSearch(e.target.value.toUpperCase())}
+                    required
+                    defaultValue={phone}
+                    onChange={(e) => setphone(e.target.value)}
                     type="number"
                     placeholder="Update Phone .."
                   />
