@@ -34,6 +34,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
 
@@ -70,6 +71,7 @@ export default function Profile() {
     { name: "Edit", icon: <EditRoundedIcon />, path: "edit" },
     { name: "Cart", icon: <ShoppingCartRoundedIcon />, path: "/cart" },
     { name: "My Store", icon: <StorefrontRoundedIcon />, path: "mystore" },
+    { name: "Orders", icon: <ReceiptLongRoundedIcon />, path: "order" },
     { name: "Feedback", icon: <ThumbsUpDownRoundedIcon />, path: "feedback" },
   ];
   const handlelogout = () => {
@@ -142,8 +144,8 @@ export default function Profile() {
             }
           ></Sidebar>
           <Container
-            maxWidth="xl"
-            className="flex justify-center h-[90vh]  items-start mt-[10vh] rounded-2xl bg-white"
+            
+            className="flex justify-center   items-start mt-[10vh] rounded-2xl bg-white"
           >
             <Outlet />
           </Container>

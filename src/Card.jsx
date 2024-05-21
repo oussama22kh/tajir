@@ -18,8 +18,11 @@ import {
   IconButton,
   Rating,
   Backdrop,
+  List,
+  ListItem,
   Tooltip,
 } from "@mui/material";
+import Review from "./Component/Review";
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -29,18 +32,27 @@ import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRigh
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { GrSend } from "react-icons/gr";
 import { useCart } from "./contexts/cartcontext";
 import { useUser } from "./contexts/usercontext";
+
 export default function Cardproduct(props) {
   const { setloading, loading } = useCart();
   const [counter, setcounter] = useState(0);
   const [open, setopen] = useState(false);
-  const { seller, getseller } = useUser();
+  const [rarting, setrating] = useState(0);
+  const [review, setreview] = useState("");
+  const [writereview, setwritereview] = useState(false);
+  const { seller, getseller, createReview, getAllReviewsByProduct, reviews } =
+    useUser();
+
   const apiUrl = "http://127.0.0.1:8000/api/cart/addToCart";
   const token = Cookies.get("token");
 
   const handleaddtocart = async (event) => {
-    event.preventDafult;
+    event.preventDefault();
     setloading(!loading);
     const formdata = new FormData();
     formdata.append("product_id", props.product.id);
@@ -66,7 +78,7 @@ export default function Cardproduct(props) {
   const showdetail = () => {
     setopen(true);
     getseller(props.product.seller_id);
-    console.log(seller);
+    getAllReviewsByProduct(props.product.id);
   };
   const increment = () => {
     if (counter < props.product.photos.length - 1) setcounter(counter + 1);
@@ -86,6 +98,12 @@ export default function Cardproduct(props) {
       .catch((err) => {
         toast.error("Failed to copy phone number: ", err);
       });
+  };
+  const handlereviewsubmit = (e) => {
+    e.preventDefault();
+    createReview(props.product.id, review, rarting);
+    setrating(0);
+    setreview("");
   };
   return (
     <>
@@ -130,12 +148,12 @@ export default function Cardproduct(props) {
         open={open}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Box className=" bg-white rounded-2xl w-[50%] h-[90%] p-5">
+        <Box className=" bg-white rounded-2xl w-[50%] h-[90%] p-5 relative">
           <Box className="relative  w-full h-full  overflow-auto">
             {props.product && props.product.photos && (
               <Card className=" p-10 shadow-none " key={props.product.id}>
                 <CardMedia
-                  className="w-[50%] h-[50%] mx-auto p-5 relative"
+                  className="w-[50%] h-[50%] mx-auto p-5 "
                   component="img"
                   image={
                     "http://127.0.0.1:8000/storage/" +
@@ -171,32 +189,19 @@ export default function Cardproduct(props) {
                 </CardContent>
                 <CardActions className="relative flex justify-between py-5">
                   <div className="border-t-2 w-[33%]  top-0 absolute right-1/3"></div>
-                  <Tooltip
-                    title={
-                      <>
-                        <Box className="h-full w-full bg-blue">
-                          {seller?.username}
-                        </Box>
-                      </>
-                    }
-                    disableFocusListener
-                    className="flex  items-center gap-2"
-                  >
-                    <>
-                      <Box className="f flex items-center gap-3">
-                        <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center">
-                          <img
-                            src={
-                              "http://127.0.0.1:8000/storage/" + seller?.image
-                            }
-                            alt="profile"
-                            className="h-[90%] w-[90%] object-cover rounded-full"
-                          />
-                        </Box>
-                        <Typography>{seller?.username}</Typography>
+                  <Box className="f flex items-center gap-3">
+                    <Tooltip title={seller?.username}>
+                      <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center">
+                        <img
+                          src={"http://127.0.0.1:8000/storage/" + seller?.image}
+                          alt="profile"
+                          className="h-[90%] w-[90%] object-cover rounded-full"
+                        />
                       </Box>
-                    </>
-                  </Tooltip>
+                    </Tooltip>
+                    <Typography>{seller?.username}</Typography>
+                  </Box>
+
                   <Box className="flex items-center">
                     <IconButton onClick={() => copyToClipboard(seller?.phone)}>
                       <AddIcCallRoundedIcon />
@@ -204,15 +209,79 @@ export default function Cardproduct(props) {
                     <Typography>{seller?.phone}</Typography>
                   </Box>
                 </CardActions>
+
+                {writereview ? (
+                  <form onSubmit={handlereviewsubmit}>
+                    <Box className="flex flex-col justify-between items-center gap-5 ">
+                      <IconButton onClick={() => setwritereview(false)}>
+                        <KeyboardArrowUpIcon />
+                      </IconButton>
+                      <Box className="flex p-2 w-[70%] justify-between">
+                        <Typography>My Rating</Typography>
+                        <Rating
+                          aria-required
+                          value={rarting}
+                          onChange={(e) => {
+                            setrating(e.target.value);
+                          }}
+                        />
+                      </Box>
+                      <Box className="w-[70%] flex items-center justify-between">
+                        <TextField
+                          required
+                          multiline
+                          fullWidth
+                          placeholder="write a Review"
+                          label="Review"
+                          InputProps={{ sx: { borderRadius: 3 } }}
+                          className="w-full"
+                          value={review}
+                          onChange={(e) => {
+                            setreview(e.target.value);
+                          }}
+                        ></TextField>
+
+                        <IconButton type="submit">
+                          <GrSend />
+                        </IconButton>
+                      </Box>
+                    </Box>
+                  </form>
+                ) : (
+                  <Box className="w-full flex flex-col justify-center items-center">
+                    <Typography className="text-orange-400">
+                      Rate Product
+                    </Typography>
+                    <IconButton onClick={() => setwritereview(true)}>
+                      <ExpandMoreIcon />
+                    </IconButton>
+                  </Box>
+                )}
+                {reviews.length == 0 ? (
+                  <Box>
+                    <Typography className="text-xl font-meduim m-3">
+                       No Reviews 
+                    </Typography>
+                  </Box>
+                ) : (
+                  <List className="my-10 border-2 rounded-xl px-10 pb-10 pt-5 gap-5">
+                    <Typography className="text-xl font-meduim m-3">
+                      Reviews
+                    </Typography>
+                    {reviews.map((item, index) => {
+                      return <Review props={item} key={index} />;
+                    })}
+                  </List>
+                )}
               </Card>
             )}
-            <IconButton
-              onClick={handleClose}
-              className="top-0 left-0 m-3 absolute  rounded-full"
-            >
-              <HighlightOffRoundedIcon />
-            </IconButton>
           </Box>
+          <IconButton
+            onClick={handleClose}
+            className="top-0 left-0 m-3 absolute  rounded-full"
+          >
+            <HighlightOffRoundedIcon />
+          </IconButton>
         </Box>
       </Backdrop>
     </>

@@ -24,7 +24,7 @@ export default function History() {
   return (
     <>
       {user.role == 0 ? (
-        <TableContainer className="flex justify-center">
+        <TableContainer className="flex justify-center shadow-sm rounded-xl">
           <Table aria-label="simple table" className="w-[90%]">
             <TableHead>
               <TableRow>
@@ -48,7 +48,13 @@ export default function History() {
                   <TableCell align="right">${item.price}</TableCell>
                   <TableCell align="right">
                     {item.accepted === 0 ? (
-                      <PendingRoundedIcon className="text-yellow-400" />
+                      <>
+                        {item.rejected === 0 ? (
+                          <PendingRoundedIcon className="text-yellow-400" />
+                        ) : (
+                          <HighlightOffRoundedIcon className="text-red-500" />
+                        )}
+                      </>
                     ) : (
                       <CheckCircleOutlineRoundedIcon className="text-green-500" />
                     )}
@@ -60,7 +66,7 @@ export default function History() {
           </Table>
         </TableContainer>
       ) : (
-        <TableContainer className="flex justify-center">
+        <TableContainer className="flex justify-center shadow-sm rounded-xl m-5">
           <Table aria-label="simple table" className="w-[90%]">
             <TableHead>
               <TableRow>
@@ -84,7 +90,13 @@ export default function History() {
                   <TableCell align="right">${item.price}</TableCell>
                   <TableCell align="right">
                     {item.accepted === 0 ? (
-                      <PendingRoundedIcon className="text-yellow-400" />
+                      <>
+                        {item.rejected === 0 ? (
+                          <PendingRoundedIcon className="text-yellow-400" />
+                        ) : (
+                          <HighlightOffRoundedIcon className="text-red-500" />
+                        )}
+                      </>
                     ) : (
                       <CheckCircleOutlineRoundedIcon className="text-green-500" />
                     )}

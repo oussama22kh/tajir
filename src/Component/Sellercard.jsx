@@ -57,7 +57,7 @@ export default function Sellercard(props) {
             />
           </CardContent>
           <CardActions className="flex justify-between">
-            <Typography fontSize={"20px"}>$ {props.product.price}</Typography>
+            <Typography fontSize={"20px"}>{props.product.price} DA</Typography>
           </CardActions>
         </Card>
       </Grid>

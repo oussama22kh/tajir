@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
   const [reload, setreload] = useState(false);
   const [brandlist, setbrandlist] = useState([]);
   const navigateto = useNavigate();
+  const [reviews, setreviews] = useState([]);
   const [seller, setseller] = useState();
   const apiUrl = "http://127.0.0.1:8000/api/profile";
   const token = Cookies?.get("token") || null;
@@ -36,7 +37,7 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(apiUrl, config);
       if (response.status === 200) {
         setUser(response.data.buyer);
-        toast.success("Loading");
+      
       }
     } catch (error) {
       if (error.status === 408)
@@ -215,6 +216,40 @@ export const UserProvider = ({ children }) => {
       toast.error("Failed to fetch seller information");
     }
   };
+
+  const createReview = async (product_id, content, rating) => {
+    const url = `http://127.0.0.1:8000/api/review/${product_id}`;
+    const data = {
+      rating: rating,
+      content: content,
+    };
+    try {
+      const response = await axios.post(url, data, config);
+      if (response.status === 201) {
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      toast.error(
+        "Error creating review:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const getAllReviewsByProduct = async (product_id) => {
+    const url = `http://127.0.0.1:8000/api/review/${product_id}`;
+    try {
+      const response = await axios.get(url, config);
+      if (response.status === 200) {
+        console.log(response.data.reviews);
+        setreviews(response.data.reviews);
+      }
+    } catch (error) {
+      console.error(
+        "Error fetching reviews:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
   return (
     <UserContext.Provider
       value={{
@@ -238,6 +273,9 @@ export const UserProvider = ({ children }) => {
         getseller,
         seller,
         updateProfile,
+        createReview,
+        reviews,
+        getAllReviewsByProduct,
       }}
     >
       {children}

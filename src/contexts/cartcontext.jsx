@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { createContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const CartContext = createContext();
 
@@ -25,14 +26,13 @@ export const Cartprovider = ({ children }) => {
     getTotal();
   }, [carts]);
 
-  
   const getCarts = async () => {
     const apiUrl = "http://127.0.0.1:8000/api/cart/getCarts";
     try {
       const response = await axios.get(apiUrl, config);
       if (response.status == 200) {
         setCarts(response.data.Carts);
-        console.log(carts);
+        console.log(response.data.Carts);
       }
     } catch (error) {
       console.error(error);
@@ -41,7 +41,9 @@ export const Cartprovider = ({ children }) => {
   const getTotal = () => {
     let totalprice = 0;
     carts.forEach((cart) => {
-      totalprice += cart.price * cart.qte;
+      if (cart.is_validate == 0 && cart.is_ordered == 0) {
+        totalprice += cart.price * cart.qte;
+      }
     });
     settotal(totalprice);
   };
@@ -52,7 +54,7 @@ export const Cartprovider = ({ children }) => {
     try {
       const response = await axios.delete(apiUrl, config);
       if (response.status == 200) {
-        console.log("success", response.data);
+        toast.success("success", response.data);
         setloading(!loading);
       }
     } catch (error) {
@@ -65,7 +67,6 @@ export const Cartprovider = ({ children }) => {
     try {
       const response = await axios.post(apiUrl, { id: id, qte: qte }, config);
       if (response.status == 200) {
-        console.log("success", response.data);
         setloading(!loading);
       }
     } catch (error) {
@@ -80,7 +81,7 @@ export const Cartprovider = ({ children }) => {
         config
       );
       if (response.status === 201) {
-        console.log(response.data);
+        toast.success(response.data.message);
         getCarts();
       }
     } catch (error) {

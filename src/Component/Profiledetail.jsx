@@ -3,12 +3,12 @@ import { useUser } from "../contexts/usercontext";
 
 export default function Profiledetail() {
   const { user } = useUser();
-  
 
   return (
     <>
       <Box className="flex justify-center items-center w-screen h-full gap-10 self-center">
         <Box className="w-[30%] h-[60vh] bg-white shadow-md rounded-lg flex flex-col justify-between p-14 items-center">
+          <Typography>Profile Detail </Typography>
           <Box className=" flex justify-center items-center rounded-full h-52 w-52 overflow-hidden border-4 shadow-md border-white">
             <img
               src={"http://127.0.0.1:8000/storage/" + user?.image}
@@ -20,7 +20,9 @@ export default function Profiledetail() {
             <Typography className="text-black font-medium text-2xl cursor-default">
               {user?.username}
             </Typography>
-            <Typography className="text-black">{user?.email}</Typography>
+            <Typography className="text-black text-sm">
+              {user?.email}
+            </Typography>
           </Box>
         </Box>
         <Box className="w-[40%] h-[80%] bg-white shadow-md rounded-lg p-10 flex flex-col gap-10">

@@ -19,6 +19,7 @@ function Cart() {
   const { total, carts, loading, setloading, setorder } = useCart();
   const [open, setopen] = useState(false);
   let orderlist = new Set();
+  let newcarts = carts.filter((item) => item.is_validate == 0);
   useEffect(() => {
     setloading(!loading);
   }, []);
@@ -49,11 +50,11 @@ function Cart() {
         className=" h-full mt-[10vh] flex justify-between flex-col items-center rounded-2xl bg-white p-10 shadow-sm "
         maxWidth={"lg"}
       >
-        {carts.length > 0 ? (
+        {newcarts.length > 0 ? (
           <>
             <Box className="flex justify-between w-full">
               <List className=" flex flex-col items-center w-[90%] bg-white rounded-lg ">
-                {carts.map((item, index) => (
+                {newcarts.map((item, index) => (
                   <Singlecart
                     key={index}
                     name={item.name}
@@ -87,9 +88,7 @@ function Cart() {
                   onClick={handleopen}
                 >
                   <Typography fontSize={20}>Total : ${total} </Typography>
-                  <Typography fontSize={20}>
-                    Checkout
-                  </Typography>
+                  <Typography fontSize={20}>Checkout</Typography>
                 </Button>
               </Box>
             </Box>
@@ -132,8 +131,12 @@ function Cart() {
           </List>
 
           <Box className="self-end flex gap-5">
-            <Button onClick={handleclose} >Cancel</Button>
-            <Button onClick={handleorder} variant="contained" className="bg-orange-400 rounded-full">
+            <Button onClick={handleclose}>Cancel</Button>
+            <Button
+              onClick={handleorder}
+              variant="contained"
+              className="bg-orange-400 rounded-full"
+            >
               Order
             </Button>
           </Box>

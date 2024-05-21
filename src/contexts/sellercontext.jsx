@@ -13,6 +13,7 @@ export const SellerProvider = ({ children }) => {
   const [loading, setlaoding] = useState(false);
   const [openproduct, setOpenproduct] = useState(false);
   const [orders, setorders] = useState([]);
+  const [waitingOrders, setwaitingOrders] = useState({});
 
   const token = Cookies.get("token");
   const config = {
@@ -24,6 +25,7 @@ export const SellerProvider = ({ children }) => {
     getproducts();
     getcategories();
     getorders();
+    getwaitingorders();
   }, [loading]);
 
   const getproducts = async () => {
@@ -117,8 +119,86 @@ export const SellerProvider = ({ children }) => {
         setlaoding(!loading);
       }
     } catch (error) {
-      
       toast.error(error);
+    }
+  };
+  const updatedetail = async (fromdata) => {
+    const url = `http://127.0.0.1:8000/api/product/updateProduct/${product.id}`;
+
+    try {
+      const response = await axios.post(url, fromdata, config);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        console.log(response.data.product);
+      }
+    } catch (error) {
+      console.error(
+        "Error updating product:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const updatephotos = async (photos) => {
+    const url = `http://127.0.0.1:8000/api/product/updatePhotos/${product.id}`;
+
+    try {
+      const response = await axios.post(url, photos, config);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        console.log(response.data.product);
+      }
+    } catch (error) {
+      console.error(
+        "Error updating photos:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const accepetorder = async (order_id) => {
+    const url = `http://127.0.0.1:8000/api/order/acceptOrder/${order_id}`;
+
+    try {
+      const response = await axios.put(url, {}, config);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setlaoding(!loading);
+      }
+    } catch (error) {
+      console.error(
+        "Error updating photos:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const rejecttorder = async (order_id) => {
+    const url = `http://127.0.0.1:8000/api/order/rejectOrder/${order_id}`;
+
+    try {
+      const response = await axios.put(url, {}, config);
+      if (response.status === 200) {
+        console.log(response.data.message);
+        setlaoding(!loading);
+      }
+    } catch (error) {
+      console.error(
+        "Error updating photos:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+  const getwaitingorders = async () => {
+    const url = "http://127.0.0.1:8000/api/order/waitingOrders";
+
+    try {
+      const response = await axios.get(url, config);
+      if (response.status === 200) {
+        setwaitingOrders(response.data);
+      }
+    } catch (error) {
+      console.error(
+        "Error updating photos:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
   return (
@@ -134,6 +214,12 @@ export const SellerProvider = ({ children }) => {
         categories,
         orders,
         addproduct,
+        updatephotos,
+        updatedetail,
+        rejecttorder,
+        accepetorder,
+        getwaitingorders,
+        waitingOrders,
       }}
     >
       {children}

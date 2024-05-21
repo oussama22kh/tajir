@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 
 import Cart from "./Component/Cart.jsx";
+import Orders from "./Component/Orders.jsx";
 import Edit from "./Component/Edit.jsx";
 import Joinus from "./Component/Joinus.jsx";
 import Mystore from "./Component/Mystore.jsx";
@@ -60,15 +61,15 @@ function Home() {
             </Cartprovider>
           }
         />
-        <Route path="/test" element={<Discount/>}/>
+        <Route path="/test" element={<Discount />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<AuthProvider />}>
           <Route path="/profile" element={<Profiledetail />} />
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
-          
           <Route path="mystore" element={<Mystore />} />
+          <Route path="order" element={<Orders />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
         <Route path="joinus" element={<Joinus />} />
