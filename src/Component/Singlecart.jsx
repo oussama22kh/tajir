@@ -32,8 +32,6 @@ import axios from "axios";
 // import Discount from "./Discount.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -105,13 +103,10 @@ export default function Singlecart({
   const handledelete = () => {
     setdeleting(true);
     deletecartitem(id);
-    setTimeout(() => {
-      setdeleting(false);
-    }, 2000);
   };
   const handelActiveDiscount = async (disc_id, disc) => {
     SetuseDiscount(false);
-    SetuseDiscount(false);
+    
     try {
       const res = await axios.post(
         `http://127.0.0.1:8000/api/discount/activate/${disc_id}`,
