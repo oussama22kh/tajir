@@ -3,6 +3,7 @@ import { RiCoupon3Fill } from "react-icons/ri";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import { FaPercentage } from "react-icons/fa";
+import { FaPercentage } from "react-icons/fa";
 import "../style/discout.css";
 import {
   TextField,
@@ -31,6 +32,7 @@ import axios from "axios";
 // import Discount from "./Discount.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const config = {
   headers: {
@@ -108,6 +110,7 @@ export default function Singlecart({
     }, 2000);
   };
   const handelActiveDiscount = async (disc_id, disc) => {
+    SetuseDiscount(false);
     SetuseDiscount(false);
     try {
       const res = await axios.post(
