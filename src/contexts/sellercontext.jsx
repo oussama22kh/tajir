@@ -130,7 +130,6 @@ export const SellerProvider = ({ children }) => {
         openproduct,
         setOpenproduct,
         setproduct,
-        product,
         deleteproduct,
         categories,
         orders,

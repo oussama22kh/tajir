@@ -104,10 +104,10 @@ function App() {
         </Container>
       )}
       <Container
-        className=" flex p-0 mt-16 h-screen justify-center w-screen"
+        className=" flex p-0 mt-16 h-screen justify-center "
         maxWidth={"xl"}
       >
-        <Box>
+        <Box className="w-screen">
           {/* <Box className="box_filter " minWidth={200}>
           <div className="container">
             <div className="category">
@@ -232,7 +232,12 @@ function App() {
           </div>*/}
           <Grid container className=" flex justify-center w-full gap-5">
             {products.map((product, index) => (
-              <Card className="" style={{margin:"0px 70px"}}  product={product} key={index} />
+              <Card
+                className=""
+                style={{ margin: "0px 70px" }}
+                product={product}
+                key={index}
+              />
             ))}
           </Grid>
         </Box>
