@@ -62,6 +62,8 @@ function Cart() {
                     image={"http://127.0.0.1:8000/storage/" + item.image}
                     id={item.id}
                     is_ordered={item.is_ordered}
+                    new_price={item.new_price}
+                    value={item.discount}
                   />
                 ))}
               </List>
@@ -86,7 +88,7 @@ function Cart() {
                 >
                   <Typography fontSize={20}>Total : ${total} </Typography>
                   <Typography fontSize={20}>
-                    Checkout <ArrowRightAltRoundedIcon />
+                    Checkout
                   </Typography>
                 </Button>
               </Box>
@@ -107,7 +109,7 @@ function Cart() {
             {carts.map((item, index) => (
               <>
                 {item.is_ordered == 0 && (
-                  <Box key={index} className="flex justify-between mb-5">
+                  <Box key={item.id} className="flex justify-between mb-5">
                     <Box>
                       <Typography color={"black"}>
                         {index + 1}. {item.name} , qte : {item.qte}

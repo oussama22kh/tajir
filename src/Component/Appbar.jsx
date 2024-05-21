@@ -61,15 +61,17 @@ export default function Appbar() {
               <NotificationsRoundedIcon />
             </IconButton>
             {user ? (
-              <Link to={"/profile"}>
-                <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center">
+              <Link to={"/profile"} className="flex justify-center items-center">
+                <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center me-3">
                   <img
                     src={"http://127.0.0.1:8000/storage/" + user?.image}
                     alt="profile"
                     className="h-[90%] w-[90%] object-cover rounded-full"
                   />
                 </Box>
+                <h1 className="text-black text-xl" > {user?.username} </h1>
               </Link>
+              
             ) : (
               <Link to={"/login/"}>
                 <Button

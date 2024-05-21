@@ -27,6 +27,7 @@ import { Cartprovider } from "./contexts/cartcontext";
 import { UserProvider } from "./contexts/usercontext.jsx";
 import { SellerProvider } from "./contexts/sellercontext.jsx";
 import Profile from "./Profile.jsx";
+import Discount from "./Component/Discount.jsx";
 
 const token = Cookies.get("token");
 
@@ -59,12 +60,14 @@ function Home() {
             </Cartprovider>
           }
         />
+        <Route path="/test" element={<Discount/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<AuthProvider />}>
           <Route path="/profile" element={<Profiledetail />} />
           <Route path="history" element={<History />} />
           <Route path="edit" element={<Edit />} />
+          
           <Route path="mystore" element={<Mystore />} />
           <Route path="feedback" element={<Feedback />} />
         </Route>
