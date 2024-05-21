@@ -8,16 +8,88 @@ import {
   Backdrop,
   TextField,
 } from "@mui/material";
+import axios from "axios";
+import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import { UserProvider } from "../contexts/usercontext.jsx";
 import Singlecart from "./Singlecart.jsx";
 import ArrowRightAltRoundedIcon from "@mui/icons-material/ArrowRightAltRounded";
 import Appbar from "./Appbar.jsx";
 import { useCart } from "../contexts/cartcontext.jsx";
 import cartphoto from "../assets/cart.svg";
+import Cookies from "js-cookie";
+import emotionReact_isolatedHnrs from "@emotion/react/_isolated-hnrs";
+import toast from "react-hot-toast";
+const config = {
+  headers: {
+    Authorization: `Bearer ${Cookies.get("token")}`,
+  },
+};
 
 function Cart() {
   const { total, carts, loading, setloading, setorder } = useCart();
   const [open, setopen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState("");
+  const [phone , setphone] = useState(null);
+  const cities = [
+    "Adrar",
+  "Chlef",
+  "Laghouat",
+  "Oum El Bouaghi",
+  "Batna",
+  "Béjaïa",
+  "Biskra",
+  "Béchar",
+  "Blida",
+  "Bouira",
+  "Tamanrasset",
+  "Tébessa",
+  "Tlemcen",
+  "Tiaret",
+  "Tizi Ouzou",
+  "Algiers",
+  "Djelfa",
+  "Jijel",
+  "Sétif",
+  "Saïda",
+  "Skikda",
+  "Sidi Bel Abbès",
+  "Annaba",
+  "Guelma",
+  "Constantine",
+  "Médéa",
+  "Mostaganem",
+  "M'Sila",
+  "Mascara",
+  "Ouargla",
+  "Oran",
+  "El Bayadh",
+  "Illizi",
+  "Bordj Bou Arreridj",
+  "Boumerdès",
+  "El Tarf",
+  "Tindouf",
+  "Tissemsilt",
+  "El Oued",
+  "Khenchela",
+  "Souk Ahras",
+  "Tipaza",
+  "Mila",
+  "Aïn Defla",
+  "Naâma",
+  "Aïn Témouchent",
+  "Ghardaïa",
+  "Relizane",
+  "Timimoun",
+  "Bordj Badji Mokhtar",
+  "Ouled Djellal",
+  "Béni Abbès",
+  "In Salah",
+  "In Guezzam",
+  "Touggourt",
+  "Djanet",
+  "El M'Ghair",
+  "El Meniaa"
+  ];
   let orderlist = new Set();
   let newcarts = carts.filter((item) => item.is_validate == 0);
   useEffect(() => {
@@ -43,6 +115,44 @@ function Cart() {
       setorder(value);
     }
   };
+  const hndleUdateAddress = async (e) =>{
+    
+    e.preventDefault();
+    try{
+      const res = await axios.post(`http://127.0.0.1:8000/api/profile/address`, 
+      {"address" : selectedCity } ,
+      config )
+      if(res.status === 200){
+        toast.success(res.data.message)
+      }
+    }catch (e){
+      console.log(e);
+    }
+  }
+  const validatePhone = (phone) => {
+    const phoneRegex = /^(06|05|07)\d{8}$/;
+    return phoneRegex.test(phone);
+  };
+  const hndleUdatePhone= async (e) =>{
+    e.preventDefault();
+    if (!validatePhone(phone)) {
+      toast.error("Phone number is incorrect");
+      return;
+    }
+    if (!validatePhone) {
+      toast.error("phone incorrect")
+    }
+    try{
+      const res = await axios.post(`http://127.0.0.1:8000/api/profile/phone`, 
+      {"phone" : phone } ,
+      config )
+      if(res.status === 200){
+        toast.success(res.data.message)
+      }
+    }catch (e){
+      console.log(e);
+    }
+  }
   return (
     <>
       <Appbar></Appbar>
@@ -69,18 +179,55 @@ function Cart() {
                 ))}
               </List>
               <Box className="w-[50%] flex flex-col gap-10 shadow-md m-1 p-5 h-full rounded-lg">
-                <TextField
-                  type="tel"
-                  label="Phone number"
-                  InputProps={{ sx: { borderRadius: 3 } }}
-                  helperText="Optional* Please enter your current phone number"
-                ></TextField>
-                <TextField
-                  type="text"
-                  label="Address"
-                  InputProps={{ sx: { borderRadius: 3 } }}
-                  helperText="Optional* Please enter your current Address "
-                ></TextField>
+                <form
+                  className="flex Group_form shadow-sm"
+                  onSubmit={hndleUdateAddress}
+                >
+                  <select
+                    className="input_copon"
+                    required
+                    defaultValue={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                  >
+                    <option value="" disabled selected >
+                     <p className="text-gray-500"> Update Address </p>
+                    </option>
+                    {cities.map((city, index) => (
+                      <option key={index} value={city} className="">
+                        {index+1} {city}
+                      </option>
+                    ))}
+                  </select>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="bg-orange-400 font-medium text-base rounded-3xl btn h-10"
+                    style={{ textTransform: "none" }}
+                  >
+                    Update
+                  </Button>
+                </form>
+                <form
+                  className="flex Group_form shadow-sm"
+                  onSubmit={hndleUdatePhone}
+                >
+                  <input
+                    className="input_copon"
+                    required
+                    defaultValue={phone}
+                    onChange={(e) => setphone(e.target.value)}
+                    type="number"
+                    placeholder="Update Phone .."
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="bg-orange-400 font-medium  text-base  rounded-3xl btn  h-10    "
+                    style={{ textTransform: "none" }}
+                  >
+                    update
+                  </Button>
+                </form>
                 <Button
                   variant="contained"
                   className=" justify-between bg-orange-400 font-medium   rounded-lg  h-14 px-5 "

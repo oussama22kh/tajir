@@ -2,6 +2,8 @@ import laptop from "../assets/97915.jpg";
 import { RiCoupon3Fill } from "react-icons/ri";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
+
+import { FaPercentage } from "react-icons/fa";
 import "../style/discout.css";
 import {
   TextField,
@@ -30,6 +32,7 @@ import axios from "axios";
 // import Discount from "./Discount.jsx";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { useUser } from "../contexts/usercontext.jsx";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -46,6 +49,7 @@ export default function Singlecart({
   new_price,
   value,
 }) {
+  const {navigateto} = useUser()
   const { deletecartitem, updatecart } = useCart();
   const [qteValue, setQteValue] = useState(qte);
   const [loading, setloading] = useState(false);
@@ -54,31 +58,9 @@ export default function Singlecart({
   const [selectDiscount, setSelectDiscount] = useState(null);
   const [Search, SetSearch] = useState("");
   const [coupon, SetCopon] = useState(null);
-
-  const handelSearch = async (e) => {
-    e.preventDefault();
-    if (Search.length !== 6) {
-      toast.error("search input must be 6 caracters");
-    }
-    try {
-      const res = await axios.post(
-        `http://127.0.0.1:8000/api/discount/searchCoupon`,
-        {
-          cart_id: id,
-          search: Search,
-        },
-        config
-      );
-      if (res.status === 200) {
-        toast.success(res.data.message);
-        SetCopon(res.data.coupon);
-        console.log(res.data.coupon);
-      }
-    } catch (e) {
-      toast.error(e.response.data.message);
-      console.log(e);
-    }
-  };
+  const [selectCoupon , SetSelectCoupon]=useState(null)
+  
+  
 
   const [discounts, setDiscounts] = useState([]);
 
@@ -257,8 +239,9 @@ export default function Singlecart({
               </Typography>
               <Box className="flex justify-center items-center">
                 {is_ordered != 0 && (
-                  <Typography fontSize={12}>
-                    Waiting for seller approval
+                  <Typography className="text-bold" fontSize={12}>
+                    <u className="text-base cursor-pointer"
+                    onClick={()=>navigateto('/profile/history')}>Waiting for seller approval</u>
                   </Typography>
                 )}
                 {loading ? (
