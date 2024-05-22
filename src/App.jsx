@@ -175,27 +175,7 @@ function App() {
   return (
     <>
       <Appbar></Appbar>
-      <Container maxWidth="lg" className="p-0 mt-16">
-        <div className="container ">
-          <div className="slider-wapper overflow-hidden">
-            <div className="slider overflow-hidden" ref={sliderRef}>
-              {ads.map((ad, index) => (
-                <img
-                  key={ad.id}
-                  id={`slider-${index + 1}`}
-                  src={`http://127.0.0.1:8000/storage/${ad.image}`}
-                  alt={`Ad ${index + 1}`}
-                />
-              ))}
-            </div>
-            <div className="slider_nav">
-              {ads.map((ad, index) => (
-                <a key={ad.id} href={`#slider-${index + 1}`}></a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Container>
+
       {/* <Container maxWidth="lg" className="p-0">
       <div className="container">
         <div className="slider-wapper">
@@ -244,6 +224,27 @@ function App() {
           </Box>
         </Container>
       )}
+      <Container maxWidth="lg" className="p-0 mt-16">
+        <div className="container ">
+          <div className="slider-wapper overflow-hidden">
+            <div className="slider overflow-hidden" ref={sliderRef}>
+              {ads.map((ad, index) => (
+                <img
+                  key={ad.id}
+                  id={`slider-${index + 1}`}
+                  src={`http://127.0.0.1:8000/storage/${ad.image}`}
+                  alt={`Ad ${index + 1}`}
+                />
+              ))}
+            </div>
+            <div className="slider_nav">
+              {ads.map((ad, index) => (
+                <a key={ad.id} href={`#slider-${index + 1}`}></a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
       <Container
         className=" flex p-0 mt-16 h-screen justify-center "
         maxWidth={"xl"}

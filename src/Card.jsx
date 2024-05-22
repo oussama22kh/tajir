@@ -144,7 +144,7 @@ export default function Cardproduct(props) {
             />
           </CardContent>
           <CardActions className="flex justify-between">
-            <Typography fontSize={"20px"}>$ {props.product.price}</Typography>
+            <Typography fontSize={"20px"}>{props.product.price}DA</Typography>
             <Box>
               <IconButton
                 onClick={showdetail}
