@@ -17,6 +17,8 @@ export const UserProvider = ({ children }) => {
   const navigateto = useNavigate();
   const [reviews, setreviews] = useState([]);
   const [seller, setseller] = useState();
+  const [alerts, setalerts] = useState([]);
+  const [report, setreport] = useState(false);
   const apiUrl = "http://127.0.0.1:8000/api/profile";
   const token = Cookies?.get("token") || null;
   const config = {
@@ -29,6 +31,7 @@ export const UserProvider = ({ children }) => {
     if (token) {
       getuser();
       getorderhistory();
+      getnotifications();
     }
   }, [loading]);
 
@@ -37,7 +40,6 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(apiUrl, config);
       if (response.status === 200) {
         setUser(response.data.buyer);
-      
       }
     } catch (error) {
       if (error.status === 408)
@@ -250,6 +252,35 @@ export const UserProvider = ({ children }) => {
       );
     }
   };
+  const getnotifications = async () => {
+    try {
+      const response = await axios.get(
+        "http://127.0.0.1:8000/api/profile/notification",
+        config
+      );
+      if (response.status == 200) {
+        console.log(response.data.Notification);
+        setalerts(response.data.Notification);
+      }
+    } catch (error) {
+      console.log(error.response.message);
+    }
+  };
+  const deletealert = async (notification_id) => {
+    try {
+      const response = await axios.delete(
+        `http://127.0.0.1:8000/api/profile/notification/${notification_id}`,
+        {},
+        config
+      );
+      if (response.status == 200) {
+        setloading(!loading);
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <UserContext.Provider
       value={{
@@ -276,6 +307,10 @@ export const UserProvider = ({ children }) => {
         createReview,
         reviews,
         getAllReviewsByProduct,
+        alerts,
+        deletealert,
+        setreport,
+        report,
       }}
     >
       {children}

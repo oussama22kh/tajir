@@ -29,7 +29,7 @@ import { UserProvider } from "./contexts/usercontext.jsx";
 import { SellerProvider } from "./contexts/sellercontext.jsx";
 import Profile from "./Profile.jsx";
 import Discount from "./Component/Discount.jsx";
-
+import Alert from "./Component/Alert.jsx";
 const token = Cookies.get("token");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -61,6 +61,7 @@ function Home() {
             </Cartprovider>
           }
         />
+        <Route path="/notification" element={<Alert />} />
         <Route path="/test" element={<Discount />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

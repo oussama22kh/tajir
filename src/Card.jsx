@@ -34,6 +34,8 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import AddIcCallRoundedIcon from "@mui/icons-material/AddIcCallRounded";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import FlagRoundedIcon from "@mui/icons-material/FlagRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { GrSend } from "react-icons/gr";
 import { useCart } from "./contexts/cartcontext";
 import { useUser } from "./contexts/usercontext";
@@ -45,12 +47,21 @@ export default function Cardproduct(props) {
   const [rarting, setrating] = useState(0);
   const [review, setreview] = useState("");
   const [writereview, setwritereview] = useState(false);
-  const { seller, getseller, createReview, getAllReviewsByProduct, reviews } =
-    useUser();
+  const {
+    seller,
+    getseller,
+    createReview,
+    getAllReviewsByProduct,
+    reviews,
+    report,
+    setreport,
+  } = useUser();
 
   const apiUrl = "http://127.0.0.1:8000/api/cart/addToCart";
   const token = Cookies.get("token");
-
+  const handlereport = () => {
+    setreport(true);
+  };
   const handleaddtocart = async (event) => {
     event.preventDefault();
     setloading(!loading);
@@ -114,7 +125,6 @@ export default function Cardproduct(props) {
         lg={3}
         md={4}
         className="my-5 flex justify-center z-0 bg-transparent"
-        onClick={showdetail}
       >
         <Card className="min-w-60 p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]">
           <CardMedia
@@ -135,12 +145,20 @@ export default function Cardproduct(props) {
           </CardContent>
           <CardActions className="flex justify-between">
             <Typography fontSize={"20px"}>$ {props.product.price}</Typography>
-            <IconButton
-              onClick={handleaddtocart}
-              className="hover:bg-orange-400 hover:text-white text-orange-400  "
-            >
-              <AddShoppingCartRoundedIcon />
-            </IconButton>
+            <Box>
+              <IconButton
+                onClick={showdetail}
+                className="hover:bg-orange-400 hover:text-white text-orange-400  "
+              >
+                <VisibilityRoundedIcon />
+              </IconButton>
+              <IconButton
+                onClick={handleaddtocart}
+                className="hover:bg-orange-400 hover:text-white text-orange-400  "
+              >
+                <AddShoppingCartRoundedIcon />
+              </IconButton>
+            </Box>
           </CardActions>
         </Card>
       </Grid>
@@ -200,6 +218,9 @@ export default function Cardproduct(props) {
                       </Box>
                     </Tooltip>
                     <Typography>{seller?.username}</Typography>
+                    <IconButton onClick={handlereport}>
+                      <FlagRoundedIcon />
+                    </IconButton>
                   </Box>
 
                   <Box className="flex items-center">
@@ -260,7 +281,7 @@ export default function Cardproduct(props) {
                 {reviews.length == 0 ? (
                   <Box>
                     <Typography className="text-xl font-meduim m-3">
-                       No Reviews 
+                      No Reviews
                     </Typography>
                   </Box>
                 ) : (

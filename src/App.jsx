@@ -1,4 +1,4 @@
-import { useEffect, useState ,useRef  } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import photo from "./assets/landingpageimage.svg";
 import axios from "axios";
@@ -7,7 +7,7 @@ import cartphoto from "./assets/cart.svg";
 import { MdTune } from "react-icons/md";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { FaAngleDoubleLeft } from "react-icons/fa";
-
+import Complaint from "./Component/Complaint.jsx";
 import {
   Button,
   Container,
@@ -43,8 +43,9 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [second , setsecond] = useState(false);
+  const [second, setsecond] = useState(false);
   const [ads, setAds] = useState([]);
+
   useEffect(() => {
     if (ads.length === 0) return;
 
@@ -56,7 +57,7 @@ function App() {
       index = (index + 1) % ads.length;
       slider.scrollTo({
         left: slider.clientWidth * index,
-        behavior: 'smooth',
+        behavior: "smooth",
       });
     };
 
@@ -67,12 +68,12 @@ function App() {
     };
   }, [ads]);
 
-
   const { user, setloading, loading } = useUser();
   useEffect(() => {
     setloading(!loading);
   }, []);
   const { carts } = useCart();
+  const newcarts = carts.filter((item) => item.is_validate == 0);
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -80,11 +81,10 @@ function App() {
   const handleOpen = () => {
     setOpen(true);
   };
- 
 
-  const handelSecond = () =>{
-    setsecond(!second)
-  }
+  const handelSecond = () => {
+    setsecond(!second);
+  };
   const handelOpenFilter = () => {
     setOpendfilter(true);
   };
@@ -94,13 +94,13 @@ function App() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios('http://127.0.0.1:8000/api/ads');
+        const response = await axios("http://127.0.0.1:8000/api/ads");
         if (response.status === 200) {
-          setAds(response.data.ads)
+          setAds(response.data.ads);
         }
         setAds(data.ads);
       } catch (error) {
-        console.error('Error fetching ads:', error);
+        console.error("Error fetching ads:", error);
       }
     };
 
@@ -123,7 +123,7 @@ function App() {
   }, [search, selectedCategory, minPrice, maxPrice]);
   const handleFilterSubmit = (e) => {
     e.preventDefault();
-    setOpenFilter(false);
+    setOpendfilter(false);
     setURL(constructURL());
   };
   const [URL, setURL] = useState("http://127.0.0.1:8000/api/products");
@@ -131,9 +131,8 @@ function App() {
     try {
       const response = await axios.get(URL);
       if (response.status === 200) {
-        console.log(response.data.products);
         setpagination(response.data.paginate);
-        console.log(response.data.paginate);
+
         setProducts(response.data.products);
       } else {
         console.error("Failed to fetch user data:", response.status);
@@ -148,8 +147,6 @@ function App() {
     }
   };
 
-
-
   const handleNextPage = () => {
     if (pagination.current_page < pagination.last_page) {
       setURL(pagination.next_page_url);
@@ -161,7 +158,6 @@ function App() {
       const res = await axios.get("http://127.0.0.1:8000/api/categories");
       if (res.status === 200) {
         setCategories(res.data.categories);
-        console.log(categories);
       }
     } catch (e) {
       console.log(e);
@@ -175,26 +171,31 @@ function App() {
   useEffect(() => {
     getData(URL);
   }, [URL]);
-  console.log(pagination);
+
   return (
     <>
       <Appbar></Appbar>
-      <Container maxWidth="lg" className="p-0">
-      <div className="container">
-        <div className="slider-wapper">
-          <div className="slider" ref={sliderRef}>
-            {ads.map((ad, index) => (
-              <img key={ad.id} id={`slider-${index + 1}`} src={`http://127.0.0.1:8000/storage/${ad.image}`} alt={`Ad ${index + 1}`} />
-            ))}
-          </div>
-          <div className="slider_nav">
-            {ads.map((ad, index) => (
-              <a key={ad.id} href={`#slider-${index + 1}`}></a>
-            ))}
+      <Container maxWidth="lg" className="p-0 mt-16">
+        <div className="container ">
+          <div className="slider-wapper overflow-hidden">
+            <div className="slider overflow-hidden" ref={sliderRef}>
+              {ads.map((ad, index) => (
+                <img
+                  key={ad.id}
+                  id={`slider-${index + 1}`}
+                  src={`http://127.0.0.1:8000/storage/${ad.image}`}
+                  alt={`Ad ${index + 1}`}
+                />
+              ))}
+            </div>
+            <div className="slider_nav">
+              {ads.map((ad, index) => (
+                <a key={ad.id} href={`#slider-${index + 1}`}></a>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
       {/* <Container maxWidth="lg" className="p-0">
       <div className="container">
         <div className="slider-wapper">
@@ -250,20 +251,51 @@ function App() {
         <Box className="w-screen">
           <Box className="flex justify-center ">
             <Box className="mt-20 mb-5 flex flex-wrap items-center">
-              <button onClick={handelOpenFilter} className="px-3 py-2 rounded-lg text-2xl border-2 border-orange-300 mx-3 text-white bg-orange-400 hover:bg-white hover:text-orange-400 mb-3 "> <MdTune /></button>
-              {!second ? categories && categories.slice(0,6).map((e , i) => (
-                <button key={i} onClick={()=>setSelectedCategory(e.id)} className="px-3 py-2 rounded-lg text-xl border-2 border-orange-300 mx-3 hover:bg-orange-400 hover:text-white mb-3">{e.name}</button>
-              )) 
-              :
-              categories && categories.slice(6).map((e , i) => (
-                <button key={i} onClick={()=>setSelectedCategory(e.id)} className="px-3 py-2 rounded-lg text-xl border-2 border-orange-300 mx-3 hover:bg-orange-400 hover:text-white mb-3">{e.name}</button>
-              ))  
-              }
-              {!second ?  <button  onClick={handelSecond} className="px-3 py-2 rounded-lg text-xl  mx-3 hover:bg-orange-400 hover:text-white text-orange-400 mb-3"><FaAngleDoubleRight /></button>: <button  onClick={handelSecond} className="px-3 py-2 rounded-lg text-xl mb-3  mx-3 hover:bg-orange-400 hover:text-white text-orange-400"><FaAngleDoubleLeft /></button>}
-              
-            
+              <button
+                onClick={handelOpenFilter}
+                className="px-3 py-2 rounded-lg text-2xl border-2 border-orange-300 mx-3 text-white bg-orange-400 hover:bg-white hover:text-orange-400 mb-3 "
+              >
+                {" "}
+                <MdTune />
+              </button>
+              {!second
+                ? categories &&
+                  categories.slice(0, 6).map((e, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedCategory(e.id)}
+                      className="px-3 py-2 rounded-lg text-xl border-2 border-orange-300 mx-3 hover:bg-orange-400 hover:text-white mb-3"
+                    >
+                      {e.name}
+                    </button>
+                  ))
+                : categories &&
+                  categories.slice(6).map((e, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setSelectedCategory(e.id)}
+                      className="px-3 py-2 rounded-lg text-xl border-2 border-orange-300 mx-3 hover:bg-orange-400 hover:text-white mb-3"
+                    >
+                      {e.name}
+                    </button>
+                  ))}
+              {!second ? (
+                <button
+                  onClick={handelSecond}
+                  className="px-3 py-2 rounded-lg text-xl  mx-3 hover:bg-orange-400 hover:text-white text-orange-400 mb-3"
+                >
+                  <FaAngleDoubleRight />
+                </button>
+              ) : (
+                <button
+                  onClick={handelSecond}
+                  className="px-3 py-2 rounded-lg text-xl mb-3  mx-3 hover:bg-orange-400 hover:text-white text-orange-400"
+                >
+                  <FaAngleDoubleLeft />
+                </button>
+              )}
             </Box>
-            
+
             <Backdrop
               open={openfilter}
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -277,62 +309,60 @@ function App() {
                   />
                 </div>
                 <Box className="flex justify-center mt-3">
-                  <form onSubmit={handleFilterSubmit} className=" w-[80%] " >
+                  <form onSubmit={handleFilterSubmit} className=" w-[80%] ">
                     <TextField
                       label="Search"
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
                       fullWidth
-                      InputProps={{sx:{borderRadius:4 , paddingLeft:2}}}
+                      InputProps={{ sx: { borderRadius: 4, paddingLeft: 2 } }}
                       className="mb-5 "
                     />
-                    
+
                     <Box className="flex justify-between">
-                    <TextField
-                      label="Min Price"
-                      value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value)}
-                      type="number"
-                      InputProps={{sx:{borderRadius:4}}}
-                      className="mb-5 w-[49%]"
-                    />
-                    <TextField
-                      label="Max Price"
-                      value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value)}
-                      type="number"
-                      className="mb-5 w-[49%]"
-                      InputProps={{sx:{borderRadius:4}}}
-                    />
+                      <TextField
+                        label="Min Price"
+                        value={minPrice}
+                        onChange={(e) => setMinPrice(e.target.value)}
+                        type="number"
+                        InputProps={{ sx: { borderRadius: 4 } }}
+                        className="mb-5 w-[49%]"
+                      />
+                      <TextField
+                        label="Max Price"
+                        value={maxPrice}
+                        onChange={(e) => setMaxPrice(e.target.value)}
+                        type="number"
+                        className="mb-5 w-[49%]"
+                        InputProps={{ sx: { borderRadius: 4 } }}
+                      />
                     </Box>
                     <Box className="flex ">
-                    <FormControl fullWidth className="mb-5 rounded-xl "  >
-                      <InputLabel id="category" >Category</InputLabel>
-                      <Select
-                        label="categotry"
-                        labelId="category"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        sx={{borderRadius:4}}
-                      >
-                        {categories.map((category) => (
-                          <MenuItem key={category.id} value={category.id}>
-                            {category.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    
-                    
+                      <FormControl fullWidth className="mb-5 rounded-xl ">
+                        <InputLabel id="category">Category</InputLabel>
+                        <Select
+                          label="categotry"
+                          labelId="category"
+                          value={selectedCategory}
+                          onChange={(e) => setSelectedCategory(e.target.value)}
+                          sx={{ borderRadius: 4 }}
+                        >
+                          {categories.map((category) => (
+                            <MenuItem key={category.id} value={category.id}>
+                              {category.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </Box>
                     <Box className="flex justify-center mb-5">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      className="bg-orange-400 rounded-xl px-9"
-                    >
-                      Apply Filters
-                    </Button>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        className="bg-orange-400 rounded-xl px-9"
+                      >
+                        Apply Filters
+                      </Button>
                     </Box>
                   </form>
                 </Box>
@@ -388,8 +418,8 @@ function App() {
       >
         <Box className=" bg-[#F8FAFD] h-[80%] rounded-lg p-5 relative w-[50%]">
           <List className="h-[90%] overflow-auto  ">
-            {carts.length > 0 ? (
-              carts.map((item, index) => (
+            {newcarts.length > 0 ? (
+              newcarts.map((item, index) => (
                 <Singlecart
                   key={index}
                   name={item.name}
@@ -414,6 +444,7 @@ function App() {
           </IconButton>
         </Box>
       </Backdrop>
+      <Complaint />
     </>
   );
 }

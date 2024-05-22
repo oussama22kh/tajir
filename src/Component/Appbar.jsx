@@ -57,11 +57,16 @@ export default function Appbar() {
                 <ShoppingCartRoundedIcon />
               </IconButton>
             </Link>
-            <IconButton className="hover:text-orange-400 hover:bg-transparent">
-              <NotificationsRoundedIcon />
-            </IconButton>
+            <Link to="/notification">
+              <IconButton className="hover:text-orange-400 hover:bg-transparent">
+                <NotificationsRoundedIcon />
+              </IconButton>
+            </Link>
             {user ? (
-              <Link to={"/profile"} className="flex justify-center items-center">
+              <Link
+                to={"/profile"}
+                className="flex justify-center items-center"
+              >
                 <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center me-3">
                   <img
                     src={"http://127.0.0.1:8000/storage/" + user?.image}
@@ -69,9 +74,8 @@ export default function Appbar() {
                     className="h-[90%] w-[90%] object-cover rounded-full"
                   />
                 </Box>
-                <h1 className="text-black text-xl" > {user?.username} </h1>
+                <h1 className="text-black text-xl"> {user?.username} </h1>
               </Link>
-              
             ) : (
               <Link to={"/login/"}>
                 <Button
