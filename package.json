@@ -18,7 +18,7 @@
     "@mui/x-date-pickers": "^7.2.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
-    "cookie": "^0.6.0",
+    "cookie": "^1.0.2",
     "dayjs": "^1.11.10",
     "email-validator": "^2.0.4",
     "is-phone": "^2.0.0",
