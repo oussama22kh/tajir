@@ -16,16 +16,15 @@ import {
   CardActions,
   CardHeader,
   IconButton,
-    } catch (error) {
-      if (error?.response?.status === 409) {
-        toast.error("Already added to cart");
-      } else {
-        toast.error("There was an error adding product to cart");
-        console.error(error);
-      }
-    }
-        if (error?.response?.status === 409) {
+  Rating,
+  Backdrop,
+  List,
+  ListItem,
+  Tooltip,
+} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
