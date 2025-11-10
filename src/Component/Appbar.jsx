@@ -32,13 +32,13 @@ export default function Appbar() {
   return (
     <>
       <AppBar className="bg-white shadow-sm">
-        <Toolbar className="flex flex-col sm:flex-row justify-between gap-2 sm:gap-0 px-2 sm:px-4">
-          <Box className="flex w-full sm:w-1/2 items-center gap-2 sm:gap-4">
+        <Toolbar className="flex justify-between ">
+          <Box className="flex w-1/2 items-center">
             <Link to={"/"}>
-              <Box className="flex items-center cursor-pointer mr-2 sm:mr-10">
-                <img src={logo} alt="Tajir" className="h-7 sm:h-9" />
+              <Box className="flex items-center cursor-pointer mr-10">
+                <img src={logo} alt="Tajir" className="h-9" />
                 <Typography
-                  className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-800 font-tajir px-1 sm:px-2"
+                  className="text-3xl font-semibold text-slate-800 font-tajir px-2"
                   id="logo"
                 >
                   Tajir
@@ -47,12 +47,12 @@ export default function Appbar() {
             </Link>
             <InputBase
               placeholder="Search"
-              className="hidden sm:block w-full sm:w-1/2 md:w-1/3 border-2 focus-within:border-orange-300 px-3 sm:px-5 py-1 rounded-full text-sm sm:text-base"
+              className="w-1/3 border-2 focus-within:border-orange-300  c px-5 py-1 rounded-full"
               type="search"
             />
           </Box>
-          <Box className="flex gap-2 sm:gap-5 items-center w-full sm:w-auto justify-between sm:justify-end">
-            <HomeIcon className="hidden sm:block" />
+          <HomeIcon />
+          <Box className="flex gap-5 items-center">
             <Link to="/cart">
               <IconButton className="hover:text-orange-400 hover:bg-transparent">
                 <ShoppingCartRoundedIcon />
@@ -81,7 +81,7 @@ export default function Appbar() {
               <Link to={"/login/"}>
                 <Button
                   variant="contained"
-                  className="bg-orange-400 font-medium text-sm sm:text-base rounded-full h-9 sm:h-10 shadow-none w-full sm:w-auto sm:mr-5"
+                  className="bg-orange-400 font-medium  text-base rounded-full  h-10 shadow-none mr-5 w-full "
                   style={{ textTransform: "none" }}
                 >
                   Log in

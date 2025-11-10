@@ -148,21 +148,21 @@ export default function Sellercard() {
                   key={product.id}
                 >
                   <CardMedia
-                    className="w-full max-w-md h-auto mx-auto p-3 md:p-5 relative object-contain"
+                    className="w-[60vh] h-[50vh] mx-auto p-5 relative"
                     component="img"
                     image={
                       getStorageUrl(product?.photos[counter])
                     }
-                    alt="Product image"
+                    alt="Paella dish"
                   />
                   <IconButton
-                    className="right-2 md:right-5 top-1/2 -translate-y-1/2 absolute"
+                    className="right-5 top-40 absolute"
                     onClick={increment}
                   >
                     <KeyboardArrowRightRoundedIcon />
                   </IconButton>
                   <IconButton
-                    className="left-2 md:left-5 top-1/2 -translate-y-1/2 absolute"
+                    className="left-5 top-40 absolute"
                     onClick={decrement}
                   >
                     <KeyboardArrowLeftRoundedIcon />

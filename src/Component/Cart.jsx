@@ -158,13 +158,13 @@ function Cart() {
     <>
       <Appbar></Appbar>
       <Container
-        className="h-full mt-[8vh] sm:mt-[10vh] flex justify-between flex-col items-center rounded-2xl bg-white p-4 sm:p-6 md:p-10 shadow-sm"
+        className=" h-full mt-[10vh] flex justify-between flex-col items-center rounded-2xl bg-white p-10 shadow-sm "
         maxWidth={"lg"}
       >
         {newcarts.length > 0 ? (
           <>
-            <Box className="flex flex-col lg:flex-row justify-between w-full gap-4 lg:gap-0">
-              <List className="flex flex-col items-center w-full lg:w-[55%] xl:w-[50%] bg-white rounded-lg">
+            <Box className="flex justify-between w-full">
+              <List className=" flex flex-col items-center w-[90%] bg-white rounded-lg ">
                 {newcarts.map((item, index) => (
                   <Singlecart
                     key={index}
@@ -179,7 +179,7 @@ function Cart() {
                   />
                 ))}
               </List>
-              <Box className="w-full lg:w-[40%] xl:w-[45%] flex flex-col gap-6 md:gap-10 shadow-md m-1 p-4 md:p-5 h-full rounded-lg">
+              <Box className="w-[50%] flex flex-col gap-10 shadow-md m-1 p-5 h-full rounded-lg">
                 <form
                   className="flex Group_form shadow-sm"
                   onSubmit={hndleUdateAddress}
@@ -251,7 +251,7 @@ function Cart() {
         open={open}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Box className="w-[95%] sm:w-[85%] md:w-[70%] lg:w-[60%] xl:w-[50%] min-h-[30%] bg-white rounded-lg p-4 sm:p-6 md:p-10 flex flex-col justify-between max-h-[90vh] overflow-auto">
+        <Box className="w-[40%] min-h-[30%] bg-white rounded-lg p-10 flex flex-col justify-between">
           <List>
             {carts.map((item, index) => (
               <>
