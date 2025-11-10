@@ -17,6 +17,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { useSeller } from "../contexts/sellercontext";
+import { getApiUrl } from "../config/api.js";
 
 const Addproduct = () => {
   const { categories, addproduct } = useSeller();
@@ -47,7 +48,7 @@ const Addproduct = () => {
 
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/product",
+        getApiUrl("api/product"),
         config
       );
       if (response.status === 200) {

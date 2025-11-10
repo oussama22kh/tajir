@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { getApiUrl } from "../config/api.js";
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -19,7 +20,7 @@ export const UserProvider = ({ children }) => {
   const [seller, setseller] = useState();
   const [alerts, setalerts] = useState([]);
   const [report, setreport] = useState(false);
-  const apiUrl = "http://127.0.0.1:8000/api/profile";
+  const apiUrl = getApiUrl("api/profile");
   const token = Cookies?.get("token") || null;
   const config = {
     headers: {
@@ -53,7 +54,7 @@ export const UserProvider = ({ children }) => {
   const updateProfile = async (formData) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/profile/update",
+        getApiUrl("api/profile/update"),
         formData,
         config
       );
@@ -70,7 +71,7 @@ export const UserProvider = ({ children }) => {
   const updateimage = async (formData) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/profile/updateImage",
+        getApiUrl("api/profile/updateImage"),
         formData,
         config
       );
@@ -86,7 +87,7 @@ export const UserProvider = ({ children }) => {
 
   const login = async (data) => {
     const response = await axios
-      .post("http://127.0.0.1:8000/api/login", data)
+      .post(getApiUrl("api/login"), data)
       .then((response) => {
         if (response.status === 200) {
           Cookies.set("token", response.data.token, {
@@ -108,7 +109,7 @@ export const UserProvider = ({ children }) => {
   const logout = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/profile/logout",
+        getApiUrl("api/profile/logout"),
         config
       );
       if (response.status === 200) {
@@ -127,7 +128,7 @@ export const UserProvider = ({ children }) => {
   const getorderhistory = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/order/hisOrders",
+        getApiUrl("api/order/hisOrders"),
         config
       );
       if (response.status === 200) {
@@ -140,7 +141,7 @@ export const UserProvider = ({ children }) => {
   const signup = async (formData) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/register",
+        getApiUrl("api/register"),
         formData
       );
       if (response.status === 201) {
@@ -155,7 +156,7 @@ export const UserProvider = ({ children }) => {
   const getbrandlist = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/brand/getBrands"
+        getApiUrl("api/brand/getBrands")
       );
       if (response.status == 200) {
         setbrandlist(response.data.brands);
@@ -167,7 +168,7 @@ export const UserProvider = ({ children }) => {
   const addbrand = async (data) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/brand/store",
+        getApiUrl("api/brand/store"),
         data,
         config
       );
@@ -188,7 +189,7 @@ export const UserProvider = ({ children }) => {
   const joinbrand = async (data) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/profile/updateRole",
+        getApiUrl("api/profile/updateRole"),
         data,
         config
       );
@@ -209,7 +210,7 @@ export const UserProvider = ({ children }) => {
   const getseller = async (id) => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/seller/showSeller/" + id
+        getApiUrl(`api/seller/showSeller/${id}`)
       );
       if (response.status == 200) {
         setseller(response.data.seller);
@@ -220,7 +221,7 @@ export const UserProvider = ({ children }) => {
   };
 
   const createReview = async (product_id, content, rating) => {
-    const url = `http://127.0.0.1:8000/api/review/${product_id}`;
+    const url = getApiUrl(`api/review/${product_id}`);
     const data = {
       rating: rating,
       content: content,
@@ -238,7 +239,7 @@ export const UserProvider = ({ children }) => {
     }
   };
   const getAllReviewsByProduct = async (product_id) => {
-    const url = `http://127.0.0.1:8000/api/review/${product_id}`;
+    const url = getApiUrl(`api/review/${product_id}`);
     try {
       const response = await axios.get(url, config);
       if (response.status === 200) {
@@ -255,7 +256,7 @@ export const UserProvider = ({ children }) => {
   const getnotifications = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/profile/notification",
+        getApiUrl("api/profile/notification"),
         config
       );
       if (response.status == 200) {
@@ -269,7 +270,7 @@ export const UserProvider = ({ children }) => {
   const deletealert = async (notification_id) => {
     try {
       const response = await axios.delete(
-        `http://127.0.0.1:8000/api/profile/notification/${notification_id}`,
+        getApiUrl(`api/profile/notification/${notification_id}`),
         {},
         config
       );

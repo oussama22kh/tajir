@@ -33,6 +33,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useUser } from "../contexts/usercontext.jsx";
+import { getApiUrl } from "../config/api.js";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -83,7 +84,7 @@ export default function Singlecart({
   const FetchDiscounts = async () => {
     try {
       const res = await axios.get(
-        `http://127.0.0.1:8000/api/discount/${id}`,
+        getApiUrl(`api/discount/${id}`),
         config
       );
       if (res.status === 200) {
@@ -108,7 +109,7 @@ export default function Singlecart({
 
     try {
       const res = await axios.post(
-        `http://127.0.0.1:8000/api/discount/activate/${disc_id}`,
+        getApiUrl(`api/discount/activate/${disc_id}`),
         {
           cart_id: id,
         },
@@ -130,7 +131,7 @@ export default function Singlecart({
   const handelDesactiveDiscount = async () => {
     try {
       const res = await axios.put(
-        `http://127.0.0.1:8000/api/discount/deactivate/${id}`,
+        getApiUrl(`api/discount/deactivate/${id}`),
         {},
         config
       );
@@ -151,7 +152,7 @@ export default function Singlecart({
     }
     try {
       const res = await axios.post(
-        `http://127.0.0.1:8000/api/discount/searchCoupon`,
+        getApiUrl("api/discount/searchCoupon"),
         {
           cart_id: id,
           search: Search,
@@ -173,7 +174,7 @@ export default function Singlecart({
     SetuseDiscount(false);
     try {
       const res = await axios.post(
-        `http://127.0.0.1:8000/api/discount/activateCoupon/${coupon_id}`,
+        getApiUrl(`api/discount/activateCoupon/${coupon_id}`),
         {
           cart_id: id,
         },

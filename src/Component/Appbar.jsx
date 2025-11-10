@@ -23,6 +23,7 @@ import {
 import { useUser } from "../contexts/usercontext";
 import { useEffect } from "react";
 import HomeIcon from "@mui/icons-material/Home";
+import { getStorageUrl } from "../config/api.js";
 export default function Appbar() {
   const { user, setloading, loading } = useUser();
   useEffect(() => {
@@ -69,7 +70,7 @@ export default function Appbar() {
               >
                 <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center me-3">
                   <img
-                    src={"http://127.0.0.1:8000/storage/" + user?.image}
+                    src={getStorageUrl(user?.image)}
                     alt="profile"
                     className="h-[90%] w-[90%] object-cover rounded-full"
                   />

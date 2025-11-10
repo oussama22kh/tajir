@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import photo from "./assets/landingpageimage.svg";
 import axios from "axios";
 import "./style/home.css";
+import { getApiUrl, getStorageUrl } from "./config/api.js";
 import cartphoto from "./assets/cart.svg";
 import { MdTune } from "react-icons/md";
 import { FaAngleDoubleRight } from "react-icons/fa";
@@ -94,7 +95,7 @@ function App() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await axios("http://127.0.0.1:8000/api/ads");
+        const response = await axios(getApiUrl("api/ads"));
         if (response.status === 200) {
           setAds(response.data.ads);
         }
@@ -108,7 +109,7 @@ function App() {
   }, []);
 
   const constructURL = () => {
-    let baseURL = "http://127.0.0.1:8000/api/products?";
+    let baseURL = getApiUrl("api/products?");
     let params = [];
 
     if (search) params.push(`search=${search}`);
@@ -126,7 +127,7 @@ function App() {
     setOpendfilter(false);
     setURL(constructURL());
   };
-  const [URL, setURL] = useState("http://127.0.0.1:8000/api/products");
+  const [URL, setURL] = useState(getApiUrl("api/products"));
   const getData = async () => {
     try {
       const response = await axios.get(URL);
@@ -155,7 +156,7 @@ function App() {
 
   const GetCategories = async () => {
     try {
-      const res = await axios.get("http://127.0.0.1:8000/api/categories");
+      const res = await axios.get(getApiUrl("api/categories"));
       if (res.status === 200) {
         setCategories(res.data.categories);
       }
@@ -232,7 +233,7 @@ function App() {
                 <img
                   key={ad.id}
                   id={`slider-${index + 1}`}
-                  src={`http://127.0.0.1:8000/storage/${ad.image}`}
+                  src={getStorageUrl(ad.image)}
                   alt={`Ad ${index + 1}`}
                 />
               ))}
@@ -426,7 +427,7 @@ function App() {
                   name={item.name}
                   price={item.price}
                   qte={item.qte}
-                  image={"http://127.0.0.1:8000/storage/" + item.image}
+                  image={getStorageUrl(item.image)}
                   id={item.id}
                   is_ordered={item.is_ordered}
                 />

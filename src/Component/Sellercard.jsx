@@ -19,6 +19,7 @@ import {
   Rating,
 } from "@mui/material";
 import { useSeller } from "../contexts/sellercontext";
+import { getStorageUrl } from "../config/api.js";
 
 export default function Sellercard(props) {
   const { setOpenproduct, getproduct } = useSeller();
@@ -43,7 +44,7 @@ export default function Sellercard(props) {
           <CardMedia
             className="w-72 h-60 mx-auto p-5"
             component="img"
-            image={`http://127.0.0.1:8000/storage/${props.product.photos[0]}`}
+            image={getStorageUrl(props.product.photos[0])}
             alt="Paella dish"
           />
           <CardContent className="flex flex-col items-start gap-4">

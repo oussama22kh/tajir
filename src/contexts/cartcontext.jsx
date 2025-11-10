@@ -3,6 +3,7 @@ import { createContext } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { getApiUrl } from "../config/api.js";
 
 const CartContext = createContext();
 
@@ -27,7 +28,7 @@ export const Cartprovider = ({ children }) => {
   }, [carts]);
 
   const getCarts = async () => {
-    const apiUrl = "http://127.0.0.1:8000/api/cart/getCarts";
+    const apiUrl = getApiUrl("api/cart/getCarts");
     try {
       const response = await axios.get(apiUrl, config);
       if (response.status == 200) {
@@ -49,7 +50,7 @@ export const Cartprovider = ({ children }) => {
   };
 
   const deletecartitem = async (id) => {
-    const apiUrl = "http://127.0.0.1:8000/api/cart/deleteCart/" + id;
+    const apiUrl = getApiUrl(`api/cart/deleteCart/${id}`);
 
     try {
       const response = await axios.delete(apiUrl, config);
@@ -62,7 +63,7 @@ export const Cartprovider = ({ children }) => {
     }
   };
   const updatecart = async (id, qte) => {
-    const apiUrl = "http://127.0.0.1:8000/api/cart/updateCart";
+    const apiUrl = getApiUrl("api/cart/updateCart");
 
     try {
       const response = await axios.post(apiUrl, { id: id, qte: qte }, config);
@@ -76,7 +77,7 @@ export const Cartprovider = ({ children }) => {
   const setorder = async (cartid) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/order/order",
+        getApiUrl("api/order/order"),
         { cart_id: cartid },
         config
       );

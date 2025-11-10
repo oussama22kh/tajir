@@ -19,6 +19,7 @@ import cartphoto from "../assets/cart.svg";
 import Cookies from "js-cookie";
 import emotionReact_isolatedHnrs from "@emotion/react/_isolated-hnrs";
 import toast from "react-hot-toast";
+import { getApiUrl, getStorageUrl } from "../config/api.js";
 const config = {
   headers: {
     Authorization: `Bearer ${Cookies.get("token")}`,
@@ -119,7 +120,7 @@ function Cart() {
     
     e.preventDefault();
     try{
-      const res = await axios.post(`http://127.0.0.1:8000/api/profile/address`, 
+      const res = await axios.post(getApiUrl("api/profile/address"), 
       {"address" : selectedCity } ,
       config )
       if(res.status === 200){
@@ -143,7 +144,7 @@ function Cart() {
       toast.error("phone incorrect")
     }
     try{
-      const res = await axios.post(`http://127.0.0.1:8000/api/profile/phone`, 
+      const res = await axios.post(getApiUrl("api/profile/phone"), 
       {"phone" : phone } ,
       config )
       if(res.status === 200){
@@ -170,7 +171,7 @@ function Cart() {
                     name={item.name}
                     price={item.price}
                     qte={item.qte}
-                    image={"http://127.0.0.1:8000/storage/" + item.image}
+                    image={getStorageUrl(item.image)}
                     id={item.id}
                     is_ordered={item.is_ordered}
                     new_price={item.new_price}
@@ -261,7 +262,7 @@ function Cart() {
                         {index + 1}. {item.name} , qte : {item.qte}
                       </Typography>
                       <img
-                        src={"http://127.0.0.1:8000/storage/" + item.image}
+                        src={getStorageUrl(item.image)}
                         className="w-20 rounded-lg"
                       />
                     </Box>

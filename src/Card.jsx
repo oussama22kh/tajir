@@ -39,6 +39,7 @@ import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
 import { GrSend } from "react-icons/gr";
 import { useCart } from "./contexts/cartcontext";
 import { useUser } from "./contexts/usercontext";
+import { getApiUrl, getStorageUrl } from "./config/api.js";
 
 export default function Cardproduct(props) {
   const { setloading, loading } = useCart();
@@ -57,7 +58,7 @@ export default function Cardproduct(props) {
     setreport,
   } = useUser();
 
-  const apiUrl = "http://127.0.0.1:8000/api/cart/addToCart";
+  const apiUrl = getApiUrl("api/cart/addToCart");
   const token = Cookies.get("token");
   const handlereport = () => {
     setreport(true);
@@ -130,7 +131,7 @@ export default function Cardproduct(props) {
           <CardMedia
             className="w-72 h-60 mx-auto p-5"
             component="img"
-            image={`http://127.0.0.1:8000/storage/${props.product.photos[0]}`}
+            image={getStorageUrl(props.product.photos[0])}
             alt="Paella dish"
           />
           <CardContent className="flex flex-col items-start gap-4">
@@ -174,8 +175,7 @@ export default function Cardproduct(props) {
                   className="w-[50%] h-[50%] mx-auto p-5 "
                   component="img"
                   image={
-                    "http://127.0.0.1:8000/storage/" +
-                    props.product?.photos[counter]
+                    getStorageUrl(props.product?.photos[counter])
                   }
                   alt="Paella dish"
                 />
@@ -211,7 +211,7 @@ export default function Cardproduct(props) {
                     <Tooltip title={seller?.username}>
                       <Box className="rounded-full h-10 w-10 border-2 hover:border-orange-400 flex justify-center items-center">
                         <img
-                          src={"http://127.0.0.1:8000/storage/" + seller?.image}
+                          src={getStorageUrl(seller?.image)}
                           alt="profile"
                           className="h-[90%] w-[90%] object-cover rounded-full"
                         />

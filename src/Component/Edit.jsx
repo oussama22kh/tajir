@@ -1,6 +1,7 @@
 import { Typography, Box, Button, TextField } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useUser } from "../contexts/usercontext";
+import { getStorageUrl } from "../config/api.js";
 
 export default function Edit() {
   const { user, updateProfile, updateimage } = useUser();
@@ -11,7 +12,7 @@ export default function Edit() {
   const [email, setEmail] = useState(user?.email || "");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(
-    "http://127.0.0.1:8000/storage/" + user?.image || ""
+    user?.image ? getStorageUrl(user.image) : ""
   );
 
   useEffect(() => {

@@ -24,6 +24,7 @@ import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftR
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import { useState } from "react";
 import axios from "axios";
+import { getApiUrl, getStorageUrl } from "../config/api.js";
 
 export default function Sellercard() {
   const {
@@ -60,7 +61,7 @@ export default function Sellercard() {
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
-    const url = `http://127.0.0.1:8000/api/product/updateProduct/${product.id}`;
+    const url = getApiUrl(`api/product/updateProduct/${product.id}`);
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -84,7 +85,7 @@ export default function Sellercard() {
 
   const handleUpdatePhotos = async (e) => {
     e.preventDefault();
-    const url = `http://127.0.0.1:8000/api/product/updatePhotos/${product.id}`;
+    const url = getApiUrl(`api/product/updatePhotos/${product.id}`);
     const formData = new FormData();
     photos.forEach((photo, index) => {
       formData.append(`photos[${index}]`, photo);
@@ -126,8 +127,7 @@ export default function Sellercard() {
                     className="w-[60vh] h-[50vh] mx-auto p-5 relative"
                     component="img"
                     image={
-                      "http://127.0.0.1:8000/storage/" +
-                      product?.photos[counter]
+                      getStorageUrl(product?.photos[counter])
                     }
                     alt="Paella dish"
                   />

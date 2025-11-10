@@ -1,4 +1,5 @@
 import { Typography, Box, Rating, ListItem } from "@mui/material";
+import { getStorageUrl } from "../config/api.js";
 
 export default function Review({ props }) {
   console.log(props);
@@ -8,7 +9,7 @@ export default function Review({ props }) {
         <Box className="flex gap-5 items-center">
           <Box className="rounded-full h-10 w-10 flex justify-center items-center">
             <img
-              src={"http://127.0.0.1:8000/storage/" + props?.image}
+              src={getStorageUrl(props?.image)}
               alt="profile"
               className="h-[90%] w-[90%] object-cover rounded-full"
             />

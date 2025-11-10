@@ -37,6 +37,7 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import ReceiptLongRoundedIcon from "@mui/icons-material/ReceiptLongRounded";
 import { useUser } from "./contexts/usercontext.jsx";
 import { Outlet } from "react-router-dom";
+import { getStorageUrl } from "./config/api.js";
 
 export default function Profile() {
   const { user, logout, reload, setreload } = useUser();
@@ -114,7 +115,7 @@ export default function Profile() {
                   >
                     <img
                       id="account-img"
-                      src={"http://127.0.0.1:8000/storage/" + user?.image}
+                      src={getStorageUrl(user?.image)}
                       alt="profile"
                       className="h-[90%] w-[90%] object-cover rounded-full absolute z-10 "
                       onClick={handleClick}

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
+import { getApiUrl } from "../config/api.js";
 const SellerContext = createContext();
 
 export const useSeller = () => useContext(SellerContext);
@@ -29,7 +30,7 @@ export const SellerProvider = ({ children }) => {
   }, [loading]);
 
   const getproducts = async () => {
-    const apiurl = "http://127.0.0.1:8000/api/seller/stock/";
+    const apiurl = getApiUrl("api/seller/stock/");
     try {
       const response = await axios.get(apiurl, config);
       if (response.status === 200) {
@@ -45,7 +46,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const getproduct = async (id) => {
-    const apiurl = "http://127.0.0.1:8000/api/seller/stock/" + id;
+    const apiurl = getApiUrl(`api/seller/stock/${id}`);
     try {
       const response = await axios.get(apiurl, config);
       if (response.status === 200) {
@@ -62,7 +63,7 @@ export const SellerProvider = ({ children }) => {
   };
 
   const deleteproduct = async (id) => {
-    const apiurl = "http://127.0.0.1:8000/api/product/deleteProduct/" + id;
+    const apiurl = getApiUrl(`api/product/deleteProduct/${id}`);
     setlaoding(!loading);
     try {
       const response = await axios.delete(apiurl, config);
@@ -78,7 +79,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const getcategories = async () => {
-    const apiurl = "http://127.0.0.1:8000/api/categories";
+    const apiurl = getApiUrl("api/categories");
     try {
       const response = await axios.get(apiurl);
       if (response.status === 200) {
@@ -96,7 +97,7 @@ export const SellerProvider = ({ children }) => {
   const getorders = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/api/order/sellerOrders",
+        getApiUrl("api/order/sellerOrders"),
         config
       );
       if (response.status === 200) {
@@ -109,7 +110,7 @@ export const SellerProvider = ({ children }) => {
   const addproduct = async (formData) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/product/storeProduct",
+        getApiUrl("api/product/storeProduct"),
         formData,
         config
       );
@@ -123,7 +124,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const updatedetail = async (fromdata) => {
-    const url = `http://127.0.0.1:8000/api/product/updateProduct/${product.id}`;
+    const url = getApiUrl(`api/product/updateProduct/${product.id}`);
 
     try {
       const response = await axios.post(url, fromdata, config);
@@ -139,7 +140,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const updatephotos = async (photos) => {
-    const url = `http://127.0.0.1:8000/api/product/updatePhotos/${product.id}`;
+    const url = getApiUrl(`api/product/updatePhotos/${product.id}`);
 
     try {
       const response = await axios.post(url, photos, config);
@@ -155,7 +156,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const accepetorder = async (order_id) => {
-    const url = `http://127.0.0.1:8000/api/order/acceptOrder/${order_id}`;
+    const url = getApiUrl(`api/order/acceptOrder/${order_id}`);
 
     try {
       const response = await axios.put(url, {}, config);
@@ -171,7 +172,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const rejecttorder = async (order_id) => {
-    const url = `http://127.0.0.1:8000/api/order/rejectOrder/${order_id}`;
+    const url = getApiUrl(`api/order/rejectOrder/${order_id}`);
 
     try {
       const response = await axios.put(url, {}, config);
@@ -187,7 +188,7 @@ export const SellerProvider = ({ children }) => {
     }
   };
   const getwaitingorders = async () => {
-    const url = "http://127.0.0.1:8000/api/order/waitingOrders";
+    const url = getApiUrl("api/order/waitingOrders");
 
     try {
       const response = await axios.get(url, config);

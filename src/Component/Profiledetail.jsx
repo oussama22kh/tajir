@@ -1,5 +1,6 @@
 import { Typography, Box, TextField } from "@mui/material";
 import { useUser } from "../contexts/usercontext";
+import { getStorageUrl } from "../config/api.js";
 
 export default function Profiledetail() {
   const { user } = useUser();
@@ -11,7 +12,7 @@ export default function Profiledetail() {
           <Typography>Profile Detail </Typography>
           <Box className=" flex justify-center items-center rounded-full h-52 w-52 overflow-hidden border-4 shadow-md border-white">
             <img
-              src={"http://127.0.0.1:8000/storage/" + user?.image}
+              src={getStorageUrl(user?.image)}
               alt="profile photo"
               className="h-full w-full object-cover"
             />
