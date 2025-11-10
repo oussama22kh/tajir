@@ -33,19 +33,19 @@ export default function Sellercard(props) {
         item
         xs={12}
         sm={6}
-        lg={3}
         md={4}
+        lg={3}
         className="my-5 flex justify-center"
       >
         <Card
-          className="w-72  p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]"
+          className="w-full max-w-sm p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD] cursor-pointer"
           onClick={handleOpenproduct}
         >
           <CardMedia
-            className="w-72 h-60 mx-auto p-5"
+            className="w-full h-48 sm:h-56 md:h-60 mx-auto p-3 sm:p-5 object-contain"
             component="img"
             image={getStorageUrl(props.product.photos[0])}
-            alt="Paella dish"
+            alt="Product image"
           />
           <CardContent className="flex flex-col items-start gap-4">
             <Typography className="hover:underline cursor-pointer">

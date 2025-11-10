@@ -63,7 +63,7 @@ export default function Mystore() {
         open={open}
         className="flex "
       >
-        <Box className=" bg-white  rounded-lg  w-[50%] h-[95vh] p-5 relative">
+        <Box className="bg-white rounded-lg w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[95vh] p-4 md:p-5 relative overflow-auto">
           <Addproduct></Addproduct>
 
           <IconButton
@@ -79,7 +79,7 @@ export default function Mystore() {
         open={update}
         className="flex "
       >
-        <Box className=" bg-white  rounded-lg  w-[70%] h-[90%] p-5 relative overflow-auto">
+        <Box className="bg-white rounded-lg w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] h-[90%] p-4 md:p-5 relative overflow-auto">
           <Grid container className="gap-5 flex justify-center ">
             {products.map((product, index) => (
               <Sellercard className="mx-3" product={product} key={index} />
@@ -100,7 +100,7 @@ export default function Mystore() {
           open={openproduct}
           className="flex justify-center items-center"
         >
-          <Box className="bg-white rounded-lg  w-[50%] p-5 relative overflow-auto">
+          <Box className="bg-white rounded-lg w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] p-4 md:p-5 relative overflow-auto">
             <Sellerdetailcard className="mx-3" />
             <IconButton
               onClick={handleCloseproduct}

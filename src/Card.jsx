@@ -123,16 +123,16 @@ export default function Cardproduct(props) {
         item
         xs={12}
         sm={6}
-        lg={3}
         md={4}
+        lg={3}
         className="my-5 flex justify-center z-0 bg-transparent"
       >
-        <Card className="min-w-60 p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]">
+        <Card className="w-full max-w-sm p-3 shadow-md rounded-2xl hover:bg-[#F8FAFD]">
           <CardMedia
-            className="w-72 h-60 mx-auto p-5"
+            className="w-full h-48 sm:h-56 md:h-60 mx-auto p-3 sm:p-5 object-contain"
             component="img"
             image={getStorageUrl(props.product.photos[0])}
-            alt="Paella dish"
+            alt="Product image"
           />
           <CardContent className="flex flex-col items-start gap-4">
             <Typography className="hover:underline cursor-pointer">
@@ -167,26 +167,26 @@ export default function Cardproduct(props) {
         open={open}
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
-        <Box className=" bg-white rounded-2xl w-[50%] h-[90%] p-5 relative">
-          <Box className="relative  w-full h-full  overflow-auto">
+        <Box className="bg-white rounded-2xl w-[95%] sm:w-[90%] md:w-[80%] lg:w-[70%] xl:w-[60%] h-[90%] p-3 md:p-5 relative">
+          <Box className="relative w-full h-full overflow-auto">
             {props.product && props.product.photos && (
-              <Card className=" p-10 shadow-none " key={props.product.id}>
+              <Card className="p-4 md:p-10 shadow-none" key={props.product.id}>
                 <CardMedia
-                  className="w-[50%] h-[50%] mx-auto p-5 "
+                  className="w-full max-w-md h-auto mx-auto p-3 md:p-5 object-contain"
                   component="img"
                   image={
                     getStorageUrl(props.product?.photos[counter])
                   }
-                  alt="Paella dish"
+                  alt="Product image"
                 />
                 <IconButton
-                  className="right-5 top-40 absolute"
+                  className="right-2 md:right-5 top-1/2 -translate-y-1/2 absolute"
                   onClick={increment}
                 >
                   <KeyboardArrowRightRoundedIcon />
                 </IconButton>
                 <IconButton
-                  className="left-5 top-40 absolute"
+                  className="left-2 md:left-5 top-1/2 -translate-y-1/2 absolute"
                   onClick={decrement}
                 >
                   <KeyboardArrowLeftRoundedIcon />
@@ -237,17 +237,19 @@ export default function Cardproduct(props) {
                       <IconButton onClick={() => setwritereview(false)}>
                         <KeyboardArrowUpIcon />
                       </IconButton>
-                      <Box className="flex p-2 w-[70%] justify-between">
-                        <Typography>My Rating</Typography>
+                      <Box className="flex p-2 w-full sm:w-[90%] md:w-[70%] justify-between items-center gap-2">
+                        <Typography className="text-sm sm:text-base">My Rating</Typography>
                         <Rating
                           aria-required
                           value={rarting}
                           onChange={(e) => {
                             setrating(e.target.value);
                           }}
+                          size="small"
+                          sx={{ fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
                         />
                       </Box>
-                      <Box className="w-[70%] flex items-center justify-between">
+                      <Box className="w-full sm:w-[90%] md:w-[70%] flex items-center justify-between gap-2">
                         <TextField
                           required
                           multiline

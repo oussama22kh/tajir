@@ -90,12 +90,12 @@ export default function Profile() {
         <>
           <header>
             <nav className="fixed top-0">
-              <Box className=" h-20 w-screen px-10  flex justify-between items-center bg-slate-100 bg-opacity-50">
+              <Box className="h-16 sm:h-20 w-screen px-4 sm:px-6 md:px-10 flex justify-between items-center bg-slate-100 bg-opacity-50">
                 <Link to="/">
-                  <Box className="flex items-center cursor-pointer mx-8 ">
-                    <img src={logo} alt="Tajir" className="h-10" />
+                  <Box className="flex items-center cursor-pointer mx-2 sm:mx-4 md:mx-8">
+                    <img src={logo} alt="Tajir" className="h-7 sm:h-9 md:h-10" />
                     <Typography
-                      className="text-3xl font-semibold text-slate-800 font-tajir px-2 "
+                      className="text-xl sm:text-2xl md:text-3xl font-semibold text-slate-800 font-tajir px-1 sm:px-2"
                       id="logo"
                     >
                       Tajir
@@ -103,7 +103,7 @@ export default function Profile() {
                   </Box>
                 </Link>
                 <Box
-                  className="flex justify-end items-center gap-5 "
+                  className="flex justify-end items-center gap-2 sm:gap-3 md:gap-5"
                   onClick={handleClose}
                 >
                   <SearchRoundedIcon></SearchRoundedIcon>
@@ -145,8 +145,7 @@ export default function Profile() {
             }
           ></Sidebar>
           <Container
-            
-            className="flex justify-center   items-start mt-[10vh] rounded-2xl bg-white"
+            className="flex justify-center items-start mt-[8vh] sm:mt-[10vh] rounded-2xl bg-white px-2 sm:px-4"
           >
             <Outlet />
           </Container>

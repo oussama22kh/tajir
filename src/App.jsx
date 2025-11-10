@@ -196,32 +196,33 @@ function App() {
       </div>
     </Container> */}
       {!user && (
-        <Container maxWidth="lg" className="h-screen">
-          <Box className="flex h-screen  items-center justify-between ">
-            <Box className="flex flex-col gap-10">
-              <Typography className="text-6xl font-medium">
+        <Container maxWidth="lg" className="min-h-screen py-8 md:py-0">
+          <Box className="flex flex-col md:flex-row min-h-screen items-center justify-between gap-8 md:gap-0">
+            <Box className="flex flex-col gap-6 md:gap-10 w-full md:w-auto text-center md:text-left">
+              <Typography className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium">
                 Find what <br /> you need
               </Typography>
-              <Typography className="text-4xl font-medium">
+              <Typography className="text-2xl sm:text-3xl md:text-4xl font-medium">
                 Discover
                 <br /> more
               </Typography>
-              <Link to={"/signup"}>
+              <Link to={"/signup"} className="flex justify-center md:justify-start">
                 <Button
                   variant="contained"
-                  className="bg-orange-400 font-medium shadow-none text-base rounded-full  h-12  "
+                  className="bg-orange-400 font-medium shadow-none text-base rounded-full h-12 w-full sm:w-auto"
                   style={{ textTransform: "none" }}
                 >
                   Sign up for free
                 </Button>
               </Link>
             </Box>
-            <img
-              src={photo}
-              alt="products"
-              className="w-[50%] "
-              style={{ width: "45%" }}
-            />
+            <Box className="w-full md:w-[45%] flex justify-center">
+              <img
+                src={photo}
+                alt="products"
+                className="w-full max-w-md md:max-w-none md:w-full"
+              />
+            </Box>
           </Box>
         </Container>
       )}
@@ -247,7 +248,7 @@ function App() {
         </div>
       </Container>
       <Container
-        className=" flex p-0 mt-16 h-screen justify-center "
+        className=" flex p-0 mt-8 md:mt-16 min-h-screen justify-center "
         maxWidth={"xl"}
       >
         <Box className="w-screen">
@@ -302,7 +303,7 @@ function App() {
               open={openfilter}
               sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
             >
-              <Box className="lg:w-[40vw] md:w-[55%]  sm:w-[90%]  overflow-auto bg-white rounded-2xl p-5 flex flex-col justify-between ">
+              <Box className="w-[95%] sm:w-[90%] md:w-[70%] lg:w-[50%] xl:w-[40vw] overflow-auto bg-white rounded-2xl p-4 md:p-5 flex flex-col justify-between max-h-[90vh]">
                 <div className="flex justify-between w-[100%] text-black mb-5 px-5">
                   <h1 className="text-bold  text-2xl">Filter</h1>
                   <HighlightOffRoundedIcon
@@ -371,11 +372,9 @@ function App() {
               </Box>
             </Backdrop>
           </Box>
-          <Grid container className=" flex justify-center w-full gap-5">
+          <Grid container spacing={2} className="flex justify-center w-full px-2 md:px-4">
             {products.map((product, index) => (
               <Card
-                className=""
-                style={{ margin: "0px 70px" }}
                 product={product}
                 key={index}
               />
@@ -418,7 +417,7 @@ function App() {
         open={open}
         className="flex"
       >
-        <Box className=" bg-[#F8FAFD] h-[80%] rounded-lg p-5 relative w-[50%]">
+        <Box className="bg-[#F8FAFD] h-[80%] rounded-lg p-5 relative w-[95%] sm:w-[80%] md:w-[70%] lg:w-[50%]">
           <List className="h-[90%] overflow-auto  ">
             {newcarts.length > 0 ? (
               newcarts.map((item, index) => (
