@@ -27,28 +27,28 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle different error scenarios
-    if (!error.response) {
+    // Safely handle all error scenarios with null checks
+    if (!error?.response) {
       // Network error
       toast.error('Network error. Please check your connection.');
       console.error('Network error:', error);
-    } else if (error.response.status === 401) {
+    } else if (error.response?.status === 401) {
       // Unauthorized - token might be expired
       toast.error('Session expired. Please login again.');
       Cookies.remove('token');
       window.location.href = '/login';
-    } else if (error.response.status === 403) {
+    } else if (error.response?.status === 403) {
       // Forbidden
       toast.error('You do not have permission to access this resource.');
-    } else if (error.response.status === 404) {
+    } else if (error.response?.status === 404) {
       // Not found
       toast.error('Resource not found.');
-    } else if (error.response.status === 500) {
+    } else if (error.response?.status === 500) {
       // Server error
       toast.error('Server error. Please try again later.');
-    } else if (error.response.status === 422) {
+    } else if (error.response?.status === 422) {
       // Validation error
-      const messages = error.response.data?.errors;
+      const messages = error.response?.data?.errors;
       if (messages) {
         Object.values(messages).forEach((msg) => {
           toast.error(Array.isArray(msg) ? msg[0] : msg);
@@ -57,10 +57,12 @@ apiClient.interceptors.response.use(
         toast.error('Validation error. Please check your input.');
       }
     } else {
-      // Generic error
-      toast.error(
-        error.response?.data?.message || 'An error occurred. Please try again.'
-      );
+      // Generic error with safe property access
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        'An error occurred. Please try again.';
+      toast.error(errorMessage);
     }
 
     return Promise.reject(error);

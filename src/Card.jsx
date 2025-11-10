@@ -16,15 +16,15 @@ import {
   CardActions,
   CardHeader,
   IconButton,
-  Rating,
-  Backdrop,
-  List,
-  ListItem,
-  Tooltip,
-} from "@mui/material";
-import Review from "./Component/Review";
-import Cookies from "js-cookie";
-import { useState, useEffect } from "react";
+    } catch (error) {
+      if (error?.response?.status === 409) {
+        toast.error("Already added to cart");
+      } else {
+        toast.error("There was an error adding product to cart");
+        console.error(error);
+      }
+    }
+        if (error?.response?.status === 409) {
 import axios from "axios";
 import toast from "react-hot-toast";
 import AddShoppingCartRoundedIcon from "@mui/icons-material/AddShoppingCartRounded";
@@ -79,7 +79,7 @@ export default function Cardproduct(props) {
         toast.success("Added to cart successfully");
       }
     } catch (error) {
-      if (error.response.status === 409) {
+      if (error?.response?.status === 409) {
         toast.error("Already added to cart");
       } else {
         toast.error("there was an error adding product to cart");
