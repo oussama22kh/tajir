@@ -22,8 +22,9 @@ import { useSeller } from "../contexts/sellercontext";
 import KeyboardArrowRightRoundedIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import KeyboardArrowLeftRoundedIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { getApiUrl, getStorageUrl } from "../config/api.js";
 
 export default function Sellercard() {
@@ -31,23 +32,37 @@ export default function Sellercard() {
     product,
     deleteproduct,
     setOpenproduct,
-    token,
-    UpdatePhotos,
     updatedetail,
   } = useSeller();
   const [counter, setcounter] = useState(0);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [showUpdatePhotosForm, setShowUpdatePhotosForm] = useState(false);
   const [formData, setFormData] = useState({
-    name: product?.name || "",
-    price: product?.price || "",
-    description: product?.description || "",
-    quantity: product?.quantity || "",
+    name: "",
+    price: "",
+    description: "",
+    quantity: "",
   });
   const [photos, setPhotos] = useState([]);
+  const token = Cookies.get("token");
+
+  // Update formData when product changes
+  useEffect(() => {
+    if (product && product.id) {
+      setFormData({
+        name: product?.name || "",
+        price: product?.price || "",
+        description: product?.description || "",
+        quantity: product?.quantity || "",
+      });
+      setcounter(0);
+    }
+  }, [product]);
 
   const increment = () => {
-    if (counter < product.photos.length - 1) setcounter(counter + 1);
+    if (product && product.photos && counter < product.photos.length - 1) {
+      setcounter(counter + 1);
+    }
   };
 
   const decrement = () => {
@@ -55,12 +70,15 @@ export default function Sellercard() {
   };
 
   const handledelete = () => {
-    deleteproduct(product.id);
-    setOpenproduct(false);
+    if (product && product.id) {
+      deleteproduct(product.id);
+      setOpenproduct(false);
+    }
   };
 
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
+    if (!product || !product.id) return;
     const url = getApiUrl(`api/product/updateProduct/${product.id}`);
     const config = {
       headers: {
@@ -85,6 +103,7 @@ export default function Sellercard() {
 
   const handleUpdatePhotos = async (e) => {
     e.preventDefault();
+    if (!product || !product.id) return;
     const url = getApiUrl(`api/product/updatePhotos/${product.id}`);
     const formData = new FormData();
     photos.forEach((photo, index) => {
@@ -111,6 +130,11 @@ export default function Sellercard() {
       );
     }
   };
+
+  // Don't render if product is not available
+  if (!product || !product.id || !product.photos) {
+    return null;
+  }
 
   return (
     <>

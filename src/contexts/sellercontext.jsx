@@ -3,9 +3,41 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import toast, { Toaster } from "react-hot-toast";
 import { getApiUrl } from "../config/api.js";
-const SellerContext = createContext();
 
-export const useSeller = () => useContext(SellerContext);
+// Default context value to prevent destructuring errors
+const defaultContextValue = {
+  products: [],
+  getproduct: () => {},
+  product: {},
+  openproduct: false,
+  setOpenproduct: () => {},
+  setproduct: () => {},
+  deleteproduct: () => {},
+  categories: [],
+  orders: [],
+  addproduct: () => {},
+  updatephotos: () => {},
+  updatedetail: () => {},
+  rejecttorder: () => {},
+  accepetorder: () => {},
+  getwaitingorders: () => {},
+  waitingOrders: {},
+};
+
+const SellerContext = createContext(defaultContextValue);
+
+export const useSeller = () => {
+  const context = useContext(SellerContext);
+  // Return default value if context is undefined or null (shouldn't happen with provider, but safety check)
+  if (context === undefined || context === null) {
+    return defaultContextValue;
+  }
+  // Ensure all required properties exist, merge with defaults if needed
+  return {
+    ...defaultContextValue,
+    ...context,
+  };
+};
 
 export const SellerProvider = ({ children }) => {
   const [products, setproducts] = useState([]);
