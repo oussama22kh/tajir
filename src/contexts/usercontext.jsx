@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { getApiUrl } from "../config/api.js";
+import apiClient from "../config/axiosConfig.js";
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -22,11 +23,9 @@ export const UserProvider = ({ children }) => {
   const [report, setreport] = useState(false);
   const apiUrl = getApiUrl("api/profile");
   const token = Cookies?.get("token") || null;
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+
+  // This config is no longer needed as apiClient handles it
+  // Keeping for reference but should be removed in refactoring
 
   useEffect(() => {
     if (token) {

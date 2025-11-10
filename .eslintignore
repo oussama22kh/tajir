@@ -1,0 +1,9 @@
+node_modules
+dist
+build
+coverage
+.next
+.nuxt
+*.min.js
+public
+src/test

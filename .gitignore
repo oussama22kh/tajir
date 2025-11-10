@@ -22,3 +22,19 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Documentation files (development reference only)
+QUICK_START.md
+DOCUMENTATION_INDEX.md
+NEXT_STEPS.md
+DECISION_GUIDE.md
+IMPLEMENTATION_REPORT.md
+ENHANCEMENT_SUMMARY.md
+UI_FRAMEWORK_CONSOLIDATION.md
+IMAGE_OPTIMIZATION.md
+ROADMAP.md
+deploy-check.sh
+
+# Keep only essential README
+# README.md is allowed (main project readme)
+# PROJECT_README.md should be removed

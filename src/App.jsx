@@ -32,20 +32,29 @@ import HighlightOffRoundedIcon from "@mui/icons-material/HighlightOffRounded";
 import Appbar from "./Component/Appbar.jsx";
 import { useCart } from "./contexts/cartcontext.jsx";
 import { useUser } from "./contexts/usercontext.jsx";
-import emotionReact_isolatedHnrs from "@emotion/react/_isolated-hnrs";
+import ErrorBoundary from "./Component/ErrorBoundary.jsx";
+import {
+  ProductGridSkeleton,
+  CategoryButtonSkeleton,
+  AdsSliderSkeleton,
+} from "./Component/Skeletons.jsx";
+import { AD_CAROUSEL_INTERVAL } from "./constants/index.js";
 function App() {
   const sliderRef = useRef(null);
   const intervalRef = useRef(null);
   const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
   const [pagination, setpagination] = useState([]);
   const [openfilter, setOpendfilter] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [second, setsecond] = useState(false);
   const [ads, setAds] = useState([]);
+  const [adsLoading, setAdsLoading] = useState(false);
 
   useEffect(() => {
     if (ads.length === 0) return;
@@ -62,7 +71,7 @@ function App() {
       });
     };
 
-    intervalRef.current = setInterval(scrollImages, 2000);
+    intervalRef.current = setInterval(scrollImages, AD_CAROUSEL_INTERVAL);
 
     return () => {
       clearInterval(intervalRef.current);
@@ -94,14 +103,16 @@ function App() {
   };
   useEffect(() => {
     const fetchAds = async () => {
+      setAdsLoading(true);
       try {
         const response = await axios(getApiUrl("api/ads"));
         if (response.status === 200) {
           setAds(response.data.ads);
         }
-        setAds(data.ads);
       } catch (error) {
         console.error("Error fetching ads:", error);
+      } finally {
+        setAdsLoading(false);
       }
     };
 
@@ -129,17 +140,19 @@ function App() {
   };
   const [URL, setURL] = useState(getApiUrl("api/products"));
   const getData = async () => {
+    setProductsLoading(true);
     try {
       const response = await axios.get(URL);
       if (response.status === 200) {
         setpagination(response.data.paginate);
-
         setProducts(response.data.products);
       } else {
-        console.error("Failed to fetch user data:", response.status);
+        console.error("Failed to fetch products:", response.status);
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching products:", error);
+    } finally {
+      setProductsLoading(false);
     }
   };
   const handlePrevPage = () => {
@@ -155,13 +168,16 @@ function App() {
   };
 
   const GetCategories = async () => {
+    setCategoriesLoading(true);
     try {
       const res = await axios.get(getApiUrl("api/categories"));
       if (res.status === 200) {
         setCategories(res.data.categories);
       }
     } catch (e) {
-      console.log(e);
+      console.error("Error fetching categories:", e);
+    } finally {
+      setCategoriesLoading(false);
     }
   };
 
@@ -174,7 +190,7 @@ function App() {
   }, [URL]);
 
   return (
-    <>
+    <ErrorBoundary>
       <Appbar></Appbar>
 
       {/* <Container maxWidth="lg" className="p-0">
@@ -228,21 +244,27 @@ function App() {
       <Container maxWidth="lg" className="p-0 mt-16">
         <div className="container ">
           <div className="slider-wapper overflow-hidden">
-            <div className="slider overflow-hidden" ref={sliderRef}>
-              {ads.map((ad, index) => (
-                <img
-                  key={ad.id}
-                  id={`slider-${index + 1}`}
-                  src={getStorageUrl(ad.image)}
-                  alt={`Ad ${index + 1}`}
-                />
-              ))}
-            </div>
-            <div className="slider_nav">
-              {ads.map((ad, index) => (
-                <a key={ad.id} href={`#slider-${index + 1}`}></a>
-              ))}
-            </div>
+            {adsLoading ? (
+              <AdsSliderSkeleton />
+            ) : (
+              <>
+                <div className="slider overflow-hidden" ref={sliderRef}>
+                  {ads.map((ad, index) => (
+                    <img
+                      key={ad.id}
+                      id={`slider-${index + 1}`}
+                      src={getStorageUrl(ad.image)}
+                      alt={`Ad ${index + 1}`}
+                    />
+                  ))}
+                </div>
+                <div className="slider_nav">
+                  {ads.map((ad, index) => (
+                    <a key={ad.id} href={`#slider-${index + 1}`}></a>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </Container>
@@ -260,7 +282,9 @@ function App() {
                 {" "}
                 <MdTune />
               </button>
-              {!second
+              {categoriesLoading ? (
+                <CategoryButtonSkeleton count={6} />
+              ) : !second
                 ? categories &&
                   categories.slice(0, 6).map((e, i) => (
                     <button
@@ -372,14 +396,24 @@ function App() {
             </Backdrop>
           </Box>
           <Grid container className=" flex justify-center w-full gap-5">
-            {products.map((product, index) => (
-              <Card
-                className=""
-                style={{ margin: "0px 70px" }}
-                product={product}
-                key={index}
-              />
-            ))}
+            {productsLoading ? (
+              <ProductGridSkeleton count={6} />
+            ) : products.length > 0 ? (
+              products.map((product, index) => (
+                <Card
+                  className=""
+                  style={{ margin: "0px 70px" }}
+                  product={product}
+                  key={index}
+                />
+              ))
+            ) : (
+              <Box sx={{ py: 5, textAlign: 'center', width: '100%' }}>
+                <Typography variant="h6" color="textSecondary">
+                  No products found
+                </Typography>
+              </Box>
+            )}
           </Grid>
           <div className="box_filter w-[100%] flex justify-center items-center">
             <div className="buttons flex items-center min-w-[300px] justify-between">
@@ -447,7 +481,7 @@ function App() {
         </Box>
       </Backdrop>
       <Complaint />
-    </>
+    </ErrorBoundary>
   );
 }
 
