@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material';
 
 const Discount = () => {
     const [show, setShow] = useState(false);
@@ -10,24 +15,24 @@ const Discount = () => {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="contained" color="primary" onClick={handleShow}>
           Launch demo modal
         </Button>
   
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+        <Dialog open={show} onClose={handleClose} maxWidth="sm" fullWidth>
+          <DialogTitle>Modal heading</DialogTitle>
+          <DialogContent>
+            Woohoo, you are reading this text in a modal!
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="inherit">
               Close
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button onClick={handleClose} variant="contained" color="primary">
               Save Changes
             </Button>
-          </Modal.Footer>
-        </Modal>
+          </DialogActions>
+        </Dialog>
       </>
     );
   
