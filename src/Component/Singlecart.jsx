@@ -124,7 +124,7 @@ export default function Singlecart({
         setDiscounts(discounts.filter((discount) => discount.id !== disc_id));
       }
     } catch (e) {
-      toast.error(e.response.data.message);
+  toast.error(e?.response?.data?.message || e?.message || 'An error occurred.');
       console.log(e);
     }
   };

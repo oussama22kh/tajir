@@ -36,6 +36,11 @@ export const UserProvider = ({ children }) => {
   }, [loading]);
 
   const getuser = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const response = await axios.get(apiUrl, config);
       if (response.status === 200) {
@@ -51,6 +56,11 @@ export const UserProvider = ({ children }) => {
     }
   };
   const updateProfile = async (formData) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const response = await axios.post(
         getApiUrl("api/profile/update"),
@@ -63,11 +73,16 @@ export const UserProvider = ({ children }) => {
         setloading(!loading);
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err?.message || 'An error occurred.');
       setloading(!loading);
     }
   };
   const updateimage = async (formData) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const response = await axios.post(
         getApiUrl("api/profile/updateImage"),
@@ -79,7 +94,7 @@ export const UserProvider = ({ children }) => {
         setloading(!loading);
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err?.message || 'An error occurred.');
       setloading(!loading);
     }
   };
@@ -106,25 +121,29 @@ export const UserProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
-      const response = await axios.get(
-        getApiUrl("api/profile/logout"),
-        config
-      );
-      if (response.status === 200) {
-        console.log("logged out");
-        Cookies.remove("token");
-        setUser(undefined);
-        setreload(false);
-        navigateto("/");
-      }
+      await axios.get(getApiUrl("api/profile/logout"), config);
     } catch (error) {
       console.error(error);
+    } finally {
+      Cookies.remove("token");
+      setUser(undefined);
       setreload(false);
+      setloading(false);
+      navigateto("/");
     }
-    setloading(!loading);
   };
   const getorderhistory = async () => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     try {
       const response = await axios.get(
         getApiUrl("api/order/hisOrders"),
@@ -263,7 +282,7 @@ export const UserProvider = ({ children }) => {
         setalerts(response.data.Notification);
       }
     } catch (error) {
-      console.log(error.response.message);
+      console.log(error?.response?.data?.message || error?.message || 'An error occurred.');
     }
   };
   const deletealert = async (notification_id) => {

@@ -96,7 +96,7 @@ export default function Sellercard() {
     } catch (error) {
       console.error(
         "Error updating product:",
-        error.response ? error.response.data : error.message
+  error?.response?.data || error?.message || 'An error occurred.'
       );
     }
   };
